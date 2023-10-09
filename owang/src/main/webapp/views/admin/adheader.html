@@ -1,0 +1,116 @@
+<!--  <th:block th:replace="~{admin/adheader}" />    -->
+<!--  저거페이지에 맨 위에 붙여줄것. 그리고 기존내용 <div class="main"으로 감싸줄것>   -->
+<!--  그리고<body>안에 <container id="container">으로 감싸고 그안에 -->
+<!--  <th:block th:replace="~{admin/adheader}" />
+      <div class="main">-->
+
+<aside class="sidebar" layout:fragment="adminHeader">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+	<link rel="stylesheet" th:href="@{/css/header/styleadminside.css}">
+	<!-- 로고에 인덱스 링크 넣었습니다 -->
+	<div align="center" class="logo" onclick="location.href='/admin_product/index';">
+		<img src="/css/images/owang.png" alt="logo" style="cursor: pointer;">
+		<h2 align="center" style="cursor: pointer;">관리자<br />
+
+		</h2>
+
+	</div>
+	<hr style="color: white;"/>
+	<div onclick="location.href='/'" align="center" class="logo" style="padding-bottom: 10px;padding-top: 10px;">
+		<img src="/css/images/logo2_remove.png" alt="" style="background-color: white; cursor: pointer;" />
+		<h3 style="position: relative;right: -20px;cursor: pointer;">메인화면</h3>
+	</div>
+
+	<ul class="links">
+		<hr>
+		<h4><span style="color: rgb(255, 99, 132); margin-right:2.5px;">개인</span> 회원관리</h4>
+		<li>
+			<span class="material-symbols-outlined">groups</span>
+
+			<a href="/admin_solo/sololist/1">전체회원</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">workspace_premium</span>
+
+			<a href="/admin_solo/soloonlist/1">프리미엄회원</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">Person</span>
+
+			<a href="/admin_solo/soloofflist/1">일반회원</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">admin_panel_settings</span>
+
+			<a href="/admin_solo/solocompany/1">재직회원 인증</a>
+		</li>
+
+		<hr>
+		<h4><span style="color: rgb(54, 162, 235);margin-right:2.5px;">기업</span> 회원관리</h4>
+		<li>
+			<span class="material-symbols-outlined">apartment</span>
+
+			<a href="/admin_company/list/1">기업관리</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">domain</span>
+
+			<a href="/admin_company/cmanagement/1">공고현황</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">fact_check</span>
+
+			<a href="/admin_company/cMiList/1">사업증명서 승인</a>
+		</li>
+
+
+		<hr>
+		<h4>상품관리</h4>
+
+		<li>
+			<span class="material-symbols-outlined">add_shopping_cart</span>
+			<a href="/admin_product/modify">상품추가</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">Monitoring</span>
+			<a href="/admin_product/graph">결제정산</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">receipt_long</span>
+			<a href="/admin_product/payment/1">결제내역</a>
+		</li>
+		<hr>
+		<h4>고객지원</h4>
+		<li>
+			<span class="material-symbols-outlined">campaign</span>
+
+			<a href="/notice/notice/1">공지사항작성</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">support_agent</span>
+
+			<a href="/ask/list/1">1:1답변</a>
+		</li>
+
+		<hr>
+		<h4>탈퇴정보관리</h4>
+
+		<li>
+			<span class="material-symbols-outlined">person_remove</span>
+
+			<a href="/admin_member/endsolo/1">개인탈퇴회원</a>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">domain_disabled</span>
+
+			<a href="/admin_member/endcompany/1">기업탈퇴회원</a>
+		</li>
+
+		<hr>
+		<li class="logout-link">
+			<span class="material-symbols-outlined">logout</span>
+			<a href="/login/logout">Logout</a>
+		</li>
+	</ul>
+</aside>

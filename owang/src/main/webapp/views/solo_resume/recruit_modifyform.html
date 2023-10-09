@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h2>수정페이지입니당구리당</h2> <!--연결성공-->
+</body>
+
+<form name="frm" method="post" enctype="multipart/form-data" th:object="${dto}">
+		<input type="hidden" th:field="*{recruitId}" />
+		<input type="hidden" th:field="*{page}" />
+		
+		<table border="">
+			<tr>
+				<td>수정-제목</td>
+				<td><input type="text" th:field="*{recruitTitle}" required /></td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td><input type="text" th:field="*{recruitName}" required /></td>
+			</tr>
+			<tr>
+				<td>파일</td>
+				<td><input type="file" th:field="*{mmff}" /></td>
+			</tr>
+			<select name="마감일" th:field="*{recruitMagam}">
+				<option value="7" selected>7일 후</option>
+				<option value="30">30일 후</option>
+				<option value="300">300일 후</option>
+			</select>
+			<tr>
+				<td>내용</td>
+				<td><textarea type="text" th:field="*{recruitContent}" rows="10" cols="30" required /></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" value="수정" />
+					<!--안나옴...그래서 그냥 주석처리함 ㅠㅠㅠ
+						<a th:href="|/recruit/list/${recruitDTO.page}|">뒤로가기</a>-->
+						<a th:href="@{'/recruit/list/' + ${dto.page}}">뒤로가기</a>
+				</td>
+
+			</tr>
+		</table>
+		
+		<footer>
+	       <div th:insert="~{footer :: footer}"></div>
+	    </footer>
+
+
+
+
+
+</html>

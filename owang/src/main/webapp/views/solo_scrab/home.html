@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>오왕</title>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet" th:href="@{/css/solo_scrab/home.css}">
+<header>
+   <div th:insert="~{header :: header}"></div>
+</header>
+<body>
+<div id="solo_scrab_home">
+   <div id="scrab_ad">
+      <span>마음에 드는 공고를 이 곳에서 한눈에!</span>
+   </div>
+   <div id="scrab_text">
+      <span>마이 스크랩</span>
+   </div>
+   <div id="scrab_none">
+      <span th:if="${appdata.isEmpty()}">스크랩 공고가 존재하지 않습니다.<br> 지금 스크랩을 해보세요!</span>
+   </div>
+   <div id="gotorc" th:if="${appdata.isEmpty()}">
+      <a href="/recruit/list/1">채용공고 보러가기&nbsp
+         <span class="material-symbols-outlined">
+            arrow_forward
+         </span>
+      </a>
+   </div>   
+   <div id="sctotal">
+      <span th:if="${not appdata.isEmpty()}" th:text="${'총 ' + appdata.size() + ' 건의 스크랩이 존재합니다'}"></span>
+   </div>
+   <div id="scrab_list" th:if="${not appdata.isEmpty()}" th:each="scdto, astart : ${appdata}">
+      <div id="scdate">
+         <li>
+            <span class="material-symbols-outlined">bookmark</span>
+           No.<span th:text="${astart.count}" />
+            <span th:text="${#dates.format(scdto.scrabdate, 'yyyy-MM-dd HH:mm')}" />
+         </li>
+         <!-- 기업 명 -->
+         <li>
+            <a th:href="'/company/detail/' + ${scdto.cid}" th:text="${scdto.cname}"></a>
+         </li>
+      </div>
+      <div id="sccontent">
+         <!-- 공고 제목 -->
+           <li>
+            <a th:href="'/recruit/detail/' + ${scdto.cid} + '/' + 1 +  '/' + ${scdto.recruitId}" th:text="${scdto.recruitTitle}"></a>
+         </li>
+         <!-- 공고 내용 위치, 급여 -->
+         <li>
+            <span th:text="${scdto.recruitLocation}" />
+              <span th:if="${scdto.recruitMtype == '월급'}">월급</span>
+               <span th:if="${scdto.recruitMtype == '연봉'}">연봉</span>
+               [[${scdto.recruitMoney}]]만원
+         </li>
+      </div>
+   <!-- 공고 삭제버튼-->
+      <div id="scdelete">
+         <li>
+             <input type="hidden" th:value="${scdto.scid}" name="scid"/>
+             <a th:href="'/solo_scrab/delete/' + ${scdto.scid}" onclick="return confirm('삭제를 진행하시겠습니까?')">
+                <span class="material-symbols-outlined">delete</span>
+             </a>
+          </li>
+          <!-- 공고 마감일자 -->
+          <li>
+            공고마감<br>&nbsp;&nbsp;&nbsp;~ <span th:text="${scdto.realMagam}" />
+         </li>
+      </div>
+   </div>
+   </div>
+<footer>
+   <div th:insert="~{footer :: footer}"></div>
+</footer>
+</body>
+</html>

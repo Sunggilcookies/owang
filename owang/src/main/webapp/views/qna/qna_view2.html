@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notice/css.css}">
+</head>
+
+<body>
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+<div class="board_wrap">
+    <div class="board_title">
+    </div>
+        <div class="board_view_wrap">
+            <div class="board_view">
+                <div class="title">
+                    입사지원 현황에서 지원취소하면 인사담당자가 내 이력서를 못 보나요?
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd>2</dd>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd>오왕매니저</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd>2023.9.23</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>70</dd>
+                    </dl>
+                </div>
+                <div class="cont" style="white-space: pre-wrap;">
+지원취소를 완료하면 인사담당자는 회원님이 지원취소한 이력서를 열람할 수 없습니다.
+
+
+다만, 입사지원 완료 직후 인사담당자에게 ‘지원자 알림 메일’이 발송되는데
+
+
+해당 이메일에는 지원자의 이름,희망지역 등 기본적인 정보가 작성되어 있으며
+
+이력서를 열람하는 링크가 있어 인사담당자가 열람 시도는 할 수 있습니다.
+
+
+'지원취소' 이전까지 인사담당자는 회원님의 이력서를 열람할 수 있으며
+
+더불어 지원취소 후 재입사지원하신 경우, 인사담당자는 재입사지원한 회원님의 이력서를 정상적으로 열람할 수 있습니다.
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="/qna/qna" class="on">목록</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

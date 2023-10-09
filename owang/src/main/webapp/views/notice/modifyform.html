@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/notice/notice_insert.css}">
+<title>Insert title here</title>
+<script>
+	function fileDelete(){
+		frm.action = "/notice/fileDelete"
+		frm.submit()
+	}
+	
+	function validateFile() {
+    var fileInput = document.getElementById("label_file");
+    if (fileInput.files.length > 0) {
+        var fileName = fileInput.files[0].name;
+        
+        // 파일 확장자 추출
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+        // 허용할 확장자 목록
+        var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert('이미지 파일만 업로드 가능합니다 (jpg, jpeg, png, gif, bmp).');
+            fileInput.value = ''; // 파일 선택 취소
+        }
+    } else {
+        // 파일을 선택하지 않은 경우, 무시
+    }
+}
+
+
+function validateForm() {
+    var fileInput = document.getElementById("label_file");
+    if (fileInput.files.length > 0) {
+        var fileName = fileInput.files[0].name;
+        
+        // 파일 확장자 추출
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+        // 허용할 확장자 목록
+        var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert('이미지 파일만 업로드 가능합니다 (jpg, jpeg, png, gif, bmp).');
+            fileInput.value = ''; // 파일 선택 취소
+            return false; // 제출 막기
+        }
+    } else {
+        // 파일을 선택하지 않은 경우, 무시
+    }
+
+    return true; // 유효한 이미지 파일이므로 제출 허용
+}
+	
+	
+	// 파일 입력란에 이벤트 리스너 추가
+document.getElementById("label_file").addEventListener("change", function () {
+    var fileInput = this;
+    if (fileInput.files.length > 0) {
+        var fileName = fileInput.files[0].name;
+
+        // 파일 확장자 추출
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+        // 허용할 확장자 목록
+        var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert('이미지 파일만 업로드 가능합니다 (jpg, jpeg, png, gif, bmp).');
+            fileInput.value = ''; // 파일 선택 취소
+        }
+    } else {
+        // 파일을 선택하지 않은 경우, 무시
+    }
+});
+
+
+
+</script>
+</head>
+<body>
+<div id="home">		
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	
+	<remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+    
+	<div class="title_box">
+        <h1>공지수정</h1> 
+        <br><br><br><br>
+        <h3 id="p" >공지사항을 수정하는 페이지입니다.</h3> 
+    </div><!--타이틀박스 끝 -->
+    
+<div id="insert_wrap">
+    <div id="insert_view">
+        <form name="frm" method="post" enctype="multipart/form-data" th:object="${dto}" id="insert_table" onsubmit="return validateForm()">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{page}" />
+            <table border="0" class="detail_table" id="insert_table">
+                <tr>
+                    <td id="label">공지제목</td>
+                    <td id="ttdd"><input type="text" th:field="*{title}" id="label_title"/></td>
+                </tr>
+                <tr>
+                    <td id="label">작성자</td>
+                    <td id="ttdd"><input type="text" th:field="*{pname}" id="label_title" readonly /></td>
+                </tr>
+                <tr>
+                    <td id="label">사진</td>
+                    <td id="ttdd">
+                        <th:block th:if="${dto.upfile != null}"  id="label_file" 
+                        	onchange="validateFile()">	
+                            <!--원본-->
+                            <!--<input type="text" th:field="*{upfile}" readonly/>-->
+                            <!--hidden으로 수정하더라도 사진은 그대로-->
+                            <input type="hidden" th:field="*{upfile}" readonly id="label_file"/>
+                            <input type="button" onclick="fileDelete()" value="사진삭제" id="label_file">
+                        </th:block>
+                        <input th:if="${dto.upfile == null}" type="file" th:field="*{noticemmf}" id="label_file"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="label">상세내용</td>
+                    <td><textarea th:field="*{content}" rows="30" cols="70" id="label_ta"/></td>
+                </tr>
+            </table>
+            <div class="ele">
+	        	<input type="submit" value="수정" id="insert_write" />
+	   		 </div>
+        </form>
+		   
+	    <div class="ele2">
+	    	<a th:href="|/notice/detail/${dto.page}/${dto.id}|" i class="fa-solid fa-reply" 
+	    		th:text="뒤로" style="text-decoration:none; color: #000; text-align: right;"/>
+	    		</div>
+    </div>
+</div>
+
+
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+ </div> <!--home끝--> 
+
+
+</body>
+
+
+
+
+</html>

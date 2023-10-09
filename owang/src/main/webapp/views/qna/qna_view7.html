@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notice/css.css}">
+</head>
+
+<body>
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+<div class="board_wrap">
+    <div class="board_title">
+    </div>
+        <div class="board_view_wrap">
+            <div class="board_view">
+                <div class="title">
+                    소셜 계정의 비밀번호는 어떻게 변경 하나요?
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd>7</dd>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd>오왕매니저</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd>2023.9.25</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>280</dd>
+                    </dl>
+                </div>
+                <div class="cont" style="white-space: pre-wrap;">
+소셜 계정은 오왕 내에서는 비밀번호 변경이 불가능합니다.
+
+따라서 해당 소셜 플랫폼 사이트(구글, 페이스북, 카카오, 네이버) 에 접속하신 후 비밀번호를 변경하셔야 합니다. 
+
+변경 후에는 오왕 사이트에서 소셜 로그인 버튼을 눌러, 변경하신 비밀번호를 입력하시면 됩니다. 
+
+
+참고로, 오왕 사이트에서 임시 비밀번호를 발급받은 소셜 계정의 경우에도 비밀번호 변경은 불가능합니다.
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="/qna/qna" class="on">목록</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

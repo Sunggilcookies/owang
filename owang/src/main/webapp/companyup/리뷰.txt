@@ -1,0 +1,26 @@
+리뷰
+리뷰리스트가 나옴
+
+(개인) 밖에 못작성함
+
+리뷰 테이블 
+sid
+cid
+rvid int 오토인크리트머트
+rvtitle  리뷰 제목 varchar(100),
+rvjang  리뷰 장점
+rvdan   리뷰 장점
+
+전체 리뷰테이블에서 자신의 회사에 맞는 리뷰만 가져옴
+
+select * from review order by rvid desc limit #{start} #{limit}
+
+detail까지 갈 필요없음 정보를 전부 보이는게 목적
+
+구입 날짜
+마감 날짜
+
+
+=============
+결제권이 있거나(stype=2) or
+기업인증을 받거나(capproval true) or

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='utf-8' />
+	<link rel="stylesheet" href="">
+	<script src="./dist/index.global.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.js"
+		integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+
+	<script>
+		
+		
+		document.addEventListener('DOMContentLoaded', function () {
+			
+			// title 문자열 길이 제한 설정
+				var titleMaxLength = 15;
+			var calendarEl = document.getElementById('calendar');
+
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: 'dayGridMonth',
+				headerToolbar: {
+					left: 'prevYear,prev,next,nextYear today',
+					center: 'title',
+					right: 'dayGridMonth,dayGridWeek,dayGridDay'
+				},
+				locale: "ko",
+				selectable: true,   // 달력 일자 선택 기능
+				selectMirror: true, // 달력 일자 드래그 기능
+
+				dayMaxEvents: true, // 해당 날짜 이벤트가 오버되면 높이 제한
+				
+
+				
+				events: {
+					url: '/recruit/calendar23', // JSON 데이터를 제공하는 엔드포인트 경로
+					method: 'post', // HTTP GET 요청
+					success: function (Info) {
+						console.log(Info)
+
+						return Info
+					},
+					failure: function () {
+						alert("gd")
+					}
+				},
+				
+			    eventContent: function (info) {
+					
+					var eventTitle = info.event.title;
+				    var eventTextColor = 'rgb(256, 256, 256)'; // 텍스트 색상 (기본값: 흰색)
+					var eventBackgroundColor = '';
+					
+				
+				    
+					
+					if (eventTitle.startsWith("[마감]")) {
+						eventBackgroundColor = 'white'; // "마감" 이벤트는 빨간색 배경
+						eventTextColor = 'red';
+					} 
+					if (eventTitle.startsWith("[시작]")) {
+						eventBackgroundColor = 'white'; // "시작" 이벤트는 파란색 배경
+						eventTextColor = 'blue';
+					}
+					if (eventTitle.startsWith("[모집중]")){
+						
+						eventBackgroundColor = 'white'; // "모집중" 이벤트는 파란색 배경
+						eventTextColor = 'green'; // 텍스트 색상을 검정색으로 변경
+						
+					}
+					/*
+						 // title 문자열 길이가 titleMaxLength를 초과하면 자르고 "..."을 추가
+				    if (eventTitle.length > titleMaxLength) {
+				        eventTitle = eventTitle.substring(0, titleMaxLength) + "...";
+				    }
+					*/
+					// 이벤트의 내용과 배경색을 설정합니다.
+					return {
+						
+	html: '<div style="background-color: ' + eventBackgroundColor + ';color: '+eventTextColor+'">' + eventTitle + '</div>'
+	
+					};
+				},
+		
+				eventClick: function (eventInfo) {
+				    // 클릭한 이벤트의 ID를 가져옵니다. 이벤트 ID는 서버에서 생성한 고유한 값이어야 합니다.
+				    var eventId = eventInfo.event.id;
+				    
+				    // 이벤트 정보에서 cid 값을 가져옵니다.
+				    var eventcId = eventInfo.event.extendedProps.cid;
+				    console.log(eventInfo);
+				    
+				    // 상세 페이지로 이동할 URL을 생성합니다. 여기서는 "/recruit/detail"
+				    var detailURL = '/recruit/detail/' + eventcId + '/1/' + eventId;
+				    
+				    // 생성한 URL로 이동합니다.
+				    window.location.href = detailURL;
+				}
+					
+			});
+
+			calendar.render();
+		});
+
+
+	</script>
+	<style>
+		.calendar {
+			
+			width: 100%;
+			height: 70%;
+			margin: 20px auto;
+		}
+
+		.fc-event {
+			margin-top: 20px;
+			cursor: pointer;
+			color: black;
+		    left: 0px;
+		    max-width: 100%;
+		    overflow: hidden;
+		    right: 0px;
+		    vertical-align: top;
+			
+		}
+		
+		fc-event-main{
+			color: black;
+		}
+		
+		.fc-event > div{
+		    display: flex;
+		    padding: 3px 0;
+		    background-color: white;
+		    color: green;
+		    align-items: center;
+		}
+		
+		.fc-h-event .fc-event-title {
+		    display: inline-block;
+		    left: 0px;
+		    max-width: 100%;
+		    overflow: hidden;
+		    right: 0px;
+		    vertical-align: top;
+		}
+	</style>
+</head>
+
+<body>
+  <header>
+      <div th:insert="~{header :: header}"></div>
+   </header>
+	<div style="float: left; width: 100%;background-color: white; padding-top: 20px;">
+		<div id='calendar'></div>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.MCompanyMapper">
+
+
+<insert id="insertCompany" parameterType="mcDTO">
+    INSERT INTO company (cemail,cid, cpw, cname, cbuild, ccategory, 
+    cstaff, csales, ccall, cceo, caddress, ccompanyFile,clogo, ccontent, ctype, cbcnt, capproval,cwelfare)
+    VALUES (
+        #{cemail},#{cid},#{cpw},#{cname},#{cbuild},#{ccategory},#{cstaff},#{csales},
+        #{ccall},#{cceo},#{caddress},#{ccompanyFile},#{clogo},
+        #{ccontent},1,0,0,#{cwelfare}
+    )
+</insert>
+
+<select id="loginCompany" resultType="int">
+    select count(*) from company where cid = #{userid} and cpw = #{userpw}
+</select>
+
+<select id="idChk" resultType="int">
+    select count(*) from company where cid = #{cid}
+</select>
+
+<select id="getctype" resultType="Integer">
+    select ctype from company where cid = #{cid}
+</select>
+<select id="getzzcname" resultType="String">
+    select cname from company where cid = #{cid}
+</select>
+<select  id="deatilCompany">
+	select * from company where cid = #{cid}
+</select>
+
+<select  id="deatilaaaCompany">
+	select * from company where cid = #{userid}
+</select>
+
+
+<update id="modifffy" parameterType="mcDTO">
+		update company set 
+		cname = #{cname},cemail = #{cemail}, cbuild= #{cbuild}, ccategory= #{ccategory}, ccompanyFile= #{ccompanyFile},
+		cstaff = #{cstaff}, clogo=#{clogo}, cwelfare=#{cwelfare},csales = #{csales},ccall = #{ccall}, ccontent = #{ccontent},cpw=#{cpw}
+		where cid = #{cid} 
+</update>
+
+<update id="adminmodifffy" parameterType="mcDTO">
+		update company set 
+		cceo = #{cceo}, caddress = #{caddress}, cbuild= #{cbuild},  ccompanyFile= #{ccompanyFile}
+		
+		where cid = #{cid} 
+</update>
+
+<delete id="delettt" parameterType="mcDTO">
+	delete from company where cid =
+	#{cid} and cpw = #{cpw}
+</delete>
+
+<update id="paycmember" parameterType="mcDTO">
+	update company set
+	ctype = #{ctype}, cdate = #{cdate}
+	where cid = #{cid}
+</update>
+<update id="logincmember" parameterType="mcDTO">
+	update company set
+	ctype = #{ctype}
+	where cid = #{cid}
+</update>
+
+<update id="fileDelete" parameterType="mcDTO">
+	update company set
+	ccompanyFile = null
+	where cid = #{cid} and cpw=#{cpw}
+</update>
+
+<update id="fileloDelete" parameterType="mcDTO">
+	update company set
+	clogo = null
+	where cid = #{cid} and cpw=#{cpw}
+</update>
+
+<select id="findloCompany" resultType="Integer">
+    select count(*) from company where cname = #{fname} and cemail = #{femail}
+</select>
+<select id="findid" resultType="mcDTO">
+    select cid from company where cname = #{fname} and cemail = #{femail}
+</select>
+<select id="findpwComp" resultType="Integer">
+    select count(*) from company where cid = #{fid} and cemail = #{femail}
+</select>
+<select id="findemail" resultType="String">
+    select cemail from company where cid = #{userid}
+</select>
+<update id="modifycpw">
+		update company set cpw=#{cpw}
+		where cid = #{cid} 
+</update>
+
+</mapper>

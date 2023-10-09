@@ -1,0 +1,908 @@
+body{
+  height: 100%;
+}
+
+#resume_form{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 30px;
+	padding-top: 60px;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+#resume_text{
+	margin: 0 auto;
+	width: 800px;
+	text-align: left;
+	font-size: 30px;
+	font-weight: 400;
+	margin-bottom: 20px;
+	letter-spacing: 1px;
+	color: rgb(41, 46, 65);
+	position: relative;
+	right: 30px;
+}
+
+#resume_text .material-symbols-outlined{
+	font-size: 30px;
+	position: relative;
+	top: 5px;
+}
+
+
+#resume_prev img{
+	width: 150px;
+	height: 180px;
+	border: 1px solid #ccc;
+}
+
+#resume_form form{
+	padding: 30px;
+	width: 800px;
+	margin: 0 auto;
+	border-radius: 8px;
+	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 기본 정보 */
+#resume_info{
+	padding-top: 10px;
+	border-bottom: 1px solid #ccc;
+			
+}
+#resume_info div:nth-of-type(3){
+	display: inline-block;
+}
+
+#resume_info li{
+	
+	list-style: none;		
+}
+
+/* 이름 */
+#resume_info #resume_name{
+	margin-bottom: 50px;
+	margin-left: 32px;
+	
+}
+
+#resume_info #resume_name li:nth-of-type(1) span:nth-of-type(1){
+	font-size: 35px;
+	font-weight: 350;
+	margin-right: 30px;
+	position: relative;
+	top:5px;
+}
+
+#resume_info #resume_name li:nth-of-type(1) span:nth-of-type(2)::after{
+	content: "|";
+	margin-left: 20px;
+	margin-right: 15px;
+	font-size: 16px;
+	color: rgb(177, 177, 177);
+}
+
+/* 인적사항 디테일 */
+#resume_info #resume_detail_info{
+	font-size: 16px;
+	margin-left: 70px;
+	color: rgb(41, 46, 65);
+	letter-spacing: 1px;
+	
+}
+
+#resume_info #resume_detail_info li{
+	margin-bottom: 15px;	
+}
+
+#resume_info #resume_detail_info li span:nth-of-type(1){
+	color: rgb(177, 177, 177);
+	margin-right: 10px;
+	position: relative;
+	top: 5px;
+	font-size: 20px;
+}
+
+#resume_info #resume_detail_info li:nth-of-type(3){
+	margin-bottom: 40px;	
+}
+
+/* 주소 */
+#resume_info #resume_detail_info li:nth-of-type(1){
+	margin-left: -2px;
+	
+}
+
+#resume_info #resume_detail_info i{
+	color: rgb(177, 177, 177);
+	margin-right: 10px;
+}
+
+#resume_info #resume_detail_info li span{
+	text-align: left;
+}
+
+/* 사진 */
+#resume_photo{
+	float: right;
+	position: relative;
+	bottom: 50px;
+	right: 100px;
+}
+
+#resume_photo img{
+	position: relative;
+	bottom: 180px;
+	
+}
+
+#resume_photo #resume_prev{
+	position: absolute;
+}
+
+#resume_photo #filebox{
+	position: relative;
+	
+}
+
+#resume_photo #filebox input{
+    display: inline-block;
+    width: 140px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    color: #999999;
+	position: relative;
+	padding: 5px;
+	top: 10px;
+	text-align: center;
+	
+}
+
+#resume_photo #filebox label{
+    display: inline-block;
+    padding: 10px 10px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+}
+
+/* 파일 선택 버튼 숨기기 */
+#resume_photo #filebox input::file-selector-button {
+    display: none;
+}
+
+
+/* 이력서 제목 */
+#rstitle{
+	width: 800px;
+	padding: 30px 0 50px 0; 
+	border-bottom: 1px solid #ccc;
+	display: inline-block;
+}
+
+#rstitle span{
+	color: rgb(41, 46, 65);
+	margin-left: 10px;
+	font-size: 28px;
+	font-weight: 300;
+}
+
+#rstitle input{
+	
+	margin-left: 50px;
+	margin-right: 0px;
+	width: 538px;
+	height: 20px;
+	font-size: 25px;
+	padding: 15px;
+	border:1px solid #ccc;
+}
+
+#rstitle input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#rstitle #rstitle_essential{
+	padding: 0px;
+	margin: 0px;
+	float: right;
+	font-size: 5px;
+}
+
+/* 경력 */
+#rscareer{
+	width: 800px;
+	padding: 40px 0; 
+	border-bottom: 1px solid #ccc;
+}
+
+#rscareer #rscareer_text{
+	margin-left: 60px;
+	font-size: 20px;
+	color: rgb(41, 46, 65);
+	padding-right: 120px;
+	border-right:1px solid #eee;
+
+}
+
+
+#rscareer li{
+	display: inline-block;
+	position: relative;
+	left: 120px;
+	margin-left: 10px;
+	font-size: 20px;
+}
+
+#rscareer #newguy:hover{
+	color: rgb(45, 101, 242);
+}
+
+#rscareer #oldguy:hover{
+	color: rgb(45, 101, 242);
+}
+
+
+#rscareer #resumeCareerExperienced{
+	margin-left: 190px;
+
+}
+
+/* 경력 입력 */
+#careerDetails{
+	padding: 25px 25px 0px 25px;
+}
+
+#careerDetails span{
+	margin-right: 10px;
+	font-size: 16px;	
+}
+
+#careerDetails input{
+	font-family: inherit;
+	padding: 5px;
+	width: 150px;
+	border: 1px solid #ccc;
+}
+
+#careerDetails input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#careerDetails input:nth-of-type(1){
+	margin-right: 20px;
+}
+
+#careerDetails ul{
+	position: relative;
+	right: 130px;
+}
+
+#careerDetails textarea{
+	margin: 0 auto;
+	margin-top: 15px;
+	width: 663px;
+	height: 100px;
+	padding: 10px;
+	resize: none;
+	font-size: 20px;
+	font-family: inherit;
+	border: 1px solid #ccc;
+}
+
+#careerDetails li:nth-of-type(3){
+	margin-top: 20px;
+}
+#careerDetails li:nth-of-type(3) input{
+	width: 675px;
+ 	height: 50px;
+ 	margin-top: 10px;
+ 	font-size: 16px;
+	}
+
+
+
+/* 최종 학력 */
+#rsschool{
+	width: 800px;
+	padding: 40px 0; 
+	border-bottom: 1px solid #ccc;
+}
+
+#rsschool span{
+	margin-left: 40px;
+	font-size: 20px;
+	color: rgb(41, 46, 65);
+
+}
+
+#rsschool p{
+	display: inline-block;
+	margin-left: 160px;
+}
+
+#rsschool select{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 10px;
+	width: 220px;
+	font-size: 16px;
+	border: 1px solid #000;
+}
+
+#rsschool select:nth-of-type(1){
+	margin-right: 10px;
+}
+
+#rsschool :focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+
+#rsschool select:nth-of-type(2){
+	margin-left: 30px;
+}
+
+
+/* 자기소개 */
+#rsintroduce{
+	width: 800px;
+	padding: 30px 0; 
+	padding-bottom: 60px;
+	border-bottom: 1px solid #ccc;
+}
+
+#rsintroduce #rsintroduce_text{
+	position:relative;
+	top: 15px;
+	margin-left: 38px;
+	font-size: 20px;
+	color: rgb(41, 46, 65);
+}
+
+#rsintroduce input{
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	width: 700px;
+	height: 320px;
+	padding: 10px;
+	resize: none;
+	font-size: 16px;
+	font-family: inherit;
+	border: 1px solid #ccc;
+}
+
+#rsintroduce input::placeholder{
+	position: absolute;
+	top: 10px;
+	font-size: 16px;;
+}
+
+
+#rsintroduce input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+/* 소개 상자*/
+#rsintroduce #introduce{
+	margin: 0 auto;
+	margin-top: 30px;
+	text-align: center;
+	
+	
+}
+
+#rsintroduce textarea{
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	width: 700px;
+	height: 320px;
+	padding: 10px;
+	resize: none;
+	font-size: 16px;
+	font-family: inherit;
+	border: 1px solid #ccc;
+}
+
+#rsintroduce textarea:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+/* 추가 버튼 */
+#rsintroduce #rsintroduce_show{
+	float: right;	
+}
+
+#rsintroduce #rsintroduce_show button{
+	border: none;
+	background-color: transparent;
+	position: relative;
+	right: 70px;
+	bottom: 7px;
+	font-size: 18px;
+	padding: 8px;
+	font-weight: 250;
+}
+
+#rsintroduce #rsintroduce_show  .material-symbols-outlined{
+	position: relative;
+	top: 5px;
+}
+
+#rsintroduce #rsintroduce_show button:hover{
+	background-color: rgb(247, 248, 249);
+	border-radius: 7px;
+	transition: background-color 0.2s ease;
+	cursor: pointer;
+}	
+
+/* 취소 버튼 */
+#rsintroduce #rsintroduce_hide{
+	float: right;	
+	padding-bottom: 20px;
+}
+
+#rsintroduce #rsintroduce_hide button{
+	border: none;
+	background-color: transparent;
+	position: relative;
+	right: 70px;
+	bottom: 10px;
+	font-size: 18px;
+	padding: 8px;
+	font-weight: 250;
+}
+
+#rsintroduce #rsintroduce_hide button i{
+	margin-right: 10px;
+}
+
+#rsintroduce #rsintroduce_hide  .material-symbols-outlined{
+	position: relative;
+	top: 5px;
+}
+
+#rsintroduce #rsintroduce_hide button:hover{
+	background-color: rgb(247, 248, 249);
+	border-radius: 7px;
+	transition: background-color 0.2s ease;
+	cursor: pointer;
+	
+}
+
+/* 자격증 */
+#rslicense_content{
+	width: 800px;
+	padding: 40px 0; 
+	border-bottom: 1px solid #ccc;
+}
+
+#rslicense_content #rslicense_text{
+	position:relative;
+	
+	margin-left: 55px;
+	font-size: 20px;
+	color: rgb(41, 46, 65);
+}
+
+/* 자격증 추가 버튼 */
+#rslicense_content #rslicense_show{
+	float: right;	
+}
+
+#rslicense_content #rslicense_show button{
+	border: none;
+	background-color: transparent;
+	position: relative;
+	right: 70px;
+	bottom: 7px;
+	font-size: 18px;
+	padding: 8px;
+	font-weight: 250;
+}
+
+#rslicense_content #rslicense_show  .material-symbols-outlined{
+	position: relative;
+	top: 5px;
+}
+
+#rslicense_content #rslicense_show button i{
+	margin-right: 10px;
+}
+
+#rslicense_content #rslicense_show button:hover{
+	background-color: rgb(247, 248, 249);
+	border-radius: 7px;
+	transition: background-color 0.2s ease;
+	cursor: pointer;
+}	
+
+/* 자격증 취소 버튼 */
+#rslicense_content #rslicense_hide{
+	float: right;	
+	padding-bottom: 20px;
+}
+
+#rslicense_content #rslicense_hide button{
+	border: none;
+	background-color: transparent;
+	position: relative;
+	right: 70px;
+	bottom: 10px;
+	font-size: 18px;
+	padding: 8px;
+	font-weight: 250;
+}
+
+#rslicense_content #rslicense_hide button i{
+	margin-right: 10px;
+}
+
+#rslicense_content #rslicense_hide .material-symbols-outlined{
+	position: relative;
+	top: 5px;
+}
+
+#rslicense_content #rslicense_hide button:hover{
+	background-color: rgb(247, 248, 249);
+	border-radius: 7px;
+	transition: background-color 0.2s ease;
+	cursor: pointer;
+	
+}
+
+/* 자격증 입력상자 */
+#license{
+	margin-left: 40px;
+	padding: 20px;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#license ul{
+	padding-left: 55px;
+}
+
+#license input{
+	font-family: inherit;
+	margin-right: 30px;
+	padding: 5px;
+	height: 30px;
+	width: 170px;
+	border: 1px solid #ccc;
+}
+
+#license input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#license span{
+	margin-right: 10px;
+	letter-spacing: 1.5px;
+}
+
+#license li:nth-of-type(2){
+	margin-top: 30px;
+}
+
+#license li:nth-of-type(2) input{
+	width: 467px;
+	height: 33px;
+	letter-spacing: 3px;
+
+}
+
+/* 어학 능력 */
+#rslanguage_content{
+	width: 800px;
+	padding: 40px 0; 
+	border-bottom: 1px solid #ccc;
+}
+
+#rslanguage_content #rslanguage_text{
+	position:relative;
+	margin-left: 45px;
+	font-size: 20px;
+	color: rgb(41, 46, 65);
+}
+
+/* 어학능력 추가 버튼 */
+#rslanguage_content #rslanguage_show{
+	float: right;	
+}
+
+#rslanguage_content #rslanguage_show button{
+	border: none;
+	background-color: transparent;
+	position: relative;
+	right: 70px;
+	bottom: 7px;
+	font-size: 18px;
+	padding: 8px;
+	font-weight: 250;
+}
+
+#rslanguage_content #rslanguage_show  .material-symbols-outlined{
+	position: relative;
+	top: 5px;
+}
+
+#rslanguage_content #rslanguage_show button i{
+	margin-right: 10px;
+}
+
+#rslanguage_content #rslanguage_show button:hover{
+	background-color: rgb(247, 248, 249);
+	border-radius: 7px;
+	transition: background-color 0.2s ease;
+	cursor: pointer;
+}	
+
+/* 어학능력 취소 버튼 */
+#rslanguage_content #rslanguage_hide{
+	float: right;	
+	padding-bottom: 20px;
+}
+
+#rslanguage_content #rslanguage_hide button{
+	border: none;
+	background-color: transparent;
+	position: relative;
+	right: 70px;
+	bottom: 10px;
+	font-size: 18px;
+	padding: 8px;
+	font-weight: 250;
+}
+
+#rslanguage_content #rslanguage_hide  .material-symbols-outlined{
+	position: relative;
+	top: 5px;
+}
+
+#rslanguage_content #rslanguage_hide button i{
+	margin-right: 10px;
+}
+
+#rslanguage_content #rslanguage_hide button:hover{
+	background-color: rgb(247, 248, 249);
+	border-radius: 7px;
+	transition: background-color 0.2s ease;
+	cursor: pointer;
+	
+}
+
+/* 어학능력 select */
+#language{
+	text-align: center;
+	padding: 25px;
+	font-family: 'Noto Sans KR', sans-serif;
+
+}
+
+#language span{
+	margin-right: 10px;	
+}
+
+#language select{
+	padding: 7px;
+	font-size: 15px;
+	width: 200px;
+	border: 1px solid #ccc;
+}
+
+#language select:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+
+#language select:nth-of-type(1){
+	margin-right: 20px;
+}
+
+/* 등록 버튼 */
+#resume_submit{
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 30px;
+	
+}
+
+#resume_submit input{
+	padding: 10px;
+	width: 170px;
+	height: 50px;
+	font-size: 18px;
+	letter-spacing: 2px;
+	border-radius: 5px;
+	background-color: rgb(41, 46, 65);
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+	border: none;
+	
+	transition: background-color 0.3s ease;
+}
+
+#resume_submit input:hover{
+	cursor: pointer;
+	background-color: rgb(106, 145, 244);
+}
+#scrab_text{
+	font-size: 50px;
+	color: rgb(55, 63, 87);
+	font-weight: 450;
+	margin-top: 80px;
+	margin-left: 60px;
+}
+
+/* 지원서 없음 문구 */
+#scrab_none{
+	margin-top: 150px;
+	font-size: 40px;
+	text-align:center;
+	color: rgb(200, 206, 219);
+	font-weight: 250;
+}
+
+
+#scrab_ad{
+	float:right;
+	font-size: 15px;
+}
+
+#scrab_list{
+	width: 1000px;
+	margin: 0 auto;
+	height: 160px;
+	border-top: 1px solid rgb(215, 220, 229);
+	box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+	padding: 30px 20px 40px 20px;
+}
+
+#scrab_list div{
+	display: inline-block;
+	list-style: none;
+}
+
+/* 스크랩 숫자 + 제출일자 + 기업명 */
+#scdate{
+	float: left;
+	margin-right: 70px;
+}
+#scdate li:nth-of-type(1) span:nth-of-type(1){
+	margin-right: 10px;	
+}
+
+
+#scdate li:nth-of-type(1) span:nth-of-type(2){
+	font-size: 15px;
+	color: rgb(98, 113, 138);
+}
+
+
+/* 기업 명 */
+#scdate li:nth-of-type(2) {
+	margin-top: 50px;
+	margin-left: 50px;
+}
+
+#scdate li:nth-of-type(2) a{
+	color: rgb(95, 99, 104);	
+	font-size: 27px;
+	font-weight: 300;
+	text-decoration: none;
+}
+
+#scdate li:nth-of-type(2) a:hover{
+	text-decoration: underline;
+}
+
+
+/* 공고 제목 */
+#sccontent {
+	margin-top: 55px;	
+	margin-bottom: 40px;
+}
+
+#sccontent li:nth-of-type(1){
+	font-size: 25px;
+	margin-bottom: 15px;
+    white-space: nowrap;       /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden;          /* 내용이 넘칠 경우 숨김 */
+    text-overflow: ellipsis;   /* "..."으로 표시 */
+    max-width: 600px;
+    
+    }
+    
+#sccontent li:nth-of-type(1) a{
+	color: black;
+	text-decoration: none;
+}
+
+#sccontent li:nth-of-type(1) a:hover{
+	text-decoration: underline;
+}
+
+
+/* 급여 */
+#sccontent li:nth-of-type(2){
+	margin-top: -10px;
+}
+
+#sccontent li:nth-of-type(2) span:nth-of-type(1){
+	margin-right: 7px;
+}
+
+#sccontent li:nth-of-type(2) span:nth-of-type(1)::after{
+	content: "|";
+	margin-left: 12px;
+	font-size: 16px;
+	color: rgb(200, 206, 219);
+}
+
+/* 스크랩 삭제*/
+#scdelete li:nth-of-type(1){
+	margin-top: -15px;
+	font-size: 18px;
+	color:  rgb(200, 206, 219);
+}
+
+#scdelete li:nth-of-type(1) a{
+	text-decoration: none;
+	color: rgb(177, 177, 177);
+		
+}
+
+#scdelete li:nth-of-type(1) a:hover{
+	color: black;
+		
+}
+
+/* 공고마감 안내 */
+#scdelete li:nth-of-type(2){
+	text-align: left;
+	margin-top: 120px;
+	margin-right: 20px;
+color: rgb(95, 99, 104);
+}
+
+/* 공고 삭제버튼 */
+#scdelete{
+	float: right;
+	text-align: right;
+}
+
+
+/* 채용공고 보러가기 */
+#gotorc {
+	text-align: center;
+	margin-top: 120px;
+}
+#gotorc a{
+	background-color: rgb(41, 46, 65);
+	padding: 15px 50px;
+	text-decoration: none;
+	color: rgb(255, 255, 255);
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+}
+
+#gotorc a:hover {
+    background-color: rgb(65, 70, 89);
+}
+
+#sctotal{
+	font-size: 15px;
+	margin-left: 60px;	
+	margin-bottom: 10px;
+}

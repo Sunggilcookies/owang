@@ -1,0 +1,183 @@
+@charset "UTF-8";
+
+ul, li{list-style: none;}
+/* initial : 상속받는 색깔을 그대로 따라가겠다입니다. */
+a{text-decoration: none;color: initial;}
+
+#home{
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+}
+.title_box{
+	border-bottom: 1px solid #111;
+	padding-bottom: 20px;
+	background-image: url("/css/images/notice_img_remove.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+	height:197px;
+	margin-top: 40px;
+}
+#p{margin-left: 20px;}
+/* board_wrap : 게시판 가장 부모영역 가장외곽 영역*/
+.board_wrap{
+    width: 880px;
+    margin: 10px auto;
+    margin-bottom: 100px;
+    padding:70px 50px 50px 50px;
+    text-align: center;
+}
+/* ####  board_wrap : 게시판 가장 부모영역 가장외곽 영역 #### */
+
+/* .board_title : 게시판 제목영역 */
+.board_title{
+    margin-bottom: 30px;
+}
+
+.board_title strong{
+    /* 짤막상식 em과 rem 차이는 */
+    /* rem은 최상위 태그(맨앞의 r이 root)에 곱한값 */
+    /* 그말인 즉슨 최상위 태그의 값을 설정안하면 em을 한들 */
+    /* rem을 한들 크기가 변하지 않음 */
+    /* 최상위 태그는 html임 고로 html에 폰트사이즈를 주겠음 */
+    font-size: 42px;
+}
+
+html{
+    /* 폰트사이즈를 10으로 줫기때문에 3*10해서 30px이됨(바로위 strong값) */
+    font-size: 16px;
+    /* em은 뭐가다른가요?? 안알랴줌 */
+    /* 근본원인은 */
+    /* 시간없으면 1:00~1:20만 후딱보세요 */
+    /* https://www.youtube.com/watch?v=xWMKz9NCD0k */
+}
+
+.board_title p{
+    margin-top: 5px;
+    font-size: 16px;
+}
+/* #### .board_title : 게시판 제목영역 #### */
+
+/* board_list : 게시판 내용 */
+.board_list{
+    width: 100%;
+    border-top: 2px solid #000 ;
+    border-bottom: 2px solid #000 ;
+}
+
+.board_list > div{
+    border-bottom:1px solid #ddd;
+
+    /* 갑자기 font-size를 0으로 주었죠 */
+    /* 상당히 어려운 부분일수도 있어요 */
+    /* 아래서 각각의 칸들을 inlin-block으로 수평 배치를 할경우에 */
+    /* 의도치않는 패딩 혹은 마진의 설정이 들어가는데 */
+    /* 그런 경우를 부모요소한테 font-size 0 을 주게되면 */
+    /* 의도치않는 요소들의 패딩과 마진을 잡아줍니다 */
+    /* 해결법은 각각의 칸들의 font-size를 설정해주었습니다. */
+    font-size: 0;
+}
+
+.board_list > div.top{
+    border-bottom: 1px solid #999 ;
+}
+
+.board_list > div:last-child{
+    border-bottom: 1px solid #000 ;
+}
+
+/* 각각의 칸 설정 */
+.board_list > div > div{
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 15px 0;
+}
+
+.board_list > div.top > div{
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.board_list .num{
+    width: 10%;
+    font-size: 18px;
+    font-weight: bold;
+}
+.board_list .title{
+    width: 60%;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.board_list .title{text-align: center;}
+
+.board_list .writer{
+    width: 10%;
+    font-size: 18px;
+    font-weight: bold;
+}
+.board_list .date{
+    width: 10%;
+    font-size: 18px;
+    font-weight: bold;
+}
+.board_list .count{
+    width: 10%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.on {
+    font-weight: bold; /* 굵게 만들기 */
+}
+
+
+/*list-페이지처리 페이징처리*/
+
+.pagination-container {
+	text-align: center;
+	margin-top: 20px;
+	height:45px;
+	border: none;
+	
+}
+
+.pagination-link {
+	text-decoration: none;
+	padding: 5px 10px;
+	background-color: #333;
+	color: #fff;
+	border-radius: 5px;
+	margin: 0 5px;
+	
+	/* 페이지 번호 간격 조절 */
+}
+
+.pagination-current {
+	text-decoration: none;
+	padding: 5px 10px;
+	background-color: rgb(197 213 255);
+	color: rgb(0, 0, 0);
+	font-weight: 800;
+	margin: 0 5px;
+	/* 페이지 번호 간격 조절 */
+	border-radius: 5px;
+}
+
+/*임금체불*/
+.imgeum{
+	text-align: right;
+	margin-bottom: 20px;
+}
+
+#imgeum{
+	background-color:rgb(197 213 255);
+	border: 1px solid rgb(197 213 255);
+	padding: 10px;
+	border-radius: 5px;
+	margin-bottom: 25px;
+}
+

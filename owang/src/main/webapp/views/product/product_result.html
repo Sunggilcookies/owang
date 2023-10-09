@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>결제결과</title>
+	<style>
+		.product-temp {
+			font-family: 'Noto Sans KR', sans-serif;
+			text-align: center;
+			background-color: #fff;
+			padding: 40px 0;
+		}
+
+		h1 {
+			color: rgb(106, 145, 244);
+		}
+
+		h3 {
+			color: #333;
+		}
+
+		table {
+			width: 1000px;
+			border-collapse: collapse;
+			margin: 50px auto;
+		}
+
+		th,
+		td {
+			border-bottom: 1px solid #ddd;
+			padding: 8px;
+			text-align: center;
+		}
+
+		a {
+			text-decoration: none;
+			color: rgb(106, 145, 244);
+		}
+
+		a:hover {
+			color: rgb(65, 70, 89);
+		}
+
+		.homebtn {
+			display: inline-block;
+			background-color: rgb(106, 145, 244);
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			text-decoration: none;
+			margin: 20px 0;
+		}
+
+		.homebtn:hover {
+			background-color: rgb(65, 70, 89);
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+
+	<remocon>
+		<div th:insert="~{remocon :: remocon}"></div>
+	</remocon>
+
+	<div class="product-temp">
+		<h1>결제가 완료되었습니다</h1>
+		<th:block th:if="${date != null}">
+			<h3>회원님의 결제상품 유효기간은 [[${#dates.format(date, 'yyyy년 MM월 dd일')}]] 23시 59분까지입니다</h3>
+		</th:block>
+		<table>
+			<tr>
+				<td>주문번호</td>
+				<td>결제시간</td>
+				<td>상품명</td>
+				<td>결제금액</td>
+				<td>영수증</td>
+			</tr>
+			<tr>
+				<td th:text="${paymentData[0].imp_uid}"></td>
+				<td th:text="${paymentData[0].paid_at}"></td>
+				<td th:text="${paymentData[0].name}"></td>
+				<td th:text="${paymentData[0].formatAmount}"></td>
+				<td><a th:href="${paymentData[0].receipt_url}"
+						onclick="window.open(this.href, '매출전표', 'width=450,height=450'); return false;"
+						target="_blank"><i class="fa-solid fa-receipt"></i></a></td>
+			</tr>
+		</table>
+		<a href="/" class="homebtn">메인으로</a>
+	</div>
+
+	<footer>
+		<div th:insert="~{footer :: footer}"></div>
+	</footer>
+</body>
+
+</html>

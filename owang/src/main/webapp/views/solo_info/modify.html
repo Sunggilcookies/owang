@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<!-- jQuery 라이브러리 추가 -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		function fileDelete() {
+			frm.action = "/solo/fileDelete"
+			frm.submit()
+		}
+
+	</script>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet" th:href="@{/css/solo_info/modify.css}">
+<body>
+<header>
+	<div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+<div id="solo_info_modify">
+	<div id="modify_text">
+		<span>개인정보 수정</span>
+	</div>
+	<form name="frm" method="post" enctype="multipart/form-data" th:object="${dto}">
+		<input type="hidden" th:field="*{sid}" />
+		<div id="info_list">
+			<!-- 기본 정보 -->
+			<div id="basic_info">
+				<div id="basic_info_text">기본정보</div>
+				<div id="basic_id">
+					<li>아이디</li>
+					<li th:text="${dto.sid}"></li>
+				</div>
+				<div id="basic_name">
+					<li>이름</li>
+					<input type="text" th:field="*{sname}" />
+				</div>
+				<div id="basic_sage">
+					<li>나이</li>
+					<input type="number" th:field="*{sage}" id="age" name="sage" required readonly />
+				</div>
+				<div id="basic_birth">
+					<li>생년월일</li>
+					<input type="text" th:field="*{sbirth}" id="birth" name="sbirth" required readonly />
+				</div>
+				<div id="basic_birth_modify">
+					<li>생년월일 수정</li>
+					<li>
+						<input type="text" id="jumin" name="sjumin" placeholder="주민번호 앞 6자리입력" />
+						<input type="button" onclick="Birth()" value="수정" />
+					</li>
+				</div>
+				<div id="basic_gender">
+					<li>성별</li>
+					<li>
+						<label><input type="radio" name="sgender" value="남성" th:checked="${dto.sgender == '남성'}">
+							남성</label>
+						<label><input type="radio" name="sgender" value="여성" th:checked="${dto.sgender == '여성'}">
+							여성</label>
+					</li>
+				</div>
+			</div>
+			<!-- 연락처 정보 -->
+			<div id="contact_info">
+				<div id="contact_info_text">연락처정보</div>
+				<div>
+					<li>전화번호</li>
+					<input type="text" th:field="*{sphone}" />
+				</div>
+				<div>
+					<li>이메일</li>
+					<input type="text" th:field="*{semail}" />
+				</div>
+				<div>
+					<li>주소</li>
+					<input type="text" th:field="*{saddress}" />
+				</div>
+			</div>
+			<!-- 재직 정보 -->
+			<div id="jaejik_info">
+				<div id="jaejik_info_text">재직정보</div>
+				<div id="companyNameMenu">
+					<li>재직회사</li>
+					<li>
+						<input type="text" th:field="*{scompanyName}" list="company-list" class="company-list" />
+						<input type="hidden" name="cid" id="cid" />
+			
+						<datalist id="company-list">
+							<th:block th:each="recruit : ${mainData}">
+								<option th:text="${recruit.cname}" class="company-list" th:data-company-number="${recruit.cid}" />
+								<span th:text="|회사번호 ${recruit.ccall}|" class="company-list"></span>
+			
+							</th:block>
+						</datalist>
+					</li>
+					</div>
+					<div id="companyFileMenu">
+						<li>재직증명서</li>
+						<li>
+							<th:block th:if="${dto.scompanyFile != null}">
+								<input type="hidden" th:field="*{scompanyFile}" readonly />
+								<input type="button" onclick="fileDelete()" th:value="|*{scompanyFile} 파일삭제|" />
+			
+							</th:block>
+							<input th:unless="${dto.scompanyFile != null}" type="file" th:field="*{mmff}" id="mmff"
+								onchange="validateFile()" />
+							<div id="fileError" style="color: red;"></div>
+						</li>
+					</div>
+				</div>
+				<div id="zpassword">
+					<div id="zpassword_text">비밀번호 변경</div>
+					<li>
+						<input type="password" th:value="*{spw}" id="spw" readonly />
+						<input type="button" value="비밀번호 변경" id="changePasswordButton" />
+						<button type="button" onclick="togglePassword()" id="pwseehide" }>
+							<span id="visibilityOnIcon" class="material-symbols-outlined">visibility</span>
+							<span id="visibilityOffIcon" class="material-symbols-outlined" style="display: none;">visibility_off</span>
+						</button>
+					</li>
+					</div>
+					<div id="passwordChangeRow" style="display: none;">
+						<li>새 비밀번호</li>
+						<li><input type="password" th:field="*{spw}" id="newSpw" /></li>
+					</div>
+					<div id="passwordConfirmationRow" style="display: none;">
+						<li>비밀번호 확인</li>
+						<li><input type="password" name="spw2" id="spw2" /></li>
+					</div>
+				</div>
+		<div id="modify_submit">
+			<td colspan="2" align="center">
+				<input type="submit" value="저장" />
+			</td>
+			<td colspan="2" align="center">
+				<input id="cancel" type="reset" value="취소" />
+			</td>
+		</div>
+	</form>
+	
+	<script>
+
+
+
+		document.addEventListener('DOMContentLoaded', function () {
+			const scompanyNameInput = document.querySelector('input[name="scompanyName"]');
+			const cidInput = document.getElementById('cid');
+			const dataListOptions = document.querySelectorAll('#company-list option');
+			const companyNumberElement = document.getElementById('company-number');
+
+			// 입력 필드에 입력이 발생할 때마다 실행되는 함수
+			scompanyNameInput.addEventListener('input', function () {
+				const inputValue = scompanyNameInput.value;
+
+				// 모든 option 요소를 순회하면서 일치하는 값을 찾습니다.
+				for (const option of dataListOptions) {
+					if (option.value === inputValue) {
+						// 일치하는 값이 있으면 해당 회사번호를 숨겨진 input에 설정합니다.
+						cidInput.value = option.getAttribute('data-company-number');
+						// 회사번호를 출력합니다.
+						companyNumberElement.textContent = `회사번호: ${cidInput.value}`;
+						return; // 값을 찾았으므로 반복문 종료
+					}
+				}
+
+				// 일치하는 값이 없을 경우 숨겨진 input과 출력을 비웁니다.
+				cidInput.value = '';
+				companyNumberElement.textContent = '';
+			});
+		});
+
+		$(document).ready(function () {
+			// 페이지 로드 시, 기존 비밀번호 필드의 값을 새 비밀번호 필드에 설정
+			var oldPassword = $("#spw").val();
+			$("#newSpw").val(oldPassword);
+		});
+
+		// 비밀번호 변경 버튼 클릭 시
+		$("#changePasswordButton").click(function () {
+			$("#zpassword").hide(); // 기존 비밀번호 필드 숨김
+			$("#newSpw").val(""); // 새 비밀번호 필드 리셋
+			$("#passwordConfirmationRow").show(); // 비밀번호 확인 필드 표시
+			$("#passwordChangeRow").show(); // 비밀번호 확인 필드 표시
+		});
+		function Birth() {
+			const jumin = document.getElementById("jumin").value;
+			const birthField = document.getElementById("birth");
+			const ageField = document.getElementById("age");
+
+			if (jumin.length !== 6) {
+				alert("주민등록번호 앞자리는 6자리여야 합니다.");
+				return;
+			}
+
+
+			const year = parseInt(jumin.substr(0, 2));
+			const month = parseInt(jumin.substr(2, 2));
+			const day = parseInt(jumin.substr(4, 2));
+
+			let birthYear = year;
+			if (year < 24) {
+				birthYear += 2000;
+			} else {
+				birthYear += 1900;
+			}
+			// 월과 일에 0을 붙여 2자리로 만들어줌
+			const fmtMonth = month < 10 ? `0${month}` : month < 10 ? `0${month}` : month;
+			const fmtDay = day < 10 ? `0${day}` : day < 10 ? `0${day}` : day;
+
+			const birthDate = `${birthYear}-${fmtMonth}-${fmtDay}`;
+			const today = new Date();
+			ageField.value = today.getFullYear() - birthYear + 1;
+			birthField.value = birthDate;
+		}
+		function validateFile() {
+			var mmffInput = document.getElementById("mmff");
+			var fileError = document.getElementById("fileError");
+			var fileName = mmffInput.value;
+
+			if (fileName === "") {
+				// 파일이 선택되지 않은 경우
+				fileError.innerText = "";
+			} else {
+				var fileExtension = fileName.split('.').pop().toLowerCase();
+				var allowedExtensions = ["jpg", "png"];
+
+				if (allowedExtensions.indexOf(fileExtension) === -1) {
+					// 파일 확장자가 허용되지 않는 경우
+					mmffInput.value = ""; // 파일 입력란 초기화
+					fileError.innerText = "지원되지 않는 파일 유형입니다. JPG 또는 PNG 파일을 업로드하세요.";
+				} else {
+					fileError.innerText = ""; // 오류 메시지 초기화
+				}
+			}
+		}
+		
+	<!-- input type text <==> password -->
+function togglePassword() {
+  var passwordInput = document.getElementById("spw");
+  var visibilityOnIcon = document.getElementById("visibilityOnIcon");
+  var visibilityOffIcon = document.getElementById("visibilityOffIcon");
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    visibilityOnIcon.style.display = "none";
+    visibilityOffIcon.style.display = "inline";
+  } else {
+    passwordInput.type = "password";
+    visibilityOnIcon.style.display = "inline";
+    visibilityOffIcon.style.display = "none";
+  }
+}
+	</script>
+	
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+    
+</body>
+
+</html>

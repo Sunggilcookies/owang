@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <title>ask/detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/ask/ask.css}">
+</head>
+<script>
+      function goBack() {
+         window.history.back();
+      }
+</script>
+<body>
+<div id="home">	
+   <header>
+      <div th:insert="~{header :: header}"></div>
+   </header>
+   
+   <remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+   
+               <!--<a href="javascript:goBack()">뒤로</a>-->
+                <!--[[${askdto}]]-->
+<!--<h1 id="a_title">게시글 확인</h1>-->
+
+<div class="title_box">
+	<h1>게시글확인</h1>
+	<br>
+	<h4 id="p" >
+  			✔️ 1:1 게시판은 개인정보를 다루는 공간입니다. 따라서 본인이 작성한 글만 확인 가능합니다.<br>
+      		  또한, 본인이 작성한 문의글에 관리자 답변이 달린 경우 수정 및 삭제 기능은 지원되지 않습니다.<br>
+  			✔️ 관리자 답변 이전에는 수정 및 삭제 가능합니다.
+	   </h4>
+	   <br/>
+</div>
+
+
+<div id="wrap"> 
+   <table border="0" id="ask_detail">
+      <tr>
+         <td id="label">제목</td>
+         <td id="label2" th:text="${askdto.title}" />
+      </tr>
+      <tr>
+         <td id="label">작성자</td>
+         <td id="label2" th:text="${askdto.pname}" />
+      </tr>
+      <tr>
+         <td id="label">등록일</td>
+         <td id="label2" th:text="${#dates.format(askdto.regDate, 'yyyy-MM-dd')}" />
+      </tr>
+      <tr>
+         <td id="label">조회수</td>
+         <td id="label2" th:text="${askdto.cnt}" />
+      </tr>
+  	  <tr th:if="${askdto.upfile != null}" >
+         <td id="label" >사진</td>
+         <td>
+            <img th:if="${askdto.img}" th:src="|/askup/${askdto.upfile}|" />
+            <a th:if="${askdto.img}" th:href="|/ask/askup/download/${askdto.upfile}|" id="down">[ 다운로드 ]</a>
+            <a th:unless="${askdto.img}" th:text="${askdto.upfile}" ></a>
+         </td>
+      </tr>
+      <tr>
+         <td id="label">내용</td>
+         <td th:text="${askdto.content}" id="label2" />
+      </tr>
+      <!-- 관리자만 보임 -->
+      <th:block th:if="${session.adminSession}">
+         <!--주문번호가 첨부된 경우에만 보임-->
+         <tr th:if="${askdto.imp}">
+            <td id="label">결제내역</td>
+            <td>
+            <!--target="_blank": 링크를 새로운 브라우저 창이나 탭에서 열도록 지정하는 부분-->
+               <a th:href="|/admin_product/payment/detail/${askdto.imp}|" 
+               onclick="window.open(this.href, '결제상세내역', 'width=600,height=700'); return false;" target="_blank">[[${askdto.imp}]]</a>
+               
+            </td>
+         </tr>
+      </th:block>
+      <tr>
+         <td colspan="2" align="right">
+            <!-- 연결된 답글이 없을 경우만 삭제, 수정 가능  (type 1)-->
+            <div th:if="${type == '1'}" class="detail_delmody">
+               <a th:href="@{|/ask/delete/${askdto.page}/${askdto.id}|}" th:unless="${session.adminSession}" id="del">삭제</a>
+               <a th:href="@{|/ask/modify/${askdto.page}/${askdto.id}|}" th:unless="${session.adminSession}" id="modi">수정</a>
+               <!-- 관리자만 보임 -->
+               <a th:href="@{|/ask/reply/${askdto.page}/${askdto.id}|}" th:if="${session.adminSession}" id="re">답변하기   ></a>
+     
+            </div>
+            
+            <a th:href="@{|/ask/list/${askdto.page}|}"
+               		i class="fa-solid fa-list" id="detail_list"></a>
+           
+            
+         </td>
+      </tr>
+   </table>
+</div> 
+
+<!--푸터-->   
+   <footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+ </div>	   
+</body>
+
+</html>

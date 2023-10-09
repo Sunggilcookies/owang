@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notice/css.css}">
+</head>
+
+<body>
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+<div class="board_wrap">
+    <div class="board_title">
+    </div>
+        <div class="board_view_wrap">
+            <div class="board_view">
+                <div class="title">
+                    기업회원으로 가입했는데 개인회원으로 전환이 가능한가요?
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd>5</dd>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd>오왕매니저</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd>2023.9.24</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>232</dd>
+                    </dl>
+                </div>
+                <div class="cont" style="white-space: pre-wrap;">
+기업회원과 개인회원의 회원가입 절차 및 인증 방식도 다르기 때문에
+
+동일한 ID로 계정 전환은 불가능합니다. 
+
+새로운 ID로 개인회원 가입해주세요. 
+
+동일한 ID로 개인회원 가입을 하고 싶다면 기존의 기업회원 계정탈퇴를 먼저 진행해주시기 바랍니다. 
+
+
+개인회원에서 기업회원으로도 계정 전환 불가한 점 참고 바랍니다. 
+
+
+※ 회원탈퇴를 하시면 지금까지 회원활동을 하셨던 모든 내역들이(채용공고, 개인관리, 상품관리 등) 즉시 삭제 처리됩니다.
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="/qna/qna" class="on">목록</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>notice/detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/notice/notice_detail.css}">
+</head>
+<script>
+      function goBack() {
+         window.history.back();
+      }
+</script>
+<body>
+<div id="home">		
+   <header>
+      <div th:insert="~{header :: header}"></div>
+   </header>
+    <!--<a href="javascript:goBack()">뒤로</a>-->
+
+    <div class="title_box">
+        <h1>공고 상세보기</h1> 
+        <br><br><br><br>
+        <h3 id="p" >㈜오왕의 공지사항을 알려드립니다.</h3>  
+    </div><!--타이틀박스 끝 -->
+    
+    <remocon>
+   		<div th:insert="~{remocon :: remocon}"></div>
+	</remocon>
+	
+    <div id="detail_wrap">
+        <div id="detail_view">
+            <div class="area_tit">
+                <h1 class="content_tit">[[${ndto.title}]]</h1>
+                <dl class="content_info">
+                    <dd>등록일 : [[${#dates.format(ndto.regDate, 'yyyy-MM-dd')}]]</dd>
+                    <!--<dd>[[${#dates.format(ndto.regDate, 'yyyy-MM-dd')}]]</dd>-->
+                    <dd>조회수 : [[${ndto.cnt}]]</dd>
+                    <!--<dd>[[${ndto.cnt}]]</dd>-->
+                </dl>	 
+            </div><!-- area_tit 끝 -->
+            <!--공지사진-->
+            <div class="inner"> <!--이너-->
+                
+                <div class="wrap_img" th:if="${ndto.upfile != null}"> <!--이미지-->	
+                    <img th:if="${ndto.img}" th:src="|/up/${ndto.upfile}|"/ id="detail_img" >
+                    <a th:unless="${ndto.img}" th:text="${ndto.upfile}"></a>
+                </div>
+               
+                <div class="wrap_content"> <!--상세내용-->
+                    [[${ndto.content}]]
+             		<div class="log">
+                       <img src="/css/images/logo2_remove.png" alt="오왕logo" width="180px" height="57px" id="logo" >
+                     </div>  
+               		 
+            
+                </div> <!--내용 끝-->
+         
+            </div><!--inner 끝-->
+           
+           <div class="ele">
+	            <a th:href="|/notice/delete/${ndto.page}/${ndto.id}|" th:if="${session.adminSession}" id="detail_del">삭제</a>
+	            <a th:href="|/notice/modify/${ndto.page}/${ndto.id}|" th:if="${session.adminSession}" id="detail_modi">수정</a>
+	            <a th:href="|/notice/notice/${ndto.page}|" id="detail_list">목록</a>
+			</div>
+    		
+        </div><!-- 뷰 끝 -->	
+        
+        
+        
+            
+    </div><!--wrap끝-->
+    
+    		
+    
+	 
+	 
+	 
+   
+     	
+      <!--<tr>
+         <th >제목</th>
+         <td th:text="${ndto.title}" id="detail_title"/>
+      </tr><tr>
+         <th>작성자</th>
+         <td th:text="${ndto.pname}" id="detail_pname"/>
+      </tr><tr>
+         <th>등록일</th>
+         <td th:text="${#dates.format(ndto.regDate, 'yyyy-MM-dd')}" id="detail_reg"/>
+      </tr><tr>
+         <th>조회수</th>
+         <td th:text="${ndto.cnt}" id="detail_cnt"/>
+      </tr>
+      
+      <tr th:if="${ndto.upfile != null}">
+          <th>사진</th>
+          <td>
+              <img th:if="${ndto.img}" th:src="|/up/${ndto.upfile}|"/ id="detail_img">
+              <a th:unless="${ndto.img}" th:text="${ndto.upfile}"></a>
+          </td>
+      </tr>
+      
+      <tr>
+         <th>내용내용</th>
+         <td th:text="${ndto.content}"/>
+      </tr><tr>
+         <td colspan="2" align="right">
+            공지사항 수정,삭제는 오직 관리자만!
+            <a th:href="|/notice/delete/${ndto.page}/${ndto.id}|" th:if="${session.adminSession}" id="detail_del">삭제</a>
+            <a th:href="|/notice/modify/${ndto.page}/${ndto.id}|" th:if="${session.adminSession}" id="detail_modi">수정</a>
+            <a th:href="|/notice/notice/${ndto.page}|" id="detail_list">목록</a>
+        </td>
+            
+         
+      </tr>
+   </table>
+ </div>-->
+ 
+       
+<!--<div id="detail_wrap">
+   <table border="1" class="detail_table">
+      <tr>
+         <td>id</td><td th:text="${ndto.id}"/>
+      </tr>
+      <tr>
+         <th >제목</th>
+         <td th:text="${ndto.title}" id="detail_title"/>
+      </tr><tr>
+         <th>작성자</th>
+         <td th:text="${ndto.pname}" id="detail_pname"/>
+      </tr><tr>
+         <th>등록일</th>
+         <td th:text="${#dates.format(ndto.regDate, 'yyyy-MM-dd')}" id="detail_reg"/>
+      </tr><tr>
+         <th>조회수</th>
+         <td th:text="${ndto.cnt}" id="detail_cnt"/>
+      </tr>
+      
+      <tr th:if="${ndto.upfile != null}">
+          <th>사진</th>
+          <td>
+              <img th:if="${ndto.img}" th:src="|/up/${ndto.upfile}|"/ id="detail_img">
+              <a th:unless="${ndto.img}" th:text="${ndto.upfile}"></a>
+          </td>
+      </tr>
+      
+      <tr>
+         <th>내용내용</th>
+         <td th:text="${ndto.content}"/>
+      </tr><tr>
+         <td colspan="2" align="right">
+            공지사항 수정,삭제는 오직 관리자만!
+            <a th:href="|/notice/delete/${ndto.page}/${ndto.id}|" th:if="${session.adminSession}" id="detail_del">삭제</a>
+            <a th:href="|/notice/modify/${ndto.page}/${ndto.id}|" th:if="${session.adminSession}" id="detail_modi">수정</a>
+            <a th:href="|/notice/notice/${ndto.page}|" id="detail_list">목록</a>
+        </td>
+            
+         
+      </tr>
+   </table>
+ </div>-->
+ 
+ 
+ <!--푸터-->   
+   <footer>
+      <div th:insert="~{footer :: footer}"></div>
+   </footer>
+    
+ </div> <!--home끝--> 
+</body>
+</html>

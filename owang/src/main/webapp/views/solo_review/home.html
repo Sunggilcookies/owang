@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <title>리뷰 게시판</title>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 아이콘 클릭 이벤트 핸들러
+    $(".ellipsis-icon").click(function() {
+        // 클릭된 아이콘의 부모 요소인 li에서만 하위 메뉴를 찾도록 수정
+        var reviewBtn = $(this).parent().find(".review_btn");
+        reviewBtn.toggle();
+    });
+});
+</script>
+</head>
+<link rel="stylesheet" th:href="@{/css/solo_review/home.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<body>
+   <header>
+      <div th:insert="~{header :: header}"></div>
+   </header>
+   <remocon>
+	       <div th:insert="~{remocon :: remocon}"></div>
+    
+    	</remocon>
+<div id="solo_review_home"> 
+	<div id="review_ad">
+		<span>오왕에서 해당 기업에 대한 정보를 공유해보세요.</span>
+	</div>
+  	<div id="review_text">
+		<span>마이 리뷰</span>
+	</div>
+	<div id="review_none">
+    	<span th:if="${mainData.isEmpty()}">작성된 리뷰가 없습니다.</span>
+	</div>	
+	<div id="review_list" th:each="review, iterStat : ${mainData}">
+		<!-- 숫자 -->
+		<div id="review_content">
+    <li>
+        <span th:text="|No.${iterStat.count}|" />
+        <span th:text="${review.cname}" />
+        <span class="ellipsis-icon">
+			<span class="material-symbols-outlined">more_horiz</span>
+		</span>
+        <ul class="review_btn" style="display: none;">
+            <li th:if="${session['sid'] == review.sid}">
+                <a th:href="|/solo_review/modify/${review.cid}/${review.page}/${review.sid}|">수정하기</a>
+            </li>
+        	<li th:if="${session.adminSession}">
+                <a th:href="|/review/delete/${reviewDTO.cid}/${reviewDTO.page}/${review.sid}|">삭제하기</a>
+            </li>
+            <li th:if="${session.adminSession}">
+                <a th:href="|/review/modify/${reviewDTO.cid}/${reviewDTO.page}/${review.sid}|">수정하기</a>
+            </li>
+            <li th:if="${session['sid'] == review.sid}">
+                <a th:href="|/solo_review/delete/${review.cid}/${review.page}/${review.sid}|" onclick="return confirm('리뷰를 삭제하시겠습니까?');">삭제하기</a>
+            </li>
+
+        </ul>
+			<li id="review_title">
+				<p class="material-symbols-outlined" style="transform: scaleX(-1) scaleY(-1); ">
+				format_quote
+				</p>
+				<p th:text="${review.rvtitle}" />
+				<p class="material-symbols-outlined">
+				format_quote
+				</p>
+			<li>
+				<span id="review_jang">장점</span>
+				<span th:text="${review.rvjang}" />
+			</li>
+			<li >
+				<span id="review_dan">단점</span>
+				<span th:text="${review.rvdan}" />
+			</li>
+			<li>
+				<span>작성일</span>
+				<span th:text="${#dates.format(review.regDate, 'yyyy-MM-dd HH:mm')}" />	
+			</li>
+		</div>
+		<!--<div id="review_btn">
+
+			<span th:if="${session['sid'] == review.sid}">
+				<a th:href="|/solo_review/modify/${review.cid}/${review.page}/${review.sid}|">수정하기</a>
+			</span>
+			<span th:if="${session.adminSession}">
+				<a th:href="|/review/modify/${reviewDTO.cid}/${reviewDTO.page}/${review.sid}|">수정하기</a>
+			</span>
+			<span th:if="${session['sid'] == review.sid}">
+				<a th:href="|/solo_review/delete/${review.cid}/${review.page}/${review.sid}|">삭제하기</a>
+			</span>
+			<span th:if="${session.adminSession}">
+				<a th:href="|/review/delete/${reviewDTO.cid}/${reviewDTO.page}/${review.sid}|">삭제하기</a>
+			</span>
+		</div>-->
+	</div>
+</div>
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+</body>
+
+</html>

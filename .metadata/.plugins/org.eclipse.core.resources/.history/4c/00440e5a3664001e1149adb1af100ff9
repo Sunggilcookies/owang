@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <title>개인회원가입 폼</title>
+   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+   <link rel="stylesheet" th:href="@{/css/join/joinsolo.css}">
+</head>
+
+<script th:inline="javascript">
+   var countdown; // 카운트다운 타이머 변수
+
+   function startCountdown() {
+      var count = 60; // 초기 카운트 설정 (60초)
+      // "인증번호 전송" 버튼 비활성화
+      $("#sendBtn").css("display", "none");
+
+      // 카운트다운 시작
+      countdown = setInterval(function () {
+         $("#zzmessage").text(count + "초 후에 인증번호발송이 다시 활성화됩니다.");
+         count--;
+
+         // 카운트가 0이 되면 타이머 종료하고 버튼 활성화
+         if (count < 0) {
+            clearInterval(countdown);
+            $("#sendBtn").css("display", "inline-block");
+            $("#zzmessage").text(""); // 메시지 초기화
+         }
+      }, 1000);
+   }
+
+   function sendNumber() {
+      // "인증번호 전송" 버튼 비활성화
+      $("#sendBtn").css("display", "none");
+
+      // 메시지 표시용 div 엘리먼트
+      var messageDiv = $("#zzmessage");
+      messageDiv.text(""); // 메시지 초기화
+
+      $("#mail_number").css("display", "block");
+      $.ajax({
+         // 서버 측에서 동적으로 설정되어야 하는 URL
+         url: "/join/smail",
+         type: "post",
+         dataType: "json",
+         data: {"smail": $("#semail").val()},
+         success: function (data) {
+            messageDiv.text("인증번호 발송");
+            $("#Confirm").val(data);
+
+            // 카운트다운 시작
+            startCountdown();
+         }
+      });
+   }
+   function confirmNumber() {
+      var number1 = $("#number").val().trim(); // 입력 값에서 공백 제거
+      var number2 = $("#Confirm").val();
+      var csuserid = /*[[${csuserid}]]*/ null;
+      if (number1 == number2) {
+         alert("인증되었습니다.");
+
+         document.getElementById("emailDomain").disabled = true;
+         $("#email").prop("readonly", true);
+         $("#sendBtn").css("display", "none");
+         $("#mail_number").css("display", "none");
+         clearInterval(countdown); // 카운터를 멈춤
+         var messageDiv = $("#zzmessage");
+         messageDiv.text("인증되었습니다"); // 메시지 초기화
+         window.emailVerificationSuccess = true;
+      } else {
+         alert("번호가 다릅니다.");
+         window.emailVerificationSuccess = false;
+      }
+   }
+</script>
+
+<body>
+   <header>
+      <div th:insert="~{header :: header}"></div>
+   </header>
+
+   <div class="container">
+      <div class="join">
+         <h1><span style="color: #BD0606;">개인</span> 회원가입</h1>
+         <hr>
+         <button id="showTermsButton">이용약관 보기</button>
+
+         <form method="post" enctype="multipart/form-data" onsubmit="return  submitForm();">
+
+            <div class="showTerm"><label><input type="radio" name="termsAgreement" required>이용약관동의</label></div>
+
+            <table border="">
+               <tr>
+                  <th>아이디</th>
+                  <td><input type="text" name="sid" id="sid" required><input type="button" value="ID 중복체크"
+                        placeholder="알파벳이나 숫자 6자리 이상 18자리 이하" onclick="checkDuplicateID()">
+                     <div id="checksId"></div>
+                  </td>
+               </tr>
+               <tr>
+                  <th>비밀번호</th>
+                  <td><input type="password" pattern="^\S.*$" name="spw" id="spw" required></td>
+               </tr>
+               <tr>
+                  <th>암호확인</th>
+                  <td><input type="password" pattern="^\S.*$" name="spw2" id="spw2" required /></td>
+               </tr>
+               <tr>
+                  <th>이름</th>
+                  <td><input type="text" pattern="^\S.*$" id="sname" name="sname" required /></td>
+               </tr>
+               <tr>
+                  <th>주민등록번호 앞자리</th>
+                  <td>
+                     <input type="number" id="jumin" name="sjumin" required />
+                     <input type="button" onclick="Birth()" value="클릭!" />
+                  </td>
+               </tr>
+               <tr>
+                  <th>생년월일</th>
+                  <td><input type="text" id="birth" name="sbirth" required readonly /></td>
+               </tr>
+               <tr>
+                  <th>나이</th>
+                  <td><input type="number" id="age" name="sage" required readonly /></td>
+               </tr>
+               <tr>
+                  <th>성별</th>
+                  <td>
+                     <label><input type="radio" name="sgender" value="남성" checked required>
+                        남성</label>
+                     <label><input type="radio" name="sgender" value="여성" required> 여성</label>
+                  </td>
+               </tr>
+               <tr>
+                  <th>휴대폰번호</th>
+                  <td class="phone">
+                     <input type="number" id="firstNumber" placeholder="010" required /> -
+                     <input type="number" id="secondNumber" placeholder="1234" required /> -
+                     <input type="number" id="thirdNumber" placeholder="5678" required />
+                     <div id="error-message" style="color: red;"></div>
+                     <input type="hidden" id="sphone" name="sphone" />
+                  </td>
+               </tr>
+               <tr>
+                  <th>이메일</th>
+                  <td>
+                     <input type="text" pattern="^\S.*$" id="email" name="email" required />
+                     @
+                     <select id="emailDomain" onchange="updateEmailField()">
+                        <option value="naver.com">naver.com</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="hanmail.net">hanmail.net</option>
+                        <option value="nate.com">nate.com</option>
+                     </select>
+
+                     <input type="hidden" id="semail" name="semail" />
+                     <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호전송</button>
+                     <div id="zzmessage"></div>
+                     <div id="mail_number" name="mail_number" style="display: none">
+                        <input type="text" name="number" id="number" placeholder="인증번호 입력" />
+                        <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일
+                           인증</button>
+                        <input type="hidden" id="Confirm" name="Confirm" value="" />
+
+                     </div>
+                  </td>
+               </tr>
+
+
+
+
+
+
+
+
+               <tr>
+                  <th>주소</th>
+                  <td><input type="text" pattern="^\S.*$" name="saddress" required /></td>
+               </tr>
+            </table>
+
+            <table border="">
+               <input type="button" class="jajic" onclick="toggleFields()" value="재직정보입력" />
+
+               <!-- 회사 이름 필드 -->
+               <tr id="companyNameMenu" style="display:none;">
+                  <th>회사 이름</th>
+                  <td>
+                     <input type="text" pattern="^\S.*$" name="scompanyName" list="company-list" class="company-list" />
+                     <input type="hidden" name="cid" id="cid" />
+                     <datalist id="company-list">
+                        <th:block th:each="recruit : ${mainData}">
+                           <option th:text="${recruit.cname}" class="company-list"
+                              th:data-company-number="${recruit.cid}" />
+                           <span th:text="|회사번호 ${recruit.ccall}|" class="company-list"></span>
+                        </th:block>
+                     </datalist>
+                  </td>
+               </tr>
+
+               <!-- 회사 재직증명서 파일 업로드 필드 -->
+               <tr id="companyFileMenu" style="display:none;">
+                  <th>회사 재직증명서</th>
+                  <td><input type="file" name="mmff" id="mmff" onchange="validateFile()" />
+                     <div id="fileError" style="color: red;"></div>
+                  </td>
+               </tr>
+            </table> <!-- 나머지 필드들 -->
+            <div align="middle">
+               <input type="submit" value="가입">
+            </div>
+         </form>
+      </div>
+   </div>
+
+   <script>
+      // 이메일 셀렉트 박스의 값을 변경할 때마다 호출되는 함수
+      document.getElementById("emailDomain").addEventListener("change", function () {
+         updateEmailField();
+      });
+
+      // 이메일 입력 필드에 사용자가 직접 입력할 때 호출되는 함수
+      document.getElementById("email").addEventListener("input", function () {
+         updateEmailField();
+      });
+
+      // 이메일 입력 필드와 이메일 도메인을 조합하여 hidden 필드에 값을 설정하는 함수
+      function updateEmailField() {
+         const emailField = document.getElementById("email");
+         const domainSelect = document.getElementById("emailDomain");
+         const selectedDomain = domainSelect.value;
+         const enteredEmail = emailField.value;
+         const combinedEmail = enteredEmail + "@" + selectedDomain;
+         document.getElementById("semail").value = combinedEmail;
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+         const scompanyNameInput = document.querySelector('input[name="scompanyName"]');
+         const cidInput = document.getElementById('cid');
+         const dataListOptions = document.querySelectorAll('#company-list option');
+         const companyNumberElement = document.getElementById('company-number');
+
+         // 입력 필드에 입력이 발생할 때마다 실행되는 함수
+         scompanyNameInput.addEventListener('input', function () {
+            const inputValue = scompanyNameInput.value;
+
+            // 모든 option 요소를 순회하면서 일치하는 값을 찾습니다.
+            for (const option of dataListOptions) {
+               if (option.value === inputValue) {
+                  // 일치하는 값이 있으면 해당 회사번호를 숨겨진 input에 설정합니다.
+                  cidInput.value = option.getAttribute('data-company-number');
+                  // 회사번호를 출력합니다.
+                  companyNumberElement.textContent = `회사번호: ${cidInput.value}`;
+                  return; // 값을 찾았으므로 반복문 종료
+               }
+            }
+
+            // 일치하는 값이 없을 경우 숨겨진 input과 출력을 비웁니다.
+            cidInput.value = '';
+            companyNumberElement.textContent = '';
+         });
+      });
+
+
+
+
+      function toggleFields() {
+         const companyName = document.getElementById("companyNameMenu");
+         const companyFile = document.getElementById("companyFileMenu");
+
+         if (companyName.style.display == "none") {
+            companyName.style.display = "table-row";
+            companyFile.style.display = "table-row";
+         } else {
+            companyName.style.display = "none";
+            companyFile.style.display = "none";
+         }
+      }
+
+      function Birth() {
+         const jumin = document.getElementById("jumin").value;
+         const birthField = document.getElementById("birth");
+         const ageField = document.getElementById("age");
+
+         if (jumin.length !== 6) {
+            alert("주민등록번호 앞자리는 6자리여야 합니다.");
+            return;
+         }
+
+         const year = parseInt(jumin.substr(0, 2));
+         const month = parseInt(jumin.substr(2, 2));
+         const day = parseInt(jumin.substr(4, 2));
+
+         let birthYear = year;
+         if (year < 24) {
+            birthYear += 2000;
+         } else {
+            birthYear += 1900;
+         }
+
+         // 월과 일에 0을 붙여 2자리로 만들어줌
+         const fmtMonth = month < 10 ? `0${month}` : month < 10 ? `0${month}` : month;
+         const fmtDay = day < 10 ? `0${day}` : day < 10 ? `0${day}` : day;
+         // 월과 일이 유효한 범위 내에 있는지 확인
+         if (month < 1 || month > 12 || day < 1 || day > 31) {
+            alert("올바른 날짜를 입력하세요.");
+            return;
+         }
+         const birthDate = `${birthYear}-${fmtMonth}-${fmtDay}`;
+
+         const today = new Date();
+         ageField.value = today.getFullYear() - birthYear + 1;
+         birthField.value = birthDate;
+      }
+
+
+
+
+
+
+
+      // 파일 유효성 검사 함수
+      function validateFile() {
+         var mmffInput = document.getElementById("mmff");
+         var fileError = document.getElementById("fileError");
+         var fileName = mmffInput.value;
+
+         if (fileName === "") {
+            // 파일이 선택되지 않은 경우
+            fileError.innerText = "";
+         } else {
+            var fileExtension = fileName.split('.').pop().toLowerCase();
+            var allowedExtensions = ["jpg", "png"];
+
+            if (allowedExtensions.indexOf(fileExtension) === -1) {
+               // 파일 확장자가 허용되지 않는 경우
+               mmffInput.value = ""; // 파일 입력란 초기화
+               fileError.innerText = "지원되지 않는 파일 유형입니다. JPG 또는 PNG 파일을 업로드하세요.";
+               return false;
+            } else {
+               fileError.innerText = ""; // 오류 메시지 초기화
+               return true;
+            }
+         }
+      }
+
+      // 아이디 유효성 검사 함수
+      function validateID(sid) {
+         var idPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,18}$/; // 알파벳숫자 6자리 이상 18자리 이하
+
+         return idPattern.test(sid);
+      }
+      
+
+
+
+      // 아이디 중복 확인 함수
+      function checkDuplicateID() {
+         var sid = document.getElementById("sid").value;
+
+
+
+         $.ajax({
+            type: "POST",
+            url: "/join/checksId",
+            data: "sid=" + sid,
+            error: function (response) {
+               $("#checkcId").text("실패");
+            },
+
+
+            success: function (response) {
+               if (response === "중복") {
+                  $("#checksId").text("이미 사용 중인 ID입니다.");
+
+
+               } else {
+                  // 아이디 유효성 검사 함수 호출
+                  if (!validateID(sid)) {
+                     $("#checksId").text("아이디 형식이 이상합니다.");
+                     return false; // 유효성 검사에 실패하면 중복 확인을 수행하지 않음
+                  } else {
+                     $("#checksId").text("사용 가능한 ID입니다.");
+                     document.getElementById("sid").readOnly = true;
+
+                  }
+
+               }
+            }
+         });
+      }
+
+
+      // 비밀번호 유효성 검사 함수
+      function validatePassword(spw) {
+         // 비밀번호는 특수문자, 영어 대소문자, 숫자를 포함하여 8글자 이상으로 입력해야 합니다.
+         var passwordPattern = /^(?!.*\s)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+
+         return passwordPattern.test(spw);
+      }
+
+      // 이름 유효성 검사 함수
+      function validateName(sname) {
+         // 한글 1글자 이상 5글자 이하인지 검사하는 정규표현식
+         var namePattern = /^[가-힣]{1,5}$/;
+
+         return namePattern.test(sname);
+      }
+      // 나이유효성 검사 함수
+      function validateage(sage) {
+         
+         // 한글 1글자 이상 5글자 이하인지 검사하는 정규표현식
+         var namePattern = /^[1-9][0-9]{0,1}$|100$/;
+
+         return namePattern.test(sage);
+      }
+      // 생일 유효성 검사 함수
+      function validatebirth(sbirth) {
+         // 한글 1글자 이상 5글자 이하인지 검사하는 정규표현식
+         var namePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+         return namePattern.test(sbirth);
+      }
+
+      // 전화번호 유효성 검사 함수
+      function validatePhoneNumber() {
+         var firstNumber = document.getElementById("firstNumber").value;
+         var secondNumber = document.getElementById("secondNumber").value;
+         var thirdNumber = document.getElementById("thirdNumber").value;
+
+         // 각 입력 필드의 길이를 확인하여 조건을 충족하는지 검사
+         if (0 < firstNumber && 0 < secondNumber && 0 < thirdNumber) {
+            if ((firstNumber.length === 2 || firstNumber.length === 3) && secondNumber.length === 4 && thirdNumber.length === 4) {
+               return true; // 조건을 충족하면 유효한 전화번호
+            } else {
+               return false; // 조건을 충족하지 않으면 유효하지 않은 전화번호
+            }
+         } else {return false;}
+
+
+      }
+
+
+      //이메일 유효성 검사함수
+      function validateEmail() {
+         const emailValue = document.getElementById("email").value;
+         const emailRegex = /^[a-zA-Z0-9_]+$/i;
+         return emailRegex.test(emailValue);
+
+
+      }
+
+      function submitForm() {
+
+         var checksId = document.getElementById("checksId").innerText;
+         if (checksId !== "사용 가능한 ID입니다." && checksId !== "이미 사용 중인 ID입니다." && checksId !== "아이디 형식이 이상합니다.") {
+            alert("아이디 중복을 확인하세요.");
+            return false;
+         }
+         if (checksId === "이미 사용 중인 ID입니다.") {
+            alert("아이디 중복을 확인하세요.");
+            return false; // 양식 제출 방지
+         }
+         if (checksId === "아이디 형식이 이상합니다.") {
+            alert("아이디 형식이 이상합니다.");
+            return false; // 양식 제출 방지
+         }
+
+         var spw = document.getElementById("spw").value;
+         var spw2 = document.getElementById("spw2").value;
+         var sname = document.getElementById("sname").value;
+
+
+         // 비밀번호와 비밀번호 확인이 다른 경우
+
+         if (spw !== spw2) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false; // 비밀번호 불일치면 양식 제출 방지
+         }
+
+         // 비밀번호 유효성 검사
+         if (!validatePassword(spw)) {
+            alert("비밀번호는 특수문자, 영어 대소문자, 숫자를 포함하여 8글자 이상으로 입력하세요.");
+            return false; // 비밀번호 유효성 검사 실패면 양식 제출 방지
+         }
+         // 이름 유효성 검사
+         if (!validateName(sname)) {
+            alert("이름은 한글 1글자 이상 5글자 이하로 입력하세요.");
+            return false; // 이름 유효성 검사 실패면 양식 제출 방지
+         }
+         
+            var sage = document.getElementById("age").value;
+         var sbirth = document.getElementById("birth").value;
+         if (!validateage(sage)) {
+            alert("주민번호입력을 완료해주세요. ");
+            return false; 
+         }
+         if (!validatebirth(sbirth)) {
+            alert("주민번호입력을 완료해주세요.");
+            return false;
+         }
+         // 전화번호 유효성 검사
+
+         if (!validatePhoneNumber()) {
+            alert("올바른 전화번호를 입력하세요.");
+            return false; // 전화번호 유효성 검사 실패면 양식 제출 방지
+         }
+         const firstNumber = document.getElementById("firstNumber").value;
+         const secondNumber = document.getElementById("secondNumber").value;
+         const thirdNumber = document.getElementById("thirdNumber").value;
+         
+         const phoneNumber = firstNumber + secondNumber + thirdNumber;
+         document.getElementById("sphone").value = phoneNumber;
+         
+      
+         
+         
+         if (!validateEmail()) {
+            alert("올바른 이메일을 입력하세요.");
+            return false; // 전화번호 유효성 검사 실패면 양식 제출 방지
+         }
+
+         // 이메일 인증이 성공한 경우에만 폼을 제출
+         if (window.emailVerificationSuccess) {
+            return true;
+         } else {
+            alert("이메일 인증을 완료하세요.");
+            return false; // 이메일 인증 실패면 양식 제출 방지
+         }
+
+
+         return true; // 양식 제출 허용
+      }
+
+
+
+      // 이용약관 페이지를 팝업 창으로 열기
+      document.getElementById('showTermsButton').addEventListener('click', function () {
+         var popup = window.open('sterms.html', '이용약관', 'width=600,height=400');
+
+         if (popup && !popup.closed) {
+            popup.focus();
+         } else {
+            alert('팝업 창을 열 수 없습니다. 팝업 창이 차단되었을 수 있습니다.');
+         }
+      });
+
+      // cname 변경 이벤트 리스너
+      const scompanyNameInput = document.querySelector('input[name="scompanyName"]');
+      const companyFileInput = document.getElementById('mmff');
+
+      scompanyNameInput.addEventListener('input', function () {
+         const inputValue = scompanyNameInput.value;
+
+         for (const option of document.querySelectorAll('#company-list option')) {
+            if (option.value === inputValue) {
+               toggleCompanyFileRequired(true);
+               return;
+            }
+         }
+
+         toggleCompanyFileRequired(false);
+      });
+
+      // 회사 재직증명서 파일 필드의 required 속성을 설정하는 함수
+      function toggleCompanyFileRequired(required) {
+         if (required) {
+            companyFileInput.required = true;
+         } else {
+            companyFileInput.removeAttribute('required');
+         }
+      }
+
+
+   </script>
+</body>
+
+</html>

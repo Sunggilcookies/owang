@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>페이지 이동 템플릿</title>
+	<style>
+		/* 전체 페이지 스타일 */
+
+
+		h1 {
+			width: 930px;
+			text-align: center;
+
+		}
+
+		/* 검색 폼 스타일 */
+		form {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		select,
+		input[type="text"],
+		button {
+			padding: 5px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			margin: 0 10px 20px 10px;
+			border-collapse: collapse;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		th {
+			text-align: center;
+		}
+
+		td:last-child {
+			text-align: center;
+		}
+
+		th {
+			background-color: #333;
+			color: #fff;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+
+		/* 삭제 버튼 스타일 */
+		.delete-button {
+			background-color: #dc3545;
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+
+		.delete-button:hover {
+			background-color: #c82333;
+		}
+
+		/* 페이지 네비게이션 스타일 */
+		.pagination {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.pagination a {
+			text-decoration: none;
+			color: #007bff;
+			margin: 0 5px;
+		}
+
+		.pagination a.current {
+			font-weight: bold;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<th:block th:replace="~{admin/adheader}" />
+		<div class="main">
+			<!-- soloData는 솔로 데이터가 들어있는 객체입니다. -->
+			<!-- 페이지 이동 관련 정보는 soloDTO 객체에 있어야 합니다. -->
+			<h1>재직인증관리</h1>
+			<!-- 검색 결과 -->
+			<div th:if="${soloData == null or soloData.size() == 0}">
+				<p>재직 미인증 회원이 없습니다.</p>
+			</div>
+
+			<!-- 검색 결과가 있을 때 테이블 표시 -->
+			<div th:if="${soloData != null and soloData.size() > 0}">
+
+				<table border="">
+					<tr>
+						<th>회원번호</th>
+						<th>이름</th>
+						<th>아이디</th>
+						<th>회사이름</th>
+						<th>회사아이디</th>
+						<th>재직증명서확인</th>
+						<th>가입일</th>
+						<th>수락</th>
+						<th>삭제</th>
+
+					</tr>
+					<tr th:each="dto, dtostat : ${soloData}">
+						<td th:text="${dto.sno}"></td>
+						<td th:text="${dto.sname}" />
+						<td th:text="${dto.sid}" />
+						<td th:text="${dto.scompanyName}" />
+						<td th:text="${dto.cid}" />
+						<td>
+							<a th:href="'/soloup/' + ${dto.scompanyFile}" th:text="재직증명서" target="_blank">
+							</a>
+						</td>
+
+						<td>
+							<span th:text="|가입일:${#dates.format(dto.sjoindate, 'yyyy-MM-dd')}|"></span></p>
+						</td>
+
+						<td>
+							<a th:href="@{|/admin_solo/checkId/${dto.sno}|}"
+								th:onclick="return confirm('[[${dto.sname}]]님의 [[${dto.scompanyName}]] 재직증명을 인증하시겠습니까?')"
+								th:text="수락"></a>
+
+
+						</td>
+						<td> <a th:href="@{|/admin_solo/delete/${dto.sid}|}"
+								th:onclick="return confirm('[[${dto.sname}]]회원님을 삭제하시겠습니까?')" th:text="회원삭제"></a>
+						</td>
+
+					</tr>
+					<tr>
+						<td colspan="9" align="center">
+							<!-- 현재값에서 현재값 빼주고 더하기 1한거 -->
+							<a th:if="${soloDTO.pageStart > 1}" th:href="${soloDTO.page-soloDTO.page}+1"
+								th:text="'[이전페이지]'" />
+
+							<a th:if="${soloDTO.pageStart < soloDTO.page}" th:href="${soloDTO.page - 1}"
+								th:text="'[이전]'" />
+							<th:block th:each="no: ${#numbers.sequence(soloDTO.pageStart, soloDTO.pageEnd)}">
+								<span th:if="${no==soloDTO.page}" th:text="${no}" />
+								<a th:unless="${no==soloDTO.page}" th:href="${no}" th:text="${no}" />
+							</th:block>
+							<a th:if="${soloDTO.page < soloDTO.pageEnd}" th:href="${soloDTO.page + 1}"
+								th:text="'[다음]'" />
+							<a th:if="${soloDTO.pageEnd < soloDTO.pageTotal}" th:href="${soloDTO.pageTotal}"
+								th:text="'[다음페이지]'" />
+						</td>
+					</tr>
+
+
+				</table>
+			</div>
+			
+
+		</div>
+	</container>
+</body>
+
+</html>

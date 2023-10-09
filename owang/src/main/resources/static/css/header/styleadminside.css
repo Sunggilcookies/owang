@@ -1,0 +1,152 @@
+/* Importing Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+    
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body{
+	background-color: #f0f0f0;
+	margin: 0 auto;
+	width: 1200px;
+}
+#container{
+	
+    margin: 0;
+    padding: 0;
+   display: flex;
+   justify-content: right;
+    width: 1200px; /* 컨테이너의 너비를 100%로 설정 */
+}
+.main{
+   
+   
+    width: 950px; /* 메인 영역을 50%로 설정 */
+   
+   
+}
+
+.sidebar { 
+    /* 수정: 남은 공간을 모두 채우도록 변경 */
+    width: 200px; /* 사이드바 영역을 50%로 설정 */
+    float: left;
+    
+  	
+    height: 100%;
+   
+    align-items: center;
+  flex-direction: column;
+    background: rgb(0, 64, 0);
+  
+    --webkit-backdrop-filter: blur(17px);
+    border-right: 1px solid rgba(255, 255, 255, 0.7);
+   
+}
+
+
+
+.sidebar .logo {
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    padding: 30px 10px 0px
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 30px 10px 0px;
+    background-color: #103305; /* 배경 색상 추가 */
+}
+
+.logo img {
+    width: 70px;
+    border-radius: 50%;
+    transition: transform 0.3s ease; /* 로고에 애니메이션 효과 추가 */
+}
+
+.logo img:hover {
+    transform: scale(1.1); /* 마우스 오버 시 로고 확대 */
+}
+
+.logo h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-left: 20px;
+    color: #fff;
+}
+
+/* 로고 아이콘 추가 예시 */
+.logo .icon {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.sidebar .links {
+    list-style: none;
+    margin-top: 10px;
+    overflow-y: auto;
+    
+    scrollbar-width: none;
+    height: calc(100% - 140px);
+}
+
+.sidebar .links::-webkit-scrollbar {
+    display: none;
+}
+
+.links li {
+     color: rgb(255, 255, 255);
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+}
+
+.links li:hover{
+   color: rgb(0, 0, 0); 
+    border: 1px solid rgb(0, 176, 0);
+    background-color: rgb(0, 0, 0);
+    padding: 0px 10px;
+    font-weight: 600;
+     
+}
+.links h4 {
+    font-weight: 800;
+    font-size: 21px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+    color: rgb(255, 255, 255);
+}
+
+
+.links hr {
+    margin: 10px 8px;
+    border: 1px solid rgb(192, 192, 192);
+}
+
+
+
+.links li span {
+    padding: 12px 10px;
+      color: rgb(255, 255, 255);
+      padding-left: 20px;
+}
+
+.links li a {
+    padding: 10px;
+      color: rgb(255, 255, 255);
+      
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    
+}
+
+
+.links .logout-link {
+    margin-top: 20px;
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.ReviewMapper">
+	
+	<select id="reviewList" resultType="rrDTO" parameterType="rrDTO">
+		select * from review where cid = #{cid}  order by regdate desc limit #{start}, #{limit}
+	</select>
+	
+	<select id="reviewzzList" resultType="rrDTO" parameterType="String">
+		select * from review where cid = #{cid}  order by regdate desc
+	</select>
+	
+	<select id="reviewList2" resultType="rrDTO" parameterType="string">
+		select * from review where cid = #{cid} 
+	</select>
+	<select id="reviewList3" resultType="rrDTO" parameterType="string">
+		select * from review where sid = #{sid} 
+	</select>
+		
+	<select id="reviewCnt" resultType="Integer">
+    	select count(*) from review where cid = #{cid}
+	</select>
+	
+	<insert id="reveiwInsert"  parameterType="rrDTO">
+	INSERT INTO review (sid, cid, rvtitle, rvjang, rvdan, regdate, cname)
+	VALUES
+    (#{sid}, #{cid}, #{rvtitle}, #{rvjang}, #{rvdan}, sysdate(), #{cname})
+	</insert>
+	
+	<select  id="reviewDetail"   resultType="rrDTO"  parameterType="rrDTO" >
+		select * from review 		
+		where cid = #{cid}
+		<if test="sid != null ">
+			and sid = #{sid}
+		</if>
+	</select>
+	
+	<update id="reviewModify" parameterType="rrDTO">
+		update review set
+		rvtitle = #{rvtitle}, rvjang = #{rvjang}, rvdan = #{rvdan}
+		where cid = #{cid}
+		<if test="sid != null">
+			and sid = #{sid}
+		</if>
+	</update>
+	
+	<delete id="reviewDelete"  parameterType="rrDTO">
+		delete from review
+		where cid = #{cid}
+		<if test="sid != null">
+			and sid = #{sid}
+		</if>  
+	</delete>
+	
+	<select id="ccnt" resultType="Integer">
+    	select count(*) from review where sid = #{sid}
+	</select>
+	<select id="cccnt" resultType="Integer">
+    	select count(*) from review where cid = #{cid}
+	</select>
+	
+	<!-- 개인리뷰 리스트 -->
+	<select id="soloreviewList" resultType="rrDTO" parameterType="rrDTO">
+		select * from review where sid = #{sid} order by regdate desc
+	</select>
+	
+
+</mapper>

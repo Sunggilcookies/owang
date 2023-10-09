@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ask/insertForm</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/ask/ask.css}">
+</head>
+<body>
+<div id="home">
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	
+	<remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+	
+	<!--ask 사진-->
+	<!--<img src="/css/images/ask.jpg" alt="ask_header" width="1200px" height="250px">-->
+	<!--1:1문의 box 사진-->
+	
+		
+	<div class="title_box">
+	   <h1>1:1 문의</h1>  
+	   <br>
+	   <h3 id="p" >
+  			문의하실 내용을 작성해주시면 확인 후 빠른 시일 내 답변드리도록 하겠습니다.<br> 
+	   </h3>
+	   <br/>	
+   </div>	 <!--타이틀박스 끝  -->
+			
+	
+	<div id="wrap">    
+		<form method="post" enctype="multipart/form-data" th:object="${askDTO}" id="insert_form">
+			<table border="0" id="ask_insert">
+				<tr>
+					<td id="label">문의글 제목*</td>
+					<td><input type="text" th:field="*{title}"  pattern="^\S.*$"
+						placeholder="※ 제목을 입력해주세요" required  id=""/></td>
+				</tr>
+				<tr>
+					<td id="label">작성자 ID *</td>
+					<td><input type="text" name="uid" th:value="${uid}" readonly /></td>
+				</tr>
+				
+				<tr>
+					<td id="label">사진첨부</td>
+					<td><input type="file" th:field="*{mmff}"/></td>
+				</tr>	
+				<tr>
+					<td id="label">문의 내용 *</td>
+					<td><textarea th:field="*{content}" rows="20" cols="85"  id="content" 
+						placeholder="※ 문의하실 내용을 입력해주세요" required/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="submit" value="문의하기" id="saveButton"/>
+						<!--목록으로-->
+							<a th:href="|/ask/list/${askDTO.page}|" id="list"><span>취소</span></a>
+						
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>   
+	
+	
+	
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+</div>    
+    
+</body>
+</html>

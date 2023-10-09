@@ -1,0 +1,490 @@
+/* Importing Google font - Poppins */
+
+ @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+
+/**{margin: 0;padding: 0;}*/
+
+#home{
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: white;
+}
+
+h1{text-align: center;}
+
+.title_box{
+	border-bottom: 1px solid #111;
+	padding-bottom: 20px;
+	background-image: url("/css/images/ask_remove.png"); 
+	background-position: right center;
+	background-repeat: no-repeat;
+	height:200px;
+	margin-top: 40px;
+	margin: 0;padding: 0;
+}
+
+/*타이틀 박스 문구 (다양한~)*/
+#p{margin-left: 20px;}
+
+/*th 크기 크게 뒷배경 색깔*/
+th{
+	color: #fff;
+	background-color: rgb(0, 0, 0);
+	font-size: 20px;
+	padding: 5px;
+
+	}
+
+/* asks */
+
+#wrap img {
+   max-width: 100%; /* 이미지의 최대 너비를 100%로 설정 */
+   height: auto; /* 높이를 자동으로 조정하여 가로세로 비율 유지 */
+}
+
+#wrap{
+	width: 1000px;
+    margin: 0px auto;
+    margin-bottom: 100px;
+    /*padding:50px 20px 40px 170px;*/
+    background-color: #fff; 
+}
+
+#box {
+    height: 170px; /*높이 150*/
+    /*background-color: #fff;*/ /* 배경색상-white */
+    margin: 0 auto;
+    padding-left: 175px;
+    font-family: "Poppins", sans-serif;
+	border-bottom-color: black;
+    
+}
+
+#box2 {
+    
+    /*background-color: #fff;*/ /* 배경색상-white */
+    margin: 0 20px 20px 20px;
+    padding-left: 100px;
+    font-family: "Poppins", sans-serif;
+	
+   
+}
+#a_title {
+    /* 기본 마진을 없앱니다. */
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    margin-top:40px;
+    margin-bottom: 25px;
+    
+}
+
+#title { /* insert title*/
+    /* 기본 마진을 없앱니다. */
+    text-align: left;
+    font-family: "Poppins", sans-serif;
+    
+}
+
+/*문의하기 버튼*/
+#saveButton{
+	width: 170px;
+	height: 50px;
+	background-color: rgb(41, 46, 65);
+	color: rgb(255, 255, 255);
+	font-size: 18px;
+	border-radius: 15px;
+	border: 1px solid black;
+	cursor: pointer;
+	font-family: "Poppins", sans-serif;
+	padding: 15px 50px;
+}
+
+/*수정하기 버튼*/
+#modiButton{
+	width: 170px;
+	height: 50px;
+	background-color: rgb(41, 46, 65);
+	color: rgb(255, 255, 255);
+	font-size: 18px;
+	border-radius: 15px;
+	border: 1px solid black;
+	cursor: pointer;
+	font-family: "Poppins", sans-serif;
+	padding: 15px 50px;
+}
+
+
+
+#content{
+	border-radius: 5px;	
+}
+
+#label{
+	width: 100px;
+	font-weight: inherit;
+	font-size: 16px;
+	display: inline-block;
+}
+
+input{
+	 width: 400px;
+	 height: 34px;
+	 margin-bottom: 10px;
+	 font-size: 16px;
+	 padding-left: 5px;
+	 padding-top: 5px;
+	 line-height: 12px;
+	 font-weight: inherit;
+	 border: 1px solid #000;
+	 border-radius: 0;
+     outline-style: none;
+     box-sizing: border-box;
+     max-width: 100%;
+     vertical-align: middle;
+     outline: 0;
+     border-radius: 5px; 	
+}
+
+/* detail-*/
+#ask_detail{
+	margin: 20px auto;
+}
+
+
+#label2{
+	white-space: pre-wrap;
+	line-height: 2;
+	 width: 550px;
+	 height: 34px;
+	 margin-bottom: 20px;
+	 font-size: 16px;
+	 padding: 5px 10px 5px 10px;
+	 
+	 font-weight: inherit;
+	 border: 1px solid #000;
+	 border-radius: 0;
+     outline-style: none;
+     box-sizing: border-box;
+     max-width: 100%;
+     vertical-align: middle;
+     outline: 0;
+     border-radius: 5px;      
+}
+
+/*제목 - placeholder 왼쪽정렬*/
+input::placeholder {
+    text-align: left;
+}
+
+/*취소하기버튼*/
+#list {
+    text-decoration: none;
+    font-size: 18px;
+    color: rgb(41, 46, 65);
+    width: 170px;
+    height: 50px;
+    background-color: #fff;
+    color: rgb(41, 46, 65);
+    font-size: 18px;
+    border-radius: 15px;
+    border: 1px solid #000;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    /* padding: 15px 50px; */
+    display: inline-flex; /* inline-flex로 설정 */
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    text-align: left;
+}
+   
+   
+#del{
+	width: 80px;
+	height: 40px;
+	background-color: rgb(41, 46, 65);
+	color: rgb(255, 255, 255);
+	font-size: 14px;
+	border: 1px solid black;
+	border-radius: 5px;
+	cursor: pointer;
+	font-family: "Poppins", sans-serif;
+	padding:4px;
+	text-decoration: none;
+	
+}   
+
+/*detail_작은버튼*/
+.detail_delmody{
+	
+	margin-top: 20PX;
+	text-align: right;
+}
+/*작은수정버튼*/
+#modi{
+	width: 80px;
+	height: 40px;
+	background-color:#fff;
+	color : #000;
+	font-size: 14px;
+	border: 1px solid black;
+	border-radius: 5px;
+	cursor: pointer;
+	font-family: "Poppins", sans-serif;
+	padding:4px;
+	text-decoration: none;
+
+}
+   
+   
+#delist {
+	text-decoration: none;
+	font-size: 18px;
+	color: rgb(41, 46, 65);
+	width: 70px;
+	height: 40px;
+	background-color: #fff;
+	color: rgb(41, 46, 65);
+	font-size: 14px;
+	border-radius: 15px;
+	border: 1px solid #000;
+	cursor: pointer;
+	font-family: "Poppins", sans-serif;
+	display: inline-flex; /* inline-flex로 설정 */
+	align-items: center; /* 수직 가운데 정렬 */
+	justify-content: center; /* 수평 가운데 정렬 */
+	margin-bottom: 10px;
+	margin-top: 30px;
+}
+
+#re {
+	display: inline-block;
+    width: 110px;
+    height: 50px;
+    border-radius: 10px;
+    padding: 0 20px;
+    background-color: rgb(41, 46, 65);
+    font-size: 16px;
+    color: #fff;
+    line-height: 50px;
+ 	text-align: center;
+    border: 1px solid rgb(41, 46, 65);
+    text-decoration: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    }
+
+/*다운로드*/
+#down{
+	text-decoration:none;
+	color: rgba(72, 118, 239);
+}
+
+/*리스트!!!*/
+/*ask - list*/
+#read{
+	padding: 20px;
+	font-size: 21px; /
+}
+
+/*테이블*/
+#ask_table{width: 1000px;
+		height: auto;
+		margin-bottom: 100px;
+		padding: 25px 0 200px;
+		font-size: 16px;
+		margin: 0 auto;
+		 line-height: 1.5;
+		justify-content: center;
+		display: flex;
+		/*border-collapse: collapse;*/ /* 테이블 셀 경계를 합칩니다. */
+}
+
+#ask_table th #ask_table td {
+	padding: 12px 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    border: 1px solid transparent; /* 모든 셀의 테두리를 초기화합니다. */
+   
+}
+
+#ask_table th { /* 테이블 헤더 */
+   /* background-color:#fff;*/ /* 테이블 헤더 배경색을 지정합니다. */
+     border-bottom: 1px solid #000;
+}
+
+
+#ask_table td{
+	padding: 10;
+    font-size: 16px;
+    border-bottom: 1px solid #000;
+    border-top: none;
+    
+    }
+    
+  
+.re , .title{
+	text-align: left;
+	padding-left: 4px;
+	text-decoration: none;
+	font-size: 16px;
+	color: #333;
+	margin-left: 3px;
+
+}
+
+
+
+
+
+
+#ask_table tr:not(:first-child) td {
+    border-top: none; /* 가로선 스타일을 지정 */
+}
+
+
+.no, .name, .day, .cnt{
+	text-align: center;
+}
+
+/* 문의하러가기 버튼(기업*/
+.btnC{
+	display: inline-block;
+    width: 110px;
+    height: 50px;
+    border-radius: 10px;
+    padding: 0 20px;
+    background-color: rgb(41, 46, 65);
+    font-size: 16px;
+    color: #fff;
+    line-height: 50px;
+    letter-spacing: -.05em;
+    border: 1px solid rgb(41, 46, 65);
+    text-decoration: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    }
+    
+/* 문의하러가기 버튼(개인)*/
+.btnP{
+	display: inline-block;
+    width: 110px;
+    height: 50px;
+    border-radius: 10px;
+    padding: 0 20px;
+    background-color: rgb(41, 46, 65);
+    font-size: 16px;
+    color: #fff;
+    line-height: 50px;
+    letter-spacing: -.05em;
+    border: 1px solid rgb(41, 46, 65);
+    text-decoration: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    }
+ 
+ /*테이블 위,아래 선 굵게*/
+ #ask_table table{
+	 /*border-top:4px solid rgb(41, 46, 65);
+	 border-bottom:4px solid rgb(41, 46, 65);*/
+	 border-collapse: collapse; /* 테두리 경계를 합칩니다. */
+	 border: none;
+ }  
+ #ask_table table tr{
+	  border-top:2px solid rgb(41, 46, 65);
+	  border-color: #cdcdcd
+ } 
+ 
+ /*테이블 가운데 정렬을 위해*/
+#ask_insert, #ask_modify, #ask_reply{
+	margin:0 auto;
+}
+
+
+/*.ask_table tr {
+    border-top: 1px solid #ebebeb;
+}*/
+
+
+.on {
+    font-weight: bold; /* 굵게 만들기 */
+}
+
+/*insert 페이지*/
+#insert_form {
+	margin-top: 45px;
+}
+
+#detail_list{
+	text-align: right;
+	font-size: 24px;
+	margin-top: 10px;
+	color: black;
+	border: none;	
+	text-decoration: none; /* 밑줄 없애기 */
+}
+
+/*list-페이지처리 페이징처리*/
+
+.pagination-container {
+	text-align: center;
+	margin-top: 20px;
+	height:45px;
+	border: none;
+	
+}
+
+.pagination-link {
+	text-decoration: none;
+	padding: 5px 10px;
+	background-color: #333;
+	color: #fff;
+	border-radius: 5px;
+	margin: 0 5px;
+	
+	/* 페이지 번호 간격 조절 */
+}
+
+.pagination-current {
+	text-decoration: none;
+	padding: 5px 10px;
+	background-color: rgb(197 213 255);
+	color: rgb(0, 0, 0);
+	font-weight: 800;
+	margin: 0 5px;
+	/* 페이지 번호 간격 조절 */
+	border-radius: 5px;
+}
+
+/* 호버효과 */
+
+/* hover 효과 회사이름*/
+
+/* hover 효과 회사이름*/
+a.title:hover {
+	position: relative;
+  display: inline-block;
+  text-align: center;
+  padding: 10px 20px;
+  background-color: transparent;
+  transition: color 0.3s, transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  font-weight: bold;
+   
+}
+ 
+a.title:hover {
+  color: #000; /* hover 시 텍스트 색상 변경 */
+  transform: translateY(-4px); /* 위로 움직이는 효과 */
+  font-weight: bold;
+}
+
+a.title:active {
+  /* 클릭 시 애니메이션 추가 (예: rubberBand) */
+  animation-name: rubberBand;
+  animation-duration: 1s;
+  font-weight: bold;
+}

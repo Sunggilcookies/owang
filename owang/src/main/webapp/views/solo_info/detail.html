@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <title>개인 정보보기</title>
+<script>
+	function openImageInNewWindow() {
+		// 이미지 URL 설정
+		var image = "[[${dto.scompanyFile}]]";
+
+		// 새 창 열기
+		var newWindow = window.open('', '_blank');
+
+		// 이미지를 새 창에 표시
+		newWindow.document.write('<img src="/soloup/' + image + '" alt="이미지" />');
+	}
+</script>   
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" th:href="@{/css/solo_info/detail.css}">
+<body>
+<header>
+	<div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+<div id="solo_info_detail">
+  	<div id="info_text">
+		<span>개인정보 보기</span>
+	</div>
+	<div id="member_category">
+		<div id="member_category_text">
+			<span class="material-symbols-outlined">person</span>
+		</div>
+		<div th:if="${dto.stype == 2}">
+			<li th:if="${dto.sdate == null}">프리미엄회원(재직자리뷰) 평생이용</li>
+			<li th:unless="${dto.sdate == null}"
+				th:text="|프리미엄회원 마감일 &nbsp;:&nbsp; ${#dates.format(dto.sdate, 'yyyy-MM-dd')}|"></li>
+		</div>
+		<div th:unless="${dto.stype == 2}">
+			<li>일반회원</li>
+		</div>
+	</div>
+	<div id="info_list">		
+		<!-- 기본 정보 -->
+		<div id="basic_info">
+			<div id="basic_info_text">기본정보</div>
+			<div id="basic_id">
+				<li>아이디</li>
+				<li th:text="${dto.sid}"></li>
+			</div>
+			<div id="basic_name">
+				<li>이름</li>
+				<li th:text="${dto.sname}"></li>
+			</div>
+			<div id="basic_birth">
+				<li>생년월일</li>
+				<li th:text="${dto.sbirth}"></li>
+			</div>
+			<div id="basic_sage">
+				<li>나이</li>
+				<li th:text="${dto.sage}"></li>
+			</div>
+			<div id="basic_gender">
+				<li>성별</li>
+				<li th:text="${dto.sgender}"></li>
+			</div>
+		</div>
+		<!-- 연락처 정보 -->
+		<div id="contact_info">
+			<div id="contact_info_text">연락처정보</div>
+			<div>
+				<li>전화번호</li>
+				<li th:text="${dto.sphone}"></li>
+			</div>
+			<div>
+				<li>이메일</li>
+				<li th:text="${dto.semail}"></li>
+			</div>			
+			<div>
+				<li>주소</li>
+				<li th:text="${dto.saddress}"></li>
+			</div>	
+		</div>
+		<!-- 재직 정보 -->
+		<div id="jaejik_info">
+			<div id="jaejik_info_text">재직정보</div>
+			<div th:unless="${dto.scompanyName == null || dto.scompanyName == ''}">
+				<li>재직회사</li>
+				<li th:text="${dto.scompanyName}"></li>
+			</div>
+			<div th:unless="${dto.scompanyFile == null ||  dto.scompanyFile == ''}">
+				<li>재직인증</li>
+				<li th:if="${dto.sinjueng==true}" th:text="승인" style="color: rgb(75, 136, 250);"></li>
+				<li th:unless="${dto.sinjueng==true}" th:text="미승인" style="color: rgb(255, 98, 98)"></li>				
+			</div>
+			<div th:unless="${dto.scompanyFile == null ||  dto.scompanyFile == ''}">
+				<li>재직증명서</li>
+				<li><button onclick="openImageInNewWindow()">재직증명서확인</button></li>
+			</div>
+		</div>
+	</div>
+	<div id="modify_button">
+		<a href="/solo/modify">정보수정</a>
+		<a href="/solo/delete">회원탈퇴</a>
+	</div>
+<footer>
+   <div th:insert="~{footer :: footer}"></div>
+</footer>
+</body>
+</html>

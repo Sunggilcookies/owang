@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.AskMapper">
+
+
+	<select id="askList" resultType="askDTO" parameterType="askDTO">
+		select *
+		from ask order by gid desc, seq limit #{start}, #{limit}
+	</select>
+	<!-- 원본-성길짱 -->
+	<!-- <select id="useraskList" resultType="askDTO" parameterType="askDTO"> 
+		SELECT * FROM ( SELECT * FROM ask WHERE gid IN (SELECT gid FROM ask WHERE 
+		pname = #{pname}) UNION SELECT * FROM ask WHERE pname = "관리자" ) AS combined_result 
+		ORDER BY gid DESC, seq ASC LIMIT #{start}, #{limit}; </select> -->
+
+	<!-- <select id="useraskList" resultType="askDTO" parameterType="askDTO"> 
+		SELECT * FROM ask WHERE gid IN ( SELECT gid FROM ask WHERE pname = #{pname} 
+		) OR ( pname = "관리자" AND seq IN ( SELECT seq FROM ask WHERE pname = #{pname} 
+		) ) ORDER BY gid DESC, seq ASC LIMIT #{start}, #{limit}; </select> -->
+
+	<select id="useraskList" resultType="askDTO"
+		parameterType="askDTO">
+		SELECT *
+		FROM ask
+		WHERE gid IS NULL AND pname = #{pname}
+		UNION ALL
+		SELECT *
+		FROM ask
+		WHERE gid IN (
+		SELECT gid
+		FROM ask
+		WHERE pname = #{pname}
+		)
+		ORDER BY gid DESC, seq ASC
+		LIMIT #{start}, #{limit};
+	</select>
+
+
+
+
+	<select id="listCnt" resultType="Integer">
+		select count(*) from ask
+	</select>
+
+
+	<update id="addCount" parameterType="Integer">
+		update ask set cnt = cnt + 1
+		where id = #{id}
+	</update>
+
+	<select id="detail" resultType="askDTO" parameterType="Integer">
+		select *
+		from ask where id = #{id}
+	</select>
+
+	<select id="maxId" resultType="Integer">
+		select max(id) from ask
+	</select>
+
+
+	<insert id="askInsert" parameterType="askDTO">
+		insert into ask (title,
+		pname, imp, content, upfile, reg_date, cnt, seq, lev, gid, id)
+		values
+		(#{title},#{pname},#{imp},#{content},#{upfile}, sysdate(),0,0,0,
+		#{id}, #{id})
+	</insert>
+
+
+	<!-- 삭제하기 -->
+	<delete id="askDelete" parameterType="askDTO">
+		delete from ask where id =
+		#{id}
+	</delete>
+
+	<!-- 수정하기 -->
+	<update id="askModify" parameterType="askDTO">
+		update ask set
+		pname = #{pname}, content= #{content}, title= #{title}, upfile = #{upfile}
+		where id = #{id}
+	</update>
+
+	<!-- 파일없음 -->
+	<update id="fileDelete" parameterType="askDTO">
+		update ask set upfile =
+		null where id = #{id}
+	</update>
+
+	<select id="gidChk" parameterType="String" resultType="Integer">
+		select
+		count(*) from ask where gid = #{gid}
+	</select>
+
+	<!-- 답변쓰 원본쓰 -->
+	<insert id="insertReply" parameterType="askDTO">
+		insert into ask (title, pname, imp, content, upfile, reg_date, cnt, seq,
+		lev, gid)
+		values
+		(#{title}, #{pname}, #{imp}, #{content}, #{upfile}, sysdate(), 0, #{seq},
+		#{lev}, #{gid})
+	</insert>
+	<!-- <insert id="insertReply" parameterType="askDTO"> insert into ask (title, 
+		pname, pw, content, upfile, reg_date, cnt, seq, lev, gid) values (#{title}, 
+		'관리자', #{pw}, #{content}, '', sysdate(), 0, #{seq}, #{lev}, #{gid}) </insert> -->
+
+	<!-- gid가 하나인 게시글의 수 -->
+	<!-- gid로 자료를 묶고 gid당 몇개의 글이 있는지 카운팅 -> cnt라는 테이블로 저장 -->
+	<!-- cnt테이블을 세서 no_reply로 리턴 -->
+	<select id="noReCnt" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) as no_reply
+		FROM (
+			SELECT COUNT(*) as record_count
+			FROM ask
+			GROUP BY gid
+			HAVING COUNT(*) = 1
+			) as cnt
+	</select>
+
+
+
+
+
+</mapper>

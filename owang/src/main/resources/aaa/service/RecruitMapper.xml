@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.RecruitMapper">
+
+	<select id="recruitList" resultType="recruitDTO"
+		parameterType="recruitDTO">
+		select * from recruit where reg_date &lt;= now() order by reg_date desc limit
+		#{start}, #{limit}
+	</select>
+	
+
+<update id="updateRecruitMagam" parameterType="recruitDTO">
+    UPDATE recruit
+    SET recruit_magam = #{recruitMagam}
+    WHERE recruit_id = #{recruitId}
+</update>
+	
+	
+
+	<select id="allrecruitList" resultType="recruitDTO"
+		parameterType="recruitDTO">
+		select * from recruit
+	</select>
+
+	<select id="companyROpen" resultType="recruitDTO"
+		parameterType="recruitDTO">
+		select * from recruit where rtype =1 and reg_date &lt;= now() order by reg_date desc limit #{start},
+		#{limit}
+	</select>
+
+	<select id="companyRClose" resultType="recruitDTO"
+		parameterType="recruitDTO">
+		select * from recruit where rtype =2 order by reg_date desc limit #{start},
+		#{limit}
+	</select>
+	
+	<!-- 재훈추가 -->
+	<select id="companyROpenHOT" resultType="recruitDTO"
+		parameterType="recruitDTO">
+		select * from recruit where rtype =1 and reg_date &lt;= now() order by appnum desc limit #{start},
+		#{limit}
+	</select>
+	
+	<select id="icompanyROpenCnt" resultType="Integer">
+		select count(*) from recruit where cid=#{cid} and rtype =1 
+	</select>
+	<select id="companyROpenCnt" resultType="Integer">
+		select count(*) from recruit where rtype =1 
+	</select>
+	<select id="companyRCloseCnt" resultType="Integer">
+		select count(*) from recruit where rtype =2 
+	</select>
+
+	<select id="recruitListCnt" resultType="Integer">
+		select count(*) from
+		recruit
+	</select>
+
+	<select id="recruitCnt" resultType="Integer">
+		select count(*) from recruit where cid=#{cid}
+	</select>
+	<update id="updateRtype" parameterType="recruitDTO">
+		update recruit set
+		rtype=#{rtype} where recruit_id = #{recruitId}
+	</update>
+
+	<update id="recruitAddCont" parameterType="recruitDTO">
+		update recruit set cnt
+		= cnt + 1 where recruit_id = #{recruit_id}
+	</update>
+
+	<select id="recruitDetail">
+		select * from recruit where recruit_id = #{recruitId}
+	</select>
+
+	<!--select * from recruit where cid = #{cid} order by reg_date desc limit 
+		#{start}, #{limit} -->
+	<select id="recruitCompanyDetail" resultType="recruitDTO"
+		parameterType="recruitDTO">
+		select * from recruit where cid = #{cid} order by
+		reg_date desc
+	</select>
+	<select id="recruitCompanyOpen" resultType="recruitDTO">
+		select * from recruit where cid = #{cid} and rtype =1 and reg_date &lt;= now()  order by
+		reg_date desc
+	</select>
+	<select id="recruitCompanyClose" resultType="recruitDTO">
+		select * from recruit where cid = #{cid} and rtype =2 order by
+		reg_date desc limit #{start}, #{limit}
+	</select>
+	<select id="recruitCompanyCloseCnt" resultType="Integer">
+		select count(*) from recruit where cid = #{cid} and rtype =2
+	</select>
+
+	<select id="recruitMaxId">
+		select max(recruit_id) from recruit
+	</select>
+
+	<insert id="recruitInsert" parameterType="recruitDTO">
+		insert into recruit(rtype,cname, recruit_title, cid, recruit_content,
+		recruit_upfile, reg_date, recruit_money, recruit_mtype, recruit_location,
+		recruit_magam , cnt, realMagam )
+		values
+		(1, #{cname}, #{recruitTitle}, #{cid}, #{recruitContent},
+		#{recruitUpfile}, sysdate(),#{recruitMoney}, #{recruitMtype}, #{recruitLocation},
+		#{recruitMagam},0,
+		#{realMagam})
+	</insert>
+
+	<delete id="recruitDelete" parameterType="Integer">
+		delete from recruit
+		where recruit_id = #{id}
+	</delete>
+
+	<select id="recruitTest" resultType="recruitDTO">
+		select recruit_title,
+		reg_date, recruit_id, cid, realMagam, cname from recruit
+	</select>
+
+	<!-- 수정하기 -->
+	<update id="recruitModify" parameterType="recruitDTO">
+		update recruit set
+		recruit_title = #{recruitTitle},
+		cid = #{cid},
+		recruit_mtype = #{recruitMtype},
+		recruit_content = #{recruitContent},
+		recruit_upfile = #{recruitUpfile},
+		recruit_magam = #{recruitMagam},
+		recruit_money = #{recruitMoney}
+		where recruit_id = #{recruitId}
+	</update>
+
+	<sql id="plz_1">
+
+		<if test="searchOption == 'all'">
+			( recruit_title like concat('%', #{keyword} ,'%')
+			or recruit_content like concat('%', #{keyword} ,'%')
+			or cname like concat('%', #{keyword} ,'%')
+			)
+		</if>
+		<if test="searchOption == 'title'">
+			and recruit_title like concat('%', #{keyword} ,'%')
+		</if>
+		<if test="searchOption == 'content'">
+			and recruit_content like concat('%' , #{keyword} ,'%')
+		</if>
+		<if test="searchOption == 'name'">
+			and cname like concat('%' , #{keyword} , '%')
+		</if>
+	</sql>
+
+	<!-- 검색 테스트 -->
+	<select id="searchRecruit" resultType="recruitDTO"
+		parameterType="string">
+		select * from recruit
+		<where>
+			<include refid="plz_1"></include>
+		</where>
+		order by recruit_id desc
+	</select>
+	
+	<!-- cid로 rtype을 1로 업데이트 -->
+	<update id="payRTypeByCid">
+	    UPDATE recruit
+	    SET rtype = 1
+	    WHERE cid = #{cid}
+	</update>
+
+	<!-- 공고시작일기준 공고가 몇개인지 리스트 -->
+	<select id="rctRegCnt" resultType="java.util.Map">
+        SELECT DATE_FORMAT(MIN(reg_date), '%Y-%m-%d') as date, COUNT(*) as rcrCnt
+	    FROM recruit
+        WHERE DATE(reg_date) BETWEEN #{startDate} AND #{endDate}
+	    GROUP BY DATE(reg_date)
+	    ORDER BY DATE_FORMAT(MIN(reg_date), '%Y-%m-%d')
+	</select>
+	<!-- 기간 중에 공고시작일이 있는 공고가 몇개인지 -->
+	<select id="rctRangeRegCnt">
+        SELECT COUNT(*) FROM recruit
+        WHERE DATE(reg_date) BETWEEN #{startDate} AND #{endDate}
+	</select>
+
+</mapper>

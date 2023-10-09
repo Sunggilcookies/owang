@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>company/detail</title>
+	<link rel="stylesheet" th:href="@{/css/company/detail.css}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+</head>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	<remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+
+<main class="content-box">
+
+		<div class="footer-box"> <!-- Container -->
+
+			<div class="description-box">
+				<section class="company-section">
+					<h1 style="font-size: 20px; margin-left: 10px; color: rgb(52 54 63);">기업페이지</h1>
+					<h1 style="font-size: 60px; color: rgb(52 54 63); margin-left: 20px;	margin-bottom: 55px;">
+						[[${dto.cname}]]</h1>
+
+					<div class="sc-emDsmM bUigRG">
+						<hr>
+						<br>
+						<span>
+							<h2 id="zzh2">채용 중인 공고는 <span style="color: darkblue;">[[${mainData.size}]]건입니다.</span></h2>
+
+
+							<th:block th:each="rdto, dtoStat : ${mainData}">
+								<div class="gldqWV">
+
+									<div class="recruitbox">
+
+										<div class="rboxtext">
+
+											<div class="cWcLZK">
+												<div class="recruitdate"><span><i class="material-icons">zoom_in</i>조회 :
+														[[${rdto.cnt}]]회 </span> &nbsp; &nbsp;<span> <i
+															class="material-icons">contact_page</i>지원자 :
+														[[${rdto.appnum}]]명</span></div>
+
+												<th:block th:if="${session['sid']}">
+													<span class="blind">
+
+														<a
+															th:href="|/solo_scrab/insert/${rdto.cid}/1/${rdto.recruitId}|"><i
+																id="zzz" class="material-icons">bookmark</i></a></span>
+
+												</th:block>
+											</div>
+											<a title="새창열림"
+												th:href="|/recruit/detail/${rdto.cid}/1/${rdto.recruitId}|">
+												<h2 class="recruittitle">[[${rdto.recruitTitle}]]</h2>
+												<ul class="dDbWka" style="color: rgb(207, 67, 67);">
+													<span th:if="${rdto.recruitMtype == '월급'}">월급 </span>
+													<span th:if="${rdto.recruitMtype == '연봉'}">연봉 </span>
+													<span style="font-weight: 800;">&nbsp;
+														[[${rdto.recruitMoney}]]만원</span></br>
+
+
+												</ul>
+												<ul class="dDbWka">
+
+													공고마감일 <span style="font-weight: 800;">&nbsp; [[${rdto.realMagam}]]
+													</span>
+												</ul>
+											</a>
+
+										</div>
+
+									</div>
+
+								</div>
+							</th:block>
+							<h3><span><a style="font-size: 20px; color: royalblue;     margin-left: 70%;"
+										th:href="|/company/list/${dto.cid}/1|">채용공고 더보기<i id="reviewzz"
+											class="material-icons">speaker_notes</i></a></span></h3>
+
+					</div>
+
+					<div class="gg">
+						<hr>
+
+
+
+						<h2 id="zzh12">기업리뷰는 <span style="color: darkblue; ">[[${revcount}]]건입니다.</span> </h2><br>
+						<div style=" margin-bottom: 15px;">
+
+							<span style="font-size: 20px; color: dimgray; margin-left: 20px;">리뷰 미리보기입니다.</span>
+						</div>
+
+
+						<th:block th:each="rzdto, dtoStat : ${revData}">
+							<div class="gldqWV" th:if="${dtoStat.index lt 1}">
+								<div class="recruitzzbox">
+
+									<div class="rboxzztext">
+
+
+										<h2 class="recruizzttitle">[[${rzdto.rvtitle}]]</h2>
+
+										<ul class="dDbWka">
+											작성일 <span style="font-weight: 800;">&nbsp;
+												<span th:text="${#dates.format(rzdto.regDate, 'yyyy-MM-dd')}"></span>
+											</span>
+										</ul>
+
+									</div>
+
+								</div>
+
+							</div>
+
+					</div>
+					</th:block>
+
+					<h3><span><a style="font-size: 20px; margin-left: 70%; color: royalblue;"
+								th:href="|/review/lo/${dto.cid}/1|">리뷰보러가기<i id="reviewzz"
+									class="material-icons">rate_review</i></a></span></h3>
+
+			</div>
+
+			</section>
+
+			<section class="position-info" style="font-size: 22px;">
+				<hr>
+				<h2 id="zzh2" class="hidden">기업 소개</h2>
+
+				<dl class="company-description">
+					<h3>
+						<dt class="company-introduction">회사소개</dt>
+					</h3>
+					<dd>
+						<th:table class="alot" th:text="${dto.ccontent}" />
+					</dd>
+				</dl>
+
+				<dl class="company-benefits">
+					<h3>
+						<dt class="benefits-title">복지 및 혜택</dt>
+					</h3>
+					<dd>
+						<th:table class="alot" th:text="${dto.cwelfare}" />
+					</dd>
+				</dl>
+				<hr>
+
+
+			</section>
+			<span><a style="margin-left: 0px; margin-top: 20px; color: #000000; font-size: 20px;"
+					href="javascript:goBack()"><i
+						style="margin-left: 0px; margin-top: 20px; color: #000000; font-size: 40px;"
+						class="material-icons">arrow_back</i>이전 페이지로</a></span>
+		</div>
+
+		<aside class="main-aside">
+
+			<div class="position-details">
+				<div class="position-image">
+					<th:table th:unless="${dto.clogo==null}">
+
+						<img class="position-img" th:src="|/companylogoup/${dto.clogo}|" alt="기업 로고">
+
+					</th:table>
+					<th:table th:if="${dto.clogo==null}">
+						<img class="position-img" th:src="@{/companylogoup/basic.png}" alt="기업 로고">
+
+					</th:table>
+
+				</div>
+				<h2 class="company-name">[[${dto.cname}]]</h2>
+				<span class="job-celebration">
+					<hr>
+
+					<a th:text="${dto.ccategory}" />
+				</span>
+				<span class="job-celebration">
+					<br>개업연월일
+
+					<a th:text="${dto.cbuild}" />
+				</span>
+
+				<span class="job-celebration"><br>직원수
+
+					<a th:text="${dto.cstaff}" />명
+				</span>
+				<span class="job-celebration"><br>연간 매출액
+
+					<td th:text="|${dto.formattedCsales}원|"></td>
+				</span>
+				<th:block th:if="${dto.capproval}">
+					<br><i style="color: rgb(45, 45, 255); font-size: 40px;"
+						class="material-icons">verified_user</i><span class="job-celebration">
+
+						</i>기업인증 완료
+
+					</span>
+				</th:block>
+				<th:block th:unless="${dto.capproval}">
+					<span class="job-celebration"><br>
+
+						기업미인증</span>
+				</th:block>
+
+			</div>
+
+		</aside>
+
+
+		</div>
+
+
+	</main>
+
+
+	<script>
+		function openImageInNewWindow() {
+			// 이미지 URL 설정
+			var image = "[[${dto.ccompanyFile}]]";
+
+			// 새 창 열기
+			var newWindow = window.open('', '_blank');
+
+			// 이미지를 새 창에 표시
+			newWindow.document.write('<img src="/companyup/' + image + '" alt="이미지" />');
+		}
+		function goBack() {
+			window.history.back();
+		}
+
+	</script>
+</body>
+<footer>
+	<div th:insert="~{footer :: footer}"></div>
+	</foote>
+
+
+</html>

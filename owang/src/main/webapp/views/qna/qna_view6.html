@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notice/css.css}">
+</head>
+
+<body>
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+<div class="board_wrap">
+    <div class="board_title">
+    </div>
+        <div class="board_view_wrap">
+            <div class="board_view">
+                <div class="title">
+                    소셜 계정으로 오왕 가입했는데 소셜 사이트에서 탈퇴하면 어떻게 되나요?
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd>6</dd>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd>오왕매니저</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd>2023.9.25</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>117</dd>
+                    </dl>
+                </div>
+                <div class="cont" style="white-space: pre-wrap;">
+가입하신 소셜 사이트를 탈퇴하더라도 사람인에서 동일한 소셜ID로 로그인 하실 수 있도록 계정 전환을 해드리고 있습니다.
+
+저희 오왕 고객센터로 문의하시면 몇 가지 사항 확인 후 계정 전환해드리도록 하겠습니다. 
+
+☞ 오왕 고객센터 : 02-1234-5689(평일, 09:00~19:00)
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="/qna/qna" class="on">목록</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

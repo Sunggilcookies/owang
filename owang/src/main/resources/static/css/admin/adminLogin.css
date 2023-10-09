@@ -1,0 +1,239 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+/* font-family: 'Montserrat', sans-serif; */
+*{margin: 0;padding: 0;font-family: 'Montserrat', sans-serif;}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* min-height 요소의 최소 높이 설정 */
+    /* vh 단위는 viewport의 크기  */
+    /* https://developer.mozilla.org/ko/docs/Learn/CSS/Building_blocks/Values_and_units */
+    /* vh 추가설명 출처-mozilla */
+    min-height: 100vh;
+
+    /*background: #23242a;*/
+}
+.box{
+    position: relative;
+    width: 380px;
+    height: 420px;
+    background-color: #1c1c1c;
+    border-radius: 8px;
+    overflow: hidden;/* 이거빼고 보면 애니메이션 사각형으로 크게 제어를 햇지만 */
+    /* overflow: hidden; 를사용함으로서 이쁘게 선만 나옴 */
+}
+.box::before {
+    /* ::을 두개쓰면 가상요소 :쓰면 가상 선택자(hover)나 그런거 쓸때 이용 */
+    /* 두개를 씀으로서 요소를 가생으로 생성후 제어 */
+    /* before 태그로 애니메이션을 제어 */
+    /* 가상요소 선택자에서는 content가 있어야 만들어짐 필수 */
+    /* https://goddino.tistory.com/43 <- 공부할때 참고함 */
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 420px;
+    background: linear-gradient(0deg, transparent, transparent,
+    #0000ff, #0000ff, #0000ff);
+    /* 기존색 45f3ff */
+    z-index: 1;
+    /* animate 션 효과는 keyframes과 animation로 중간상태를 정의하여 나타냄 */
+    /* https://webclub.tistory.com/621 참고 */
+    /* 기존색 45f3ff */
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
+    
+}
+
+.box::after {
+    /* ::을 두개쓰면 가상요소 :쓰면 가상 선택자(hover)나 그런거 쓸때 이용 */
+    /* 두개를 씀으로서 요소를 가생으로 생성후 제어 */
+    /* before 태그로 애니메이션을 제어 */
+
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 420px;
+    background: linear-gradient(0deg, transparent, transparent,
+    #0000ff, #0000ff, #0000ff);
+    z-index: 1;
+    /* 기존색 45f3ff */
+    /* animate 션 효과는 keyframes과 animation로 중간상태를 정의하여 나타냄 */
+    /* https://webclub.tistory.com/621 참고 */
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
+    animation-delay: -3s ;
+}
+.borderLine{
+    position: absolute;
+    top: 0;
+    inset: 0;
+}
+.borderLine::before{
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 420px;
+    background: linear-gradient(0deg, transparent, transparent,
+    #ff2770, #ff2770, #ff2770);
+    z-index: 1;
+    /* animate 션 효과는 keyframes과 animation로 중간상태를 정의하여 나타냄 */
+    /* https://webclub.tistory.com/621 참고 */
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
+    animation-delay: -1.5s;
+}
+
+.borderLine::after{
+ 
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 420px;
+    background: linear-gradient(0deg, transparent, transparent,
+    #ff2770, #ff2770, #ff2770);
+    z-index: 1;
+    /* animate 션 효과는 keyframes과 animation로 중간상태를 정의하여 나타냄 */
+    /* https://webclub.tistory.com/621 참고 */
+    animation: animate 6s linear infinite;
+    transform-origin: bottom right;
+    animation-delay: -4.5s;
+}
+
+@keyframes animate {
+    0%{
+        transform: rotate(0deg);
+    }
+
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.box form{
+    position: absolute;
+
+    /* inset - padding 처럼 안쪽 여백을 줄수있지만 패딩도 주고싶을때 씀 */
+    inset: 4px;
+
+    background: #222;
+    padding: 50px 40px;
+    border-radius: 8px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+.box form h2{
+    position: relative;
+    width: 300px;
+    margin-top: 35px;
+    color: white;
+    text-align: center;
+}
+.box form .inputbox{
+    position: relative;
+    width: 300px;
+    margin-top: 35px;
+}
+
+.box form .inputbox input{
+    position: relative;
+    width: 100%;
+    padding: 20px 10px 10px;
+    background: transparent;
+
+    /* 외곽선을 지웠습니다 이상한거 많음.. thick 같은거*/
+    /* outline: thick double #32a1ce; */
+    /* https://developer.mozilla.org/ko/docs/Web/CSS/outline */
+    outline: none;
+
+    color:#23242a;
+    font-size: 1em;
+    /* 자간 설정 */
+    letter-spacing: 0.05em;
+
+    transition: 0.5s;
+    z-index: 10;
+    border: none;
+    /* 스타일 지정을 주지않아 테두리가 보이지 않게함 */
+    
+}
+.box form .inputbox span{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 20px 0px 10px;
+    pointer-events: none;
+    color: #8f8f8f;
+    font-size: 1em ;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+}
+
+.box form .inputbox input:valid ~ span,
+.box form .inputbox input:focus ~ span{
+    color: #fff;
+    font-size: 0.75em;
+    transform: translateY(-34px);
+}
+
+.box form .inputbox i{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    /* 요소의 내용이 너무많으면 넘친많큼 숨김 */
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.box form .inputbox input:valid ~ i,
+.box form .inputbox input:focus ~ i{
+    height: 44px;
+}
+
+.box form .links{
+    display: flex;
+    justify-content: space-between;
+}
+
+.box form .links a{
+    margin: 10px 0;
+    font-size: 0.75em ;
+    color: #8f8f8f;
+    text-decoration: none;
+}
+
+.box form .links a:hover,
+.box form .links a:nth-child(2){
+    color: #fff;
+}
+
+.box form input[type="submit"]{
+    padding: 9px 25px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 4px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.box form input[type="submit"]:active{
+    opacity: 0.8;
+}

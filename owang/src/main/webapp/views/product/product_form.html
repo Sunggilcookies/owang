@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품안내 및 신청</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!--iamport.payment.js-->
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+	<!-- 자바스크립트에 타임리프 적용 -->
+	<script th:inline="javascript" th:if="${errorMsg != null}">
+		$(document).ready(function () {
+			alert(/*[[${errorMsg}]]*/ null);
+			window.location.href = "/login/main";
+		});
+	</script>
+	<script th:inline="javascript">
+		var IMP = window.IMP;
+		IMP.init('imp65726445');   // 회원당 하나씩 부여받은 아이디 넣기
+		// 주문번호 = 시간
+		let uidnum = new Date().getTime();
+
+		// 결제요청(pg사, 결제수단)
+		function requestPay(pg, pay_method) {
+			var payForm = document.getElementById("paymentForm");
+			// 결제정보
+			var options = {
+				merchant_uid: uidnum,
+				name: /*[[${pdto.productName}]]*/ null, // 상품명 입력값
+				amount: /*[[${pdto.productPrice/1000}]]*/ null, // 상품전체가격 입력값
+				buyer_name: /*[[${name}]]*/ null,
+				buyer_email: /*[[${email}]]*/ "",
+				buyer_tel: /*[[${tel}]]*/ null
+			};
+			// {===} : 자료형까지 동일한지 확인함
+			// pg사 선택 - 카카오페이, 이니시스
+			if (pg === 'kakaopay') {
+				options.pg = "kakaopay.TC0ONETIME";
+			} else if (pg === 'inicis') {
+				options.pg = "html5_inicis.INIpayTest";
+			}
+			// 결제방식 선택 - 카드, 계좌이체, 가상계좌
+			if (pay_method === 'card') {
+				options.pay_method = "card";
+			} else if (pay_method === 'trans') {
+				options.pay_method = "trans";
+			} else if (pay_method === 'vbank') {
+				options.pay_method = "vbank";
+				// 가상계좌 제한기각 - 미작성시 한달
+				//         options.vbank_due = ivdue;
+			}
+
+			// 결제 후 콜백함수
+			IMP.request_pay(options, function (callback) {
+				// 결제 성공
+				if (callback.success) {
+					// json양식의 문자열로 callback을 반환, 기본양식안지킴, 공백2개 적용
+					//              console.log(JSON.stringify(callback, null, 2) + " 성공");
+					// db에 담을 주문정보
+					var paymentData = {
+						// 거래고유번호
+						impUid: callback.imp_uid,
+						// 상품아이디
+						productId: /*[[${pdto.productId}]]*/ null,
+						// 상품명
+						pname: callback.name,
+						// 결제금액
+						amount: callback.paid_amount * 1000,
+						// 결제시간
+						paidAt: new Date(callback.paid_at * 1000),
+					};
+					// 주문정보를 post형식으로 complete로 보냄
+					$.ajax({
+						url: '/product/complete',
+						type: 'POST',
+						dataType: 'json',
+						contentType: 'application/json',
+						// JavaScript 객체를 JSON 문자열로 변환
+						data: JSON.stringify(paymentData)
+					})
+						.done(function (res) {
+							var redirectUrl;
+							if (res > 0) {
+								alert('결제에 성공했습니다.');
+								// 리다이렉트할 URL 설정   // 파라미터로 imp_uid 전달
+								redirectUrl = "/product/result/" + callback.imp_uid;
+							} else if (res == 0) {
+								alert('결제를 취소합니다. \n이유: 결제금액 검증실패');
+								redirectUrl = '/product/notice';
+							} else if (res == -1) {
+								alert('결제를 취소합니다. \n이유: 세션만료');
+								redirectUrl = '/login/main';
+							}
+							window.location.href = redirectUrl;
+						});
+					// 결제 실패
+				} else {
+					alert("결제에 실패했습니다. \n이유: " + callback.error_msg);
+					//              console.log(JSON.stringify(callback, null, 2) + " 실패");
+					window.location.href = "/product/notice";
+				}
+			});
+		}
+	</script>
+	<style>
+		.product-temp {
+			font-family: 'Noto Sans KR', sans-serif;
+			text-align: center;
+			background-color: #fff;
+			padding: 40px 0;
+		}
+
+		h3 {
+			margin: 50px 0 50px 100px;
+			text-align: left;
+		}
+
+		#prod-container {
+			margin: 0 auto;
+			border: 1px solid #eee;
+			background-color: #f5f5f5;
+			padding: 50px;
+			border-radius: 10px;
+			width: 700px;
+		}
+
+		#prodlogo {
+			border-radius: 50%;
+			width: 150px;
+		}
+
+		table {
+			margin: 0 auto;
+			width: 100%;
+		}
+
+		table td {
+			padding: 8px;
+		}
+
+		.pname {
+			font-size: 1.3rem;
+			font-weight: bold;
+		}
+
+		.price {
+			font-size: 1.2rem;
+			font-weight: bold;
+			color: #E3471F;
+		}
+
+		p {
+			font-size: 0.8rem;
+		}
+
+		.btn-container {
+			margin: 20px 0;
+		}
+
+		.btn-container button {
+			padding: 10px 20px;
+			font-size: 16px;
+			margin: 10px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+
+		.btn-container button:nth-child(1) {
+			background-color: #1F80D1;
+			color: white;
+		}
+
+		.btn-container button:nth-child(2) {
+			background-color: #00de5a;
+			color: #000;
+		}
+
+		.btn-container button:nth-child(3) {
+			background-color: #ffeb00;
+			color: #000;
+		}
+
+		.btn-container button:hover {
+			color: white;
+			background-color: rgb(65, 70, 89);
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+
+	<remocon>
+		<div th:insert="~{remocon :: remocon}"></div>
+	</remocon>
+
+	<div class="product-temp">
+		<h1>상품결제</h1>
+
+		<h3>상품정보</h3>
+		<div id="prod-container">
+			<table>
+				<tr>
+					<td rowspan="3"><img id="prodlogo" th:src="@{/css/images/productlogo.jpg}" alt="오왕로고"></td>
+					<td colspan="2" class="pname" th:text="${pdto.productName}" />
+				</tr>
+				<tr>
+					<td>유효기간</td>
+					<td th:text="|${pdto.productValid}일 후 자정까지|" />
+				</tr>
+				<tr>
+					<td>상품가격</td>
+					<td class="price" th:text="${pdto.formatPrice}" />
+				</tr>
+			</table>
+		</div>
+
+		<th:block th:if="${date != null}">
+			<p align="center">* 현재 회원님의 결제상품 유효기간은 [[${#dates.format(date, 'yyyy년 MM월 dd일')}]]까지입니다
+				<br>상품구매시 유효기간이 연장됩니다
+			</p>
+		</th:block>
+
+		<h3>결제수단</h3>
+		<div class="btn-container">
+			<table>
+				<form id="paymentForm" method="post" onsubmit="return false;">
+					<tr>
+						<td>
+							<button onclick="requestPay('inicis', 'trans')">실시간계좌이체</button>
+							<button onclick="requestPay('inicis', 'card')">카드결제</button>
+							<button onclick="requestPay('kakaopay', 'card')">카카오페이</button>
+						</td>
+					</tr>
+				</form>
+			</table>
+			<a href="/product/notice"><i class="fa-solid fa-reply fa-xl" style="padding: 0 0 50px 950px; color: #000;"></i>
+			</a>
+		</div>
+	</div>
+
+	<footer>
+		<div th:insert="~{footer :: footer}"></div>
+	</footer>
+</body>
+
+</html>

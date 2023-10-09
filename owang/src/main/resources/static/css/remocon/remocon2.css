@@ -1,0 +1,163 @@
+/*아이콘생성*/
+.menu ::before{
+      font-family: 'Material Icons'; 
+      font-size: 1.5em;
+      float: left;
+      clear: left;
+  }
+
+/* 메뉴 아이콘 설정 */
+.menu ::before{
+      font-family: 'Material Icons';
+      font-size: 1.5em;
+      float: left;
+      clear: left;
+  }
+  
+  .menu label::before{ content: '\e5d2'; }/* 메뉴 */
+  .menu li:nth-child(1) a::before{ content: '\e88a'; } /* home */
+  .menu li:nth-child(2) a::before{ content: '\e8ef'; } /* 공고보러가기 */
+  .menu li:nth-child(3) a::before{ content: '\ef49'; } /* 공지사항*/
+  .menu li:nth-child(4) a::before{ content: '\e5d8'; } /* UP */
+
+
+  /*#expand-menu {  체크박스 폼 요소 감춤 
+    display: none;
+                }
+                
+#expand-menu:checked ~ ul {  체크박스 체크되었으면 메뉴 목록 표시 - 반응형 표시용 
+    display: block;
+    height: auto;
+}*/
+
+.menu {
+    display: block;
+    width: 60px;
+    background-color:lightpink;
+    color: #fff;
+    border-radius: 22px;
+    padding: 9px;
+    box-sizing: border-box;
+    overflow: hidden; /* 반응형 애니메이션용 */
+    transition: all 0.5s ease; /* 반응형 애니메이션 */
+    position: fixed; /*스크롤에 따라다닐수 있게 설정*/
+    right:30px
+    
+}
+
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.menu a, .menu > label {
+    display: block;
+    height: 25px;
+    padding: 8px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+
+.menu a:hover {
+    color: #000;
+}
+.menu ul li:hover, .menu > label:hover {
+    background-color: #fff;
+    color: #000;
+    border-radius: 10px;
+}
+.menu div {
+    line-height: 1.5;
+    font-size: 1em;
+    font-family: 'Noto Sans KR';
+    padding: 0 0 0 50px; /* 아이콘과 텍스트 사이 여백 */
+}
+  .menu label::before{ content: '\e5d2'; }/* 메뉴 */
+  .menu li:nth-child(1) a::before{ content: '\e88a'; } /* home */
+  .menu li:nth-child(2) a::before{ content: '\ea40'; } /* 공고보러가기 */
+  .menu li:nth-child(3) a::before{ content: '\ef49'; } /* 공지사항*/
+  .menu li:nth-child(4) a::before{ content: '\e5d8'; } /* UP */
+
+
+  #expand-menu { /* 체크박스 폼 요소 감춤 */
+    display: none;
+                }
+#expand-menu:checked ~ ul { /* 체크박스 체크되었으면 메뉴 목록 표시 - 반응형 표시용 */
+    display: block;
+    height: auto;
+}
+
+
+.menu ul {
+    list-style: none;
+    margin: 0; /* 바깥 여백 제거 */
+    padding: 0; /* 내부 여백 제거 */
+}
+.menu a, .menu > label {
+    display: block;
+    height: 25px;
+    padding: 10px; 
+    color: white;
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+/*호버*/
+.menu a:hover {
+    color: #000; /*글자색상 변경*/
+    
+}
+/* 메뉴 목록 항목 호버 스타일 설정 */
+.menu ul li:hover, .menu > label:hover {
+    background-color: #fff; /* 호버 시 배경색 흰색으로 변경 */
+    color: #000; /* 호버 시 글자색 변경 */
+    border-radius: 10px; /* 둥근 테두리 설정 */
+} 
+/* 메뉴 아이콘과 텍스트 사이 여백 설정 */
+.menu div {
+    line-height: 1.5; /* 줄 간격 */
+    font-size: 0,7em; /* 글자 크기 설정 */
+    font-family: 'Noto Sans KR';
+    padding: 0 0 0 50px; /* 아이콘과 텍스트 사이 여백 */
+}
+
+
+#expand-menu { /* 체크박스 폼 요소 감춤 */
+    display: none;
+}
+#expand-menu:checked ~ ul { /* 체크박스 체크되었으면 메뉴 목록 표시 - 반응형 표시용 */
+    display: block;
+    height: auto;
+}
+    
+    
+/*@media screen and (max-width:1200px) { 1200px 이하 
+    .menu {  1단계 
+        width: 60px;
+    }
+}*/
+/*@media screen and (max-width:560px) {
+    .menu #expand-menu:not(:checked) ~ ul {  2단계 
+        display: none;
+    }
+}*/   
+
+/* 화면 크기가 작을 때 메뉴를 항상 보이도록 설정 */
+
+
+.menu #expand-menu:not(:checked) ~ ul {
+  display: none;
+}
+
+
+
+
+/*  메뉴를 항상 보이도록 설정 */
+@media screen and (max-width:560px) {
+  .menu #expand-menu:not(:checked) ~ ul {
+    display: block; 
+    height: auto;	
+    }
+  }

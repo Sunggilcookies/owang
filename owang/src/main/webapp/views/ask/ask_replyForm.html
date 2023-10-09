@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 답변 작성</title>
+    <link rel="stylesheet" th:href="@{/css/ask/ask.css}">
+</head>
+<body>
+<div id="home">
+	 <header>
+       <div th:insert="~{header :: header}"></div>
+    </header>
+    
+    <remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+    
+    [[${askdto.title}]]
+    
+    <div class="title_box">
+	   <h1>1:1 질문게시판</h1>  
+	   <br>
+	   <h3 id="p">
+		   관리자 답변 작성 시 수정 및 삭제가 어려우니, 신중하게 작성 부탁드립니다.
+	   </h3>
+	   <br/>	
+   </div>
+       
+  <div id="wrap">    
+    <form method="post" enctype="multipart/form-data" th:action="|/ask/reply/${askdto.page}/${askdto.id}|" th:object="${askdto}">
+        <!-- 페이지 번호와 부모 글의 ID를 전달 -->
+        <input type="hidden" name="page" th:value="${askdto.page}" />
+        <input type="hidden" name="id" th:value="${askdto.id}" />
+        
+        <table border="0" id="ask_reply">
+			<tr>
+                <td id="label">답변 제목*</td>
+                <!--<td><input type="text" name="title" th:value="${askdto.title}"  /></td>-->
+                <td><input type="text" name="title" th:field="*{title}" pattern="^\S.*$"
+                	placeholder="※ 제목을 입력해주세요" required/></td> 
+            </tr>
+            <tr>
+                <td id="label">작성자</td>
+                <!--원본-->
+                <!--<td><input type="text" name="pname" th:value="${askdto.pname}" /></td>-->
+                <td><input type="text" name="pname" th:value="관리자" readonly/></td>
+                <!--<td><input type="text" value="관리자" readonly /></td>-->
+            </tr>
+            <!-- 관리자만 답변을 달기에 암호는 없앴습니다...-->
+            <!--<tr>
+                <td>암호 *</td>
+                <td><input type="text" name="pw" th:field="*{pw}" />
+
+                </td>-->
+            </tr>
+            
+            <tr>
+				<td id="label">사진첨부</td>
+				<td><input type="file" th:field="*{mmff}"/></td>
+			</tr>
+            
+            
+            <tr>
+                <td id="label">답변 내용 *</td>
+                <td><textarea name="content" th:field="*{content}" rows="20" cols="100" required id="content"
+                              placeholder="답변을 작성해주세요 "></textarea></td>
+                              
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="답변 작성" id="saveButton"/>
+                    <a th:href="@{|/ask/detail/${askdto.page}/${askdto.id}|}" id="list">취소</a>
+                    <!--<a th:href="@{|/ask/detail/${askdto.page}/${askdto.id}|}">돌아가기2</a>
+                    <a th:href="@{|/ask/detail/${page}/${id}|}">돌아가기</a>-->
+                </td>
+            </tr>
+        </table>
+    </form>
+  </div>  
+    <footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+</div> <!--home 끝-->
+</body>
+</html>

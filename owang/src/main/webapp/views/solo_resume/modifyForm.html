@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:inline="javascript">
+   function goBack() {
+         window.history.back();
+      }
+
+   
+   function fileDelete(){
+      // 컨트롤러의 fileDelete로 가라
+      frm.action = "/solo_resume/fileDelete/[[${sdto.rsid}]]"
+      // 이게 있어야 파일삭제 누르면 fileDelete 메서드 실행
+      frm.submit();
+   }
+   
+    function showForm() {
+        event.preventDefault();
+        document.getElementById("introduce").style.display = "block";
+        document.getElementById("hide").style.display = "block";
+        document.getElementById("show").style.display = "none";
+    }
+
+    function hideForm() {
+        event.preventDefault();
+        document.getElementById("introduce").style.display = "none";
+        document.getElementById("hide").style.display = "none";
+        document.getElementById("show").style.display = "block";
+    }
+
+    function showLicense() {
+        event.preventDefault();
+        document.getElementById("license").style.display = "block";
+        document.getElementById("hideli").style.display = "block";
+        document.getElementById("showli").style.display = "none";
+    }
+
+    function hideLicense() {
+        event.preventDefault();
+        document.getElementById("license").style.display = "none";
+        document.getElementById("hideli").style.display = "none";
+        document.getElementById("showli").style.display = "block";
+    }
+    
+    function showLanguage() {
+        event.preventDefault();
+        document.getElementById("language").style.display = "block";
+        document.getElementById("hidelg").style.display = "block";
+        document.getElementById("showlg").style.display = "none";
+
+    }
+
+    function hideLanguage() {
+        event.preventDefault();
+        document.getElementById("language").style.display = "none";
+        document.getElementById("hidelg").style.display = "none";
+        document.getElementById("showlg").style.display = "block";
+    }
+
+    // 이력서 증명사진 jpg png로만
+function validateFile() {
+         var mmffInput = document.getElementById("rsmmff");
+         var fileError = document.getElementById("fileError");
+         var fileName = mmffInput.value;
+
+         if (fileName === "") {
+            // 파일이 선택되지 않은 경우
+            fileError.innerText = "";
+         } else {
+            var fileExtension = fileName.split('.').pop().toLowerCase();
+            var allowedExtensions = ["jpg", "png", "bmp", "gif", "jpeg"];
+
+            if (allowedExtensions.indexOf(fileExtension) === -1) {
+               // 파일 확장자가 허용되지 않는 경우
+               mmffInput.value = ""; // 파일 입력란 초기화
+               fileError.innerText = "이미지만 업로드 가능합니다.";
+            } else {
+               fileError.innerText = ""; // 오류 메시지 초기화
+            }
+         }
+      }
+// 이미지 미리보기
+ function previewImage() {
+        var fileInput = document.getElementById('rsmmff');
+        var imagePreview = document.getElementById('imagePreview');
+        var fileError = document.getElementById('fileError');
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreview.style.display = 'block';
+                imagePreview.src = e.target.result;
+                fileError.innerHTML = ''; // 이미지가 표시되면 에러 메시지를 지웁니다.
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            imagePreview.style.display = 'none';
+            fileError.innerHTML = '이미지를 선택하세요.';
+        }
+    }
+    
+    function handleFileChange() {
+    validateFile();
+    previewImage();
+}    
+</script>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet" th:href="@{/css/solo_resume/modifyForm.css}">
+<header>
+	<div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+<body>
+<div id="resume_form">
+	<div id="resume_text">
+		<span>
+		<span class="material-symbols-outlined">contract_edit</span>
+			이력서 수정하기</span>
+	</div>
+   <form id="frm" method="post" enctype="multipart/form-data" th:object="${sdto}">
+   <input type="hidden" th:value="*{rsid}"/>
+   <!-- 이력서 제목 -->
+    <div id="rstitle">
+		<!--<div id="rstitle_essential">
+			<span>필수사항입니다</span>
+		</div>-->
+        <span>이력서 제목</span>
+      <input type="text" th:field="*{rstitle}" required id="rstitleInput"  maxlength="25" placeholder="제목을 입력해주세요 (25자 이내) " pattern="^\S.*$" />
+    </div>
+	<div id="resume_info">
+		<input type="hidden" th:value="${solosession.sid}" name="sid" />
+		<div id="resume_name">
+			<li>
+				<!-- 이름 -->
+				<span th:text="${solosession.sname}"/>
+				<!-- 성별 -->
+		    	<span th:text="${solosession.sgender}" />
+		    	<!-- 나이 -->
+			    <span  th:text="|${solosession.sage}세|" />
+			</li>
+		</div>
+		<div id="resume_detail_info">
+			<li>
+				<span class="material-symbols-outlined">home</span>
+				<span th:text="${solosession.saddress}" />
+			</li>
+			<li>
+				<span class="material-symbols-outlined">call</span>
+				<span colspan="3" th:text="${solosession.sphone}" />
+			</li>
+			<li>
+				<span class="material-symbols-outlined">mail</span>
+				<span colspan="3" th:text="${solosession.semail}" />
+			</li>
+		</div>
+		<!-- 증명사진 미리보기 -->
+		<div id="resume_photo">
+			<!-- 미리보기 이미지 -->
+			<div id="resume_prev">
+				<img th:if="${sdto.img}" th:src="|/resumephoto/${sdto.rsphoto}|"/>
+				<img id="imagePreview" src="#" alt="미리보기 이미지" style="display: none;" />
+			</div>
+			<!-- 파일 첨부-->
+			<div id="filebox">
+              	<input th:unless="${sdto.rsphoto != null}" type="file" th:field="*{rsmmff}" id="rsmmff" onchange="handleFileChange()" required/>
+              	<span id="fileError" style="color: red;"></span>
+				<th:block th:if="${sdto.rsphoto != null}">
+               	<input type="text" th:field="*{rsphoto}" readonly />
+               	<input type="button" onclick="fileDelete()" th:value="|*{rsphoto} 파일삭제|"/>
+            </th:block>
+			</div>
+		</div>
+	</div>
+
+
+
+    <!-- 경력 사항 -->
+			<div id="rscareer">
+				<span id="rscareer_text">경력</span>
+				<li>
+					<label for="resumeCareerNew">
+						<input type="radio" name="rscareer" id="resumeCareerNew" value="신입" th:field="*{rscareer}"
+							required />
+						<span id="newguy">신 입</span>
+					</label>
+				</li>
+				<li>
+					<label for="resumeCareerExperienced">
+						<input type="radio" name="rscareer" id="resumeCareerExperienced" value="경력"
+							th:field="*{rscareer}" required />
+						<span id="oldguy">경 력</span>
+					</label>
+				</li>
+				<!-- 경력 관련 입력란 -->
+				<div id="careerDetails" style="display: none;">
+					<ul>
+						<li>
+							<span>회사명</span>
+							<input type="text" id="rscompany" th:field="*{rscompany}" onchange="printCareer()"
+								pattern="^\S.*$" />
+						</li>
+						<li>
+							<span>근무 기간</span>
+							<input type="date" id="rsworkstart" th:field="*{rsworkstart}" th:max="${today}" />
+							<input type="date" id="rsworkend" th:field="*{rsworkend}" th:max="${today}" />
+						</li>
+						<li>
+							<span>담당 업무</span></br>
+							<input id="rswork" th:field="*{rswork}" onchange="printCareer()" maxlength="30"
+								maxpattern="^\S.*$" placeholder="담당했던 업무를 간략하게 기술해주세요 (30자 이내)" />
+						</li>
+					</ul>
+				</div>
+			</div>
+
+    
+    <!-- 학력 -->
+ 	<div id="rsschool">
+		 <!--<div id="rsschool_essential">
+			 <span>필수사항입니다</span>
+		 </div>-->
+	     <span>최종 학력</span>
+	     <p>
+		    <select th:field="*{rsacademic}" required>
+		        <option value="">학교 유형 선택</option>
+		        <option value="대학원">대학원</option>
+		        <option value="대학(4년)">대학(4년)</option>
+		        <option value="대학(2, 3년)">대학(2, 3년)</option>
+		        <option value="고등학교">고등학교</option>
+		        <option value="중학교">중학교</option>
+		        <option value="초등학교">초등학교</option>
+		    </select>
+		
+		    <select th:field="*{rsacademicstat}" required>
+		        <option value="">학력 상태</option>
+		        <option value="졸업">졸업</option>
+		        <option value="재학중">재학중</option>
+		        <option value="휴학중">휴학중</option>
+		        <option value="중퇴">중퇴</option>
+		        <option value="수료">수료</option>
+		        <option value="검정고시">검정고시</option>
+		        <option value="수료">수료</option>
+		    </select>
+	     </p>
+	 </div>
+    <!-- 자기소개 -->
+    <div id="rsintroduce">
+		<span id="rsintroduce_text">자기소개서</span>
+        <p id="rsintroduce_show">
+            <button onclick="showForm()" class="btn_show" id="show">
+				<span class="material-symbols-outlined">add</span>
+				<span>추가</span>
+			</button>
+        </p>
+        <p id="introduce" style="display: none;">
+			<textarea th:field="*{rsintroduce}" maxlength="300" placeholder="자기소개서는 300자 이내로 입력 가능합니다."/>
+		</p>
+        <p id="rsintroduce_hide">
+	        <button onclick="hideForm()" class="btn_hide" id="hide" style="display: none;">
+				<span class="material-symbols-outlined">remove</span>
+				<span>삭제</span>   
+			</button>
+		</p>
+    </div>
+    <!-- 자격증 -->
+    <div id="rslicense_content">
+		<span id="rslicense_text">자격증</span>
+        <div id="rslicense_show">
+            <button onclick="showLicense()" class="btn_show" id="showli">
+				<span class="material-symbols-outlined">add</span>
+				<span>추가</span>
+			</button>
+        </div>
+        <div id="license" style="display: none;">
+            <ul>
+                <li>
+					<span>자격증명</span>
+					<input type="text" th:field="*{rslicense}" />
+					<span>발행기관</span>
+	                <input type="text" th:field="*{rslicenseorg}" placeholder="발행기관" />					
+				</li>
+                <li>
+					<span>발행년도</span>
+                	<input type="date" id="rslicenseyear" th:field="*{rslicenseyear}" placeholder="발행년도"/>
+                </li>
+            </ul>
+        </div>
+        <div id="rslicense_hide">
+	        <button onclick="hideLicense()" class="btn_hide" id="hideli" style="display: none;">
+				<span class="material-symbols-outlined">remove</span>
+				<span>삭제</span>   
+			</button>
+        </div>
+    </div>
+            
+    <!-- 어학 능력 -->
+    <div id="rslanguage_content">
+		<span id="rslanguage_text">어학 능력</span>
+        <div id="rslanguage_show">
+           <button onclick="showLanguage()" class="btn_show" id="showlg">
+				<span class="material-symbols-outlined">add</span>
+				<span>추가</span>   
+		   </button>
+    	</div>
+	    <div id="language" style="display:none;">
+	       <span>어학명</span>
+		 	<select th:field="*{rslanguage}">
+				<option value="">어학명</option>
+		     	<option value="그리스어">그리스어</option>
+			    <option value="네덜란드어">네덜란드어</option>
+			    <option value="노르웨이어">노르웨이어</option>
+			    <option value="독일어">독일어</option>
+			    <option value="러시아어">러시아어</option>
+			    <option value="몽골어">몽골어</option>
+			    <option value="미얀마어">미얀마어</option>
+			    <option value="베트남어">베트남어</option>
+			    <option value="스웨덴어">스웨덴어</option>
+			    <option value="스페인어">스페인어</option>
+			    <option value="아랍어">아랍어</option>
+			    <option value="영어">영어</option>
+			    <option value="이탈리아어">이탈리아어</option>
+			    <option value="일본어">일본어</option>
+			    <option value="중국어">중국어</option>
+			    <option value="태국어">태국어</option>
+			    <option value="터키어">터키어</option>
+			    <option value="포르투갈어">포르투갈어</option>
+			    <option value="폴란드어">폴란드어</option>
+			    <option value="프랑스어">프랑스어</option>
+			    <option value="히브리어">히브리어</option>
+			    <option value="힌디어">힌디어</option>
+			    <option value="기타">기타</option>
+			</select>
+			<span>어학수준</span>
+			<select th:field="*{rslanguagelevel}">
+			     <option value="">어학수준</option>
+			     <option value="회화 능숙">회화 능숙</option>
+			     <option value="일상 대화">일상 대화</option>
+			     <option value="간단 대화">간단 대화</option>
+			</select>	
+		</div>
+        <div id="rslanguage_hide">
+        	<button onclick="hideLanguage()" class="btn_hide" id="hidelg" style="display:none;">
+				<span class="material-symbols-outlined">remove</span>
+				<span>삭제</span>
+			</button>
+        </div>
+    </div>
+    <div id="resume_submit">
+	    <input type="submit" value="저장" onclick="return confirm('이력서를 저장하시겠습니까?');" />
+	</div>
+    </form>
+    <a href="javascript:goBack()">이전 페이지</a>
+</div>
+
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+<script>
+    var rstitleInput = document.getElementById("rstitleInput");
+	
+    rstitleInput.addEventListener("input", function () {
+        var maxLength = 25;
+        if (rstitleInput.value.length > maxLength) {
+            rstitleInput.style.borderColor = "rgb(255, 98, 98)";
+        } else {
+            rstitleInput.style.borderColor = ""; // Reset to default border color
+        }
+    });
+    
+    // 자격증
+     document.getElementById('rslicense').addEventListener('input', function () {
+        var rslicenseorgField = document.getElementById('rslicenseorg');
+        var rslicenseyearField = document.getElementById('rslicenseyear');
+        if (this.value.trim() !== '') {
+            rslicenseorgField.setAttribute('required', 'required');
+            rslicenseyearField.setAttribute('required', 'required');
+        } else {
+            rslicenseorgField.removeAttribute('required');
+            rslicenseyearField.removeAttribute('required');
+        }
+    });
+    // 
+     function printCareer() {
+        var rscompanyField = document.getElementById('rscompany');
+        var rsworkstartField = document.getElementById('rsworkstart');
+        var rsworkendField = document.getElementById('rsworkend');
+        var rsworkField = document.getElementById('rswork');
+        
+        if (rscompanyField.value.trim() !== '') {
+            rsworkstartField.setAttribute('required', 'required');
+            rsworkendField.setAttribute('required', 'required');
+            rsworkField.setAttribute('required', 'required');
+        } else {
+            rsworkstartField.removeAttribute('required');
+            rsworkendField.removeAttribute('required');
+            rsworkField.removeAttribute('required');
+        }
+    }
+    
+    // 입력 필드 요소 가져오기
+    var rsworkstartInput = document.getElementById("rsworkstart");
+    var rsworkendInput = document.getElementById("rsworkend");
+
+    // 입력값이 변경될 때마다 비교 함수 실행
+    rsworkstartInput.addEventListener("change", compareDates);
+    rsworkendInput.addEventListener("change", compareDates);
+
+    function compareDates() {
+        // 입력값 가져오기
+        var rsworkstartValue = new Date(rsworkstartInput.value);
+        var rsworkendValue = new Date(rsworkendInput.value);
+
+        // 날짜 비교
+        if (rsworkstartValue > rsworkendValue) {
+            // rsworkstart가 rsworkend보다 클 경우 alert 띄우기
+            alert("근무시작일은 근무종료일 이전이어야 합니다.");
+            rsworkendInput.value = "";
+        }
+    }
+    
+    const rscompanya = document.getElementById("rscompany");
+		const rsworkstarta = document.getElementById("rsworkstart");
+		const rsworkenda = document.getElementById("rsworkend");
+		document.addEventListener('DOMContentLoaded', function () {
+			// 경력 선택 라디오 버튼
+			var careerRadio = document.querySelectorAll('input[name="rscareer"]');
+			// 경력 관련 입력란들을 감싸는 div
+			var careerDetailsDiv = document.getElementById('careerDetails');
+
+			// 경력 선택 라디오 버튼의 변경 이벤트를 감지
+			careerRadio.forEach(function (radio) {
+				radio.addEventListener('change', function () {
+					if (radio.value === '경력') {
+						// '경력' 선택 시 입력란 나타냄
+						careerDetailsDiv.style.display = 'block';
+						rscompanya.required = true;
+						rsworkstarta.required = true;
+						rsworkenda.required = true;
+
+
+					} else {
+						// '신입' 선택 시 입력란 숨김
+						careerDetailsDiv.style.display = 'none';
+						rscompanya.removeAttribute("required");
+						rsworkstarta.removeAttribute("required");
+						rsworkenda.removeAttribute("required");
+
+
+
+					}
+				});
+			});
+		});
+    
+</script>          
+</body>
+</html>

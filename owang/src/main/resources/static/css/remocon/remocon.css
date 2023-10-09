@@ -1,0 +1,148 @@
+/*안접히는 리모콘바*/
+
+/*아이콘생성*/
+.menu ::before{
+    font-family: 'Material Icons'; 
+    font-size: 1.5em;
+    float: left;
+    clear: left;
+}
+
+
+.menu label{ content: '\e5d2'; }/* 메뉴 */
+.menu li:nth-child(1) { content: '\e88a'; } /* home */
+.menu li:nth-child(2) { content: '\e8ef'; } /* 공고보러가기 */
+.menu li:nth-child(3) { content: '\ef49'; } /* 공지사항*/
+.menu li:nth-child(4) a::before{ content: '\e5d8'; } /* UP */
+
+
+/*#expand-menu {  체크박스 폼 요소 감춤 
+  display: none;
+              }
+              
+#expand-menu:checked ~ ul {  체크박스 체크되었으면 메뉴 목록 표시 - 반응형 표시용 
+  display: block;
+  height: auto;
+}*/
+
+/* aside */
+.menu {
+	z-index: 3;
+  display: block;
+  width: 60px;
+  /*background-color:rgb(0, 64,0);*/
+  background-color:rgb(75, 136, 250);
+  color: #fff;
+  border-radius: 22px;
+  padding: 9px;
+  box-sizing: border-box;
+  overflow: hidden; /* 반응형 애니메이션용 */
+  transition: all 0.5s ease; /* 반응형 애니메이션 */
+
+  position: fixed; /*스크롤 내리면 따라오게*/
+  top: 25px;
+  right : 45px; /* 화면 오른쪽 끝에 고정 */
+}
+
+
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menu a, .menu > label {
+  display: block;
+  height: 25px;
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
+
+
+.menu a:hover {
+  color: #000;
+  width: 200px;
+}
+.menu ul li:hover, .menu > label:hover {
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+}
+.menu div {
+  line-height: 1.5;
+  font-size: 1em;
+  font-family: 'Noto Sans KR';
+  padding: 0 0 0 50px; /* 아이콘과 텍스트 사이 여백 */
+}
+.menu label::before{ content: '\e5d2'; }/* 메뉴 */
+.menu li:nth-child(1) a::before{ content: '\e88a'; } /* home */
+.menu li:nth-child(2) a::before{ content: '\ea40'; } /* 공고보러가기 */
+.menu li:nth-child(3) a::before{ content: '\ef49'; } /* 공지사항*/
+.menu li:nth-child(4) a::before{ content: '\e5d8'; } /* UP */
+.menu li:nth-child(5) a::before{ 
+	
+	
+	} /* 카카오톡상ㅅ담 */
+
+ .kakao{
+	 background-image: url("/css/images/kakaoy.png");
+	 height: 24px;
+	 background-size : contain;
+	 background-repeat:no-repeat ; 
+ }
+
+/* .kakao에 대한 호버 효과를 완전히 제거합니다. */
+.kakao:hover {
+    background-image: url("/css/images/kakaoy.png"); /* 호버 시 배경 이미지 그대로 유지 */
+    /* 다른 스타일 변경 없음 */
+    color: inherit; /* 글자색을 상속값으로 설정 */
+} 
+
+
+
+#expand-menu { /* 체크박스 폼 요소 감춤 */
+  display: none;
+ }
+
+
+
+/*호버*/
+.menu a:hover {
+  color: #000; /*글자색상 변경*/
+}
+/* 메뉴 목록 항목 호버 스타일 설정 */
+.menu ul li:hover, .menu > label:hover {
+  background-color: #fff; /* 호버 시 배경색 흰색으로 변경 */
+  color: #000; /* 호버 시 글자색 변경 */
+  border-radius: 10px; /* 둥근 테두리 설정 */
+} 
+/* 메뉴 아이콘과 텍스트 사이 여백 설정 */
+.menu div {
+  line-height: 1.5; /* 줄 간격 */
+  font-size: 0,7em; /* 글자 크기 설정 */
+  font-family: 'Noto Sans KR';
+  padding: 0 0 0 50px; /* 아이콘과 텍스트 사이 여백 */
+}
+
+
+#expand-menu { /* 체크박스 폼 요소 감춤 */
+  display: none;
+}
+
+  
+/*1200px 이하 - 1단계 */
+@media screen and (max-width:1200px) { 
+  .menu {   
+      width: 60px;
+  }
+}
+/*2단계 */
+@media screen and (max-width:560px) {
+  .menu #expand-menu:not(:checked) ~ ul {  
+      display: none;
+  }
+}  
+
+

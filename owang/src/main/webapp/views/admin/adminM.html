@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>관리자 페이지</title>
+<style>
+	table tr td{
+		padding-right: 20px;
+		
+	}
+	
+</style>
+
+</head>
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	<table border="">
+		<tr>
+			<td> <a href="/admin_cs/admin_customer">고객지원</a></td>
+			<td> <a href="/admin_company/cmanagement"> 기업관리</a></td>
+			<td> <a href="/admin_solo/smanagement"> 개인회원</a></td>
+			<h3>관리자 상품관리</h3>
+			<td> <a href="/admin_product/modify">관리자 상품추가</a></td>
+			<td> <a href="/admin_product/graph">관리자 상품정산</a></td>
+			<td> <a href="/admin_product/payment/1">관리자 결제내역</a></td>
+			
+		</tr>
+	</table>
+	</body>
+</html>

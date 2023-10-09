@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/review/insertmod.css}">
+	  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+	
+</head>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+	<main class="content-box">
+
+		<div class="footer-box"> <!-- Container -->
+	<h1 style="font-size: 55px; color: rgb(52 54 63); margin-left: 10px;	margin-bottom: 55px;">리뷰 작성</h1>
+
+	
+	<form action="" method="post" th:object="${reviewDTO}">
+	
+		<input type="hidden" th:field="*{cid}" />
+		<table border="">
+			<tr>
+				<td>작성자</td>
+				<td th:if="${session['sid']}">
+					<input type="text" th:value="${session['sid']}" name="sid" readonly />
+				</td>
+				<td th:unless="${session['sid']}">
+					<input type="text" list="review-list" name="sid" />
+					<datalist id="review-list">
+						<th:block th:each="review : ${mainData}">
+
+							<option th:text="${review.sid}" class="review-list" />
+						</th:block>
+					</datalist>
+				</td>
+
+			</tr>
+			<tr>
+				<td>기업이름</td>
+				<td><input type="text" th:field="*{cname}" readonly /></td>
+			</tr>
+			<tr>
+				<td>리뷰제목</td>
+				<td><input type="text" th:field="*{rvtitle}" required /></td>
+			</tr>
+			<tr>
+				<td>기업 장점</td>
+				<td><textarea type="text" rows="10" cols="30" th:field="*{rvjang}" required /></td>
+			</tr>
+			<tr>
+				<td>기업 단점</td>
+				<td><textarea type="text" rows="10" cols="30" th:field="*{rvdan}" required /></td>
+			</tr>
+			<tr align="center">
+				
+				
+				<td colspan="2">
+					<input type="submit" value="전송" /> 
+				</td>
+			</tr>
+
+		</table>
+		
+					
+						<a   th:href="|/review/list/${reviewDTO.cid}/${reviewDTO.page}|" #2D65F2; i class="fa-solid fa-reply" style=" margin-left: 80px; margin-top: 20px; color: #000000; font-size: 40px;" id="before"></a>
+					
+				
+	</form>
+
+		</div>
+	</main>
+    
+</body>
+<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+</html>

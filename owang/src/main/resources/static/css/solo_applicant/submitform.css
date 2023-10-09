@@ -1,0 +1,157 @@
+#applicant_submit{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 30px;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+ 	max-width: 1200px;
+ 	padding-bottom: 50px;
+}
+
+/* 개인정보 보기 텍스트 */
+#applicant_submit_text{
+	font-size: 30px;
+	color: rgb(55, 63, 87);
+	font-weight: 450;
+	padding-top: 40px;
+	margin: 0 auto;
+	margin-bottom: 0px;
+	width: 820px;
+}
+#applicant_info {
+	width: 820px;
+	margin: 0 auto;
+
+}
+
+#applicant_info li{
+	list-style: none;
+	margin-bottom: 20px;
+}
+
+/* 이력서 선택하세요 */
+#applicant_choose{
+	text-align: right;
+	width: 840px;
+	margin: 0 auto;
+	margin-top: 250px;
+	margin-bottom: 10px;
+}
+
+#applicant_info li span:nth-of-type(1){
+	color: rgb(191, 191, 191);
+	position: relative;
+	top: 8px;
+	margin-right: 10px;
+}
+
+#applicant_info li span:nth-of-type(2){
+	padding-right: 30px;
+	margin-right: 30px;
+	border-right: 1px solid #ccc;
+	color: rgb(124, 124, 124);
+
+}
+
+#applicant_info .material-symbols-outlined{
+	font-size: 30px;
+	position: relative;
+	top: 5px;
+}
+
+/* 이력서 리스트*/
+#applicant_submit #applicant_form{
+	padding: 30px;
+	width: 800px;
+	margin: 0 auto;
+	border-top: 1px solid rgb(215, 220, 229);
+	box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+	transition: background-color 0.3s ease;
+}
+
+#applicant_form:hover{
+	background-color: rgb(247, 247, 247);
+}
+
+#applicant_submit #applicant_form li{
+	list-style: none;
+	
+	text-align: center;
+	
+}
+
+#applicant_submit #applicant_form a{
+	text-decoration: none;
+	color: #000;
+}
+
+#applicant_submit #applicant_form a:hover{
+	text-decoration: underline;
+	}
+
+#applicant_submit #applicant_form li:nth-of-type(1){
+	font-size: 25px;
+	display: flex;	
+}
+
+#applicant_submit #applicant_form li:nth-of-type(1) a{
+	margin-left: 30px;
+	
+	}
+	
+#applicant_submit #applicant_form li:nth-of-type(2){
+	text-align: right;
+	margin-top: 50px;
+		font-size: 14px;
+
+	}
+
+#applicant_submit #applicant_form li:nth-of-type(2) span:nth-last-of-type(2):after,
+#applicant_submit #applicant_form li:nth-of-type(2) span:nth-last-of-type(4):after{
+	content: "|";
+	margin-left: 15px;
+	margin-right: 10px;
+	font-size: 14px;
+}
+
+/* 버튼 */
+#submit_button{
+	width: 760px;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+#submit_button label{
+	background-color: rgb(41, 46, 65);
+	padding: 15px 40px;
+	text-decoration: none;
+	color: white;
+	border-radius: 5px;
+	border:none;
+	margin: 0 auto;
+	transition: background-color 0.3s ease;
+	cursor: pointer;
+	font-size: 17px;
+	font-family: inherit;
+	letter-spacing: 2px;
+}
+
+#submit_button label span{
+	position: relative;
+	top: 5px;
+	left: 5px;
+	}
+
+#submit_button label:hover{
+    background-color: rgb(65, 70, 89);
+}
+
+#applicant-radio{
+    /* 원하는 스타일 속성을 여기에 추가하세요 */
+    width: 18px; /* 예: 너비 설정 */
+    height: 18px; /* 예: 높이 설정 */
+    position: relative;
+    top: 10px;
+
+}
+

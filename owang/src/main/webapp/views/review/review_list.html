@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>리뷰 게시판</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<style>
+		.footer-box {
+			position: relative;
+			padding: 60px 0px 24px;
+			max-width: 1060px;
+			margin: 0px auto;
+		}
+
+		/* 리뷰 게시판 스타일 */
+		table {
+
+			border-collapse: collapse;
+			/* 테이블 셀 경계를 합치기 */
+			width: 95%;
+			/* 테이블 너비를 100%로 설정 */
+			--fa-style-family-brands: "Font Awesome 6 Brands";
+			--fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+			--fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+			--fa-style-family-classic: "Font Awesome 6 Free";
+			--fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 16px;
+			border-top-width: 1px;
+			border-bottom-width: 1px;
+			border-left-width: 1px;
+			border-right-width: 1px;
+			margin: 0 auto;
+			/* 테이블 가운데 정렬 */
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ccc;
+		}
+
+		th,
+		td {
+			border: 1px solid #ccc;
+			/* 셀 테두리 설정 */
+			padding: 6px 12px;
+			/* 셀 안의 여백을 늘립니다 */
+			text-align: center;
+			/* 텍스트 가운데 정렬 */
+			font-size: 16px;
+			/* 글자 크기를 18px로 설정 */
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		.pagination-container {
+			text-align: center;
+		}
+
+		.pagination-link {
+			text-decoration: none;
+			padding: 5px 10px;
+			background-color: #333;
+			color: #fff;
+			border-radius: 5px;
+			margin: 0 5px;
+			/* 페이지 번호 간격 조절 */
+		}
+
+		.pagination-current {
+			text-decoration: none;
+			padding: 5px 10px;
+			background-color: rgb(197 213 255);
+			color: rgb(0, 0, 0);
+			font-weight: 800;
+			margin: 0 5px;
+			/* 페이지 번호 간격 조절 */
+			border-radius: 5px;
+		}
+
+		.content-box {
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			margin: 0px;
+			padding: 0px;
+			display: block;
+			background-color: rgb(255, 255, 255);
+			font-size: 16px;
+		}
+
+		.content-box {
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			margin: 0px;
+			padding: 0px;
+			display: block;
+			background-color: rgb(255, 255, 255);
+			font-size: 16px;
+		}
+
+		.header-box {
+
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 16px;
+			position: relative;
+			max-width: 1060px;
+			margin: 0px auto;
+		}
+
+		.position-info {
+			width: 630px;
+		}
+
+		.company-title {
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			padding: 0px;
+			margin: 16px 0px 8px;
+			font-weight: bold;
+			font-size: 20px;
+			line-height: 32px;
+			letter-spacing: -0.5px;
+			text-align: center;
+		}
+
+		.description-box {
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 16px;
+			position: relative;
+			width: 630px;
+		}
+
+		.footer-box {
+			position: relative;
+			padding: 60px 0px;
+			max-width: 1060px;
+			margin: 0px auto;
+			overflow: hidden;
+		}
+
+
+
+		.gldqWV {
+			min-height: 20px;
+			display: inline-block;
+		}
+
+		.recruitbox {
+
+			width: 300px;
+			margin-bottom: 16px;
+
+			box-sizing: border-box;
+			border-radius: 4px;
+
+
+			background: rgb(255, 255, 255);
+
+		}
+
+		.recruitzzbox {
+
+			width: 1000px;
+			margin-bottom: 16px;
+
+			box-sizing: border-box;
+			border-radius: 4px;
+
+
+			background: rgb(255, 255, 255);
+
+		}
+
+		.rboxzztext {
+			background: linear-gradient(to right, rgb(245 251 255), #fffff6);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 16px;
+			display: inline-block;
+			color: rgb(0, 0, 0);
+			padding: 5px 10px;
+			width: calc(100% - 48px);
+			border-radius: 10px;
+			border-bottom: 2px rgb(192, 192, 192) solid;
+			border-right: 2px rgb(192, 192, 192) solid;
+		}
+
+
+
+		.rboxtext a {
+			pointer-events: auto;
+			/* 이 속성이 none으로 설정되어 있으면 클릭이 작동하지 않음 */
+		}
+
+		.recruitdate {
+
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 18px;
+			color: rgb(0, 0, 0);
+			display: flex;
+			-webkit-box-pack: justify;
+			justify-content: space-between;
+		}
+
+		.cWcLZK {
+			display: flex;
+			-webkit-box-pack: justify;
+			justify-content: space-between;
+		}
+
+
+
+		.gdDbWka {
+			width: 580px;
+			text-align: right;
+			margin-top: 16px;
+			margin-bottom: 0px;
+			font-family: "Noto Sans KR", sans-serif;
+			flex-wrap: wrap;
+			font-size: 17px;
+			float: right;
+			line-height: 1.4;
+			letter-spacing: -0.5px;
+			color: rgb(0, 24, 87);
+			list-style: none;
+
+			margin-right: 30px;
+		}
+
+		.ddDbWka {
+			width: 580px;
+			text-align: right;
+			font-size: 17px;
+			float: right;
+			margin-top: 16px;
+			margin-bottom: 25px;
+			font-family: "Noto Sans KR", sans-serif;
+			flex-wrap: wrap;
+			margin-right: 30px;
+
+			line-height: 1.4;
+
+			letter-spacing: -0.5px;
+			color: rgb(96, 0, 2);
+			list-style: none;
+
+
+		}
+
+
+
+		.dDbWka {
+			height: 18px;
+			margin-top: 16px;
+			margin-bottom: 20px;
+			margin-right: 30px;
+			font-family: "Noto Sans KR", sans-serif;
+			flex-wrap: wrap;
+			font-size: 18px;
+			justify-content: flex-end;
+			line-height: 16px;
+			letter-spacing: -0.5px;
+			color: rgb(65 154 41);
+			list-style: none;
+			display: flex;
+		}
+
+		/* 모든 링크에서 밑줄 없애기 */
+		a {
+			text-decoration: none;
+		}
+
+		#zzz {
+			font-size: 35px;
+			color: gold;
+
+
+
+		}
+
+		#zzz:hover {
+			font-size: 40px;
+			color: rgb(255, 255, 19);
+		}
+
+		.material-icons {
+			font-size: 20px;
+		}
+
+		#reviewzz {
+			font-size: 40px;
+
+		}
+
+		hr {
+			background-color: gray;
+			/* 원하는 회색으로 변경 가능 */
+			height: 1px;
+			/* 가로선의 높이 설정 */
+			border: none;
+			/* 가로선 주위의 테두리 제거 */
+		}
+
+
+
+
+
+
+
+
+
+		#zzh2 {
+			font-size: 260px;
+			margin-left: 10px;
+			margin-bottom: 55px;
+
+		}
+
+		.ow::before {
+			content: '';
+			display: inline-block;
+			width: 4px;
+			height: 20px;
+			background: rgb(255, 255, 0);
+			margin-right: 10px;
+			margin-left: 0;
+			/* 왼쪽 여백을 없애기 위해 추가 */
+		}
+
+		.ow {
+			margin-left: 30px;
+		}
+
+		.recruizzttitle {
+			display: flex;
+			align-items: center;
+			/* 텍스트를 세로선과 세로로 가운데 정렬 */
+			color: rgb(52, 54, 63);
+			min-height: 60px;
+			font-size: 30px;
+			text-overflow: ellipsis;
+			align-content: stretch;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+		}
+
+		.dDbWka {
+			font-size: 17px;
+			height: 18px;
+			margin-top: 16px;
+			margin-bottom: 0px;
+			font-family: "Noto Sans KR", sans-serif;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			line-height: 16px;
+			letter-spacing: -0.5px;
+			color: rgb(65, 154, 41);
+			list-style: none;
+			display: flex;
+		}
+
+
+		#zzh12 {
+			font-size: 20px;
+			margin-left: 800px;
+			margin-top: 5px;
+		}
+
+		/* 모든 링크에서 밑줄 없애기 */
+		a {
+			text-decoration: none;
+		}
+
+
+		hr {
+			background-color: gray;
+			/* 원하는 회색으로 변경 가능 */
+			height: 1px;
+			/* 가로선의 높이 설정 */
+			border: none;
+			/* 가로선 주위의 테두리 제거 */
+		}
+
+		.hi {
+			height: 18px;
+			margin-top: 10px;
+			margin-bottom: 0px;
+			font-family: "Noto Sans KR", sans-serif;
+
+			font-size: 20px;
+			justify-content: flex-end;
+			line-height: 18px;
+			letter-spacing: -0.5px;
+
+
+			display: flex;
+			margin-right: 38px;
+
+
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+
+	<main class="content-box">
+
+		<div class="footer-box"> <!-- Container -->
+			<h1 style="font-size: 20px; margin-left: 10px; color: rgb(52 54 63);">리뷰페이지</h1>
+			<h1 style="font-size: 60px; margin-left: 10px; color: rgb(52 54 63);">[[${zzcname}]]</h1>
+
+
+			<h2 id="zzh12"> <span style="color: darkblue; ">[[${revcount}]]건의 리뷰가 있습니다.</span> </h2>
+			<section style="    text-align: center;" class="recruitment-section">
+
+				<hr>
+				<th:table th:if="${session['sid']}">
+					<h3 style=" margin-right:35px;"><span><a
+								style="font-size: 20px; margin-left: 80%; color: royalblue;"
+								th:href="|/review/insert/${reviewDTO.cid}/1|">재직회원 리뷰쓰기<i id="reviewzz"
+									class="material-icons">edit_note</i></a></span></h3>
+				</th:table>
+				<!-- 리뷰 목록 -->
+
+
+				<!-- 리뷰 목록을 반복하여 표시 -->
+				<th:block th:each="review, iterStat : ${mainData}">
+					<div class="gldqWV">
+						<div class="recruitzzbox">
+							<div class="rboxzztext">
+
+								<h2 class="recruizzttitle">
+									<span class="ow">no[[${review.rvid}]] &nbsp; [[${review.rvtitle}]]</span>
+									<ul class="dDbWka">
+										<span style="font-weight: 800;">작성일&nbsp;
+											<span th:text="${#dates.format(review.regDate, 'yyyy-MM-dd')}"></span>
+										</span>
+									</ul>
+								</h2>
+
+								<!-- 작성일과 함께 표시 -->
+
+								<ul class="gdDbWka">
+									<span style="font-weight: 800;width: 50px; color: rgb(17, 11, 255);">장점 :
+									</span><span style="font-weight: 600;">&nbsp; [[${review.rvjang}]]</span>
+								</ul>
+								<ul class="ddDbWka">
+									<span style="font-weight: 800;width: 50px; color: rgb(255, 11, 17);">단점 :
+									</span><span style="font-weight: 600;">&nbsp; [[${review.rvdan}]]</span>
+								</ul>
+							</div>
+							<div class="hi">
+								<td th:if="${session['sid'] == review.sid}">
+									<a style="margin-right: 20px;"
+										th:href="|/review/modify/${reviewDTO.cid}/${reviewDTO.page}/${review.sid}|">수정</a>
+								</td>
+								<td th:if="${session['sid'] == review.sid}">
+									<a
+										th:href="|/review/delete/${reviewDTO.cid}/${reviewDTO.page}/${review.sid}|">삭제</a>
+								</td>
+								<td th:if="${session.adminSession}">
+									<a
+										th:href="|/review/delete/${reviewDTO.cid}/${reviewDTO.page}/${review.sid}|">삭제하기</a>
+								</td>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</section>
+			<div class="pagination-container">
+				<a th:if="${reviewDTO.pageStart > 1}" th:href="${reviewDTO.page - 1}+1" th:text="'[처음]'"
+					class="pagination-link" />
+				<a th:if="${reviewDTO.page > 1}" th:href="${reviewDTO.page - 1}" th:text="'[이전]'"
+					class="pagination-link" />
+				<th:block th:each="no: ${#numbers.sequence(reviewDTO.pageStart, reviewDTO.pageEnd)}">
+					<span th:if="${no==reviewDTO.page}" th:text="${no}" class="pagination-current" />
+					<a th:unless="${no==reviewDTO.page || no==0}" th:href="${no}" th:text="${no}"
+						class="pagination-link" />
+				</th:block>
+				<a th:if="${reviewDTO.page < reviewDTO.pageTotal}" th:href="${reviewDTO.page + 1}" th:text="'[다음]'"
+					class="pagination-link" />
+				<a th:if="${reviewDTO.pageEnd < reviewDTO.pageTotal}" th:href="${reviewDTO.pageTotal}" th:text="'[맨끝]'"
+					class="pagination-link" />
+			</div>
+
+
+
+			<a th:href="|/company/detail/${reviewDTO.cid}|" #2D65F2; i class="fa-solid fa-reply"
+				style=" margin-left: 80px; margin-top: 20px; color: #000000; font-size: 40px;" id="before"></a>
+
+
+		</div>
+	</main>
+
+</body>
+<footer>
+	<div th:insert="~{footer :: footer}"></div>
+</footer>
+
+</html>

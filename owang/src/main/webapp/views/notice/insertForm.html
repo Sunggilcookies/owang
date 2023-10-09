@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>notice</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/notice/notice_insert.css}">
+</head>
+<body>
+	<script>
+	function validateFile() {
+    var fileInput = document.getElementById("label_file");
+    var fileName = fileInput.value;
+    
+    // 파일 확장자 추출
+    var fileExtension = fileName.split('.').pop().toLowerCase();
+
+    // 허용할 확장자 목록
+    var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+
+    if (allowedExtensions.indexOf(fileExtension) === -1) {
+        alert('이미지파일만 업로드 가능합니다.jpg, jpeg, png, gif, bmp 입니다.');
+        fileInput.value = ''; // 파일 선택 취소
+    }
+}
+
+		
+	</script>
+<div id="home">		
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	
+	<remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+    
+	<div class="title_box">
+        <h1>공지작성</h1> 
+        <br><br><br><br>
+        <h3 id="p" >공지사항 작성하는 페이지입니다.</h3> 
+    </div><!--타이틀박스 끝 -->
+
+	
+<div id="insert_wrap">
+    <div id="insert_view">
+        <form method="post" enctype="multipart/form-data" th:object="${noticeDTO}" id="insert_table">
+            <table id="insert_table" border="0">
+                <tr>
+                    <td id="label">공지제목</td>
+                    <td id="ttdd"><input type="text" th:field="*{title}" id="label_title" pattern="^\S.*$" /></td>
+                </tr>
+                <tr>
+                    <td id="label">작성자</td>
+                    <td id="ttdd">
+						<input type="text" name="pname" th:value="관리자" readonly/ id="label_title"></td>
+                </tr>
+                <tr>
+                    <td id="label">사진</td>
+                    <td id="ttdd"><input type="file" th:field="*{noticemmf}" id="label_file"
+                    		onchange="validateFile()"></td>
+                </tr>
+                <tr>
+                    <td id="label">상세내용</td>
+                    <td><textarea th:field="*{content}" rows="30" cols="70" required id="label_ta"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="작성" id="insert_write"/>
+                        
+                    </td>
+                   <!-- <td>
+						<a th:href="|/notice/notice/${noticeDTO.page}|" 
+                        i class="fa-solid fa-list" id="insert_list"></a>
+                    </td>-->
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+    
+ </div> <!--home끝--> 
+</body>
+</html>

@@ -1,0 +1,35 @@
+@charset "UTF-8";
+header{
+	background-color: chocolate;
+}
+ul {
+	display: inline-block;
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 15px;
+	position: relative;
+	background-color: antiquewhite;
+}
+
+.submenu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: #f9f9f9;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+li:hover .submenu {
+	display: block;
+}
+
+div {
+	display: inline-block;
+}

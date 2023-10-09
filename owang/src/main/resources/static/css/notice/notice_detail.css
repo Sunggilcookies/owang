@@ -1,0 +1,189 @@
+@charset "UTF-8";
+/*notice-detail 따로 판거*/
+/**{margin: 0;padding: 0;}*/
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+#home{
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+.title_box{
+	border-bottom: 1px solid #111;
+	padding-bottom: 20px;
+	background-image: url("/css/images/notice_img_remove.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+	height:197px;
+	margin-top: 10px;
+}
+.title_box h1{
+	text-align: center;
+	}
+#p{margin-left: 20px;}
+
+/*디테일 detail*/
+#detail_wrap{
+	max-width: 1100px;
+    width: auto;
+    height: auto;
+    margin: 10px auto;
+    margin-bottom: 100px;
+    /*padding:50px 50px 50px 50px;*/
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    /*border-top: 3px solid black;*/
+    /*border-bottom: 3px solid black;*/
+    align-items: center;
+}
+
+.area_tit{
+	border-top: 3px solid #000;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 25px;
+}
+
+
+
+#detail_view{
+	width: 900px;
+	text-align: left;
+	/*border-bottom: 2px solid #000;*/
+	margin: 0px auto;
+	height: auto;
+	
+}
+
+
+/*.detail_table{
+	width: 900px;
+	text-align: center;
+	border: 1px solid #000;
+	margin: 0px auto;
+
+}*/
+
+/*  등록일, 조회수*/
+.content_info dd{
+		display: inline;
+		/*margin-right: 10px;*/
+		padding-right: 15px;
+		margin-top: 21px;
+		line-height: 2;	
+		
+}
+
+/* 공지 사진*/
+.wrap_img {
+    text-align: center; /* 가로 중앙 정렬을 위해 text-align 속성을 사용 */
+    border : 1px solid black;
+    margin: 20px 0;
+    
+    
+}
+
+.wrap_img img {
+    display: inline-block; /* 이미지를 인라인 블록 요소로 변경 */
+    max-width: 100%;
+    
+}
+
+/*공지내용*/
+.wrap_content{
+	margin : 10px 30px 10px 50px;
+	padding: 10px;
+	font-size: 16px;
+	white-space: pre-wrap;
+}
+	
+/*로고사진*/
+.log{
+	text-align: right;
+	margin-top: 14px;
+	margin-bottom: 10px;
+	
+	}	
+	
+#logo{
+	width  : "180px" ;
+	height : "55px";
+}
+	
+	
+
+
+.title{
+	font-weight: bold;
+	font-size: 30px;
+	color: #222;
+	letter-spacing: -1.5px;
+	line-height: 46px;
+	text-align: left;
+}
+
+
+/*제목*/
+
+#detail_title{
+	font-weight: bold;
+	font-size: 30px;
+	color: #222;
+	letter-spacing: -1.5px;
+	line-height: 46px;
+	text-align: left;
+}
+
+
+
+/*디테일 이미지*/
+
+#detail_img{
+	width: 750px;
+	height: auto;
+}
+
+.ele{
+	
+	float: right;
+	/*margin-right: 10px;*/
+	 padding: 10px; /* 버튼 간 간격을 조절 */
+} 
+
+
+/* 삭제,수정,목록 네모칸 */
+#detail_del, #detail_modi, #detail_list{
+	border: 1px solid black;
+	width: 66px;
+	height: 31px;
+	line-height: 32px;
+	color: black;
+	border-radius: 5px;
+	padding: 4px;
+	font-size: 14px;
+	margin-top: 20px;
+	text-decoration: none;	
+}
+
+/*제목,작성자,등록일,조회수 내용*/
+/*#detail_title,#detail_pname,#detail_reg,#detail_cnt{
+	text-align: left;
+	padding-left: 15px;
+}
+*/
+	
+	
+/*목록*/
+#list{    
+	height: 64px;
+    padding: 19px 4px;
+    font-size: 20px;
+    line-height: 26px;
+    border-radius: 8px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+}

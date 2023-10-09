@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.SoloMapper">
+
+
+
+<insert id="insertSolo" parameterType="soloDTO">
+    INSERT INTO solo (sjoindate,sid, cid, spw, sname, sbirth, sage, sgender, sphone, semail, saddress, scompanyName, scompanyFile, stype, sbcnt)
+    VALUES (#{sjoindate},#{sid}, #{cid} ,#{spw}, #{sname}, #{sbirth}, #{sage}, #{sgender}, #{sphone}, #{semail}, #{saddress}, #{scompanyName}, #{scompanyFile}, 1, 0)
+</insert>
+	
+	
+<select id="loginSolo" resultType="int">
+    select count(*) from solo where sid = #{userid} and spw = #{userpw}
+</select>
+
+<select id="idChk" resultType="int">
+    select count(*) from solo where sid = #{sid}
+</select>
+
+<select id="detailSolo" resultType="soloDTO">
+	 select * from solo where sid = #{sid}
+</select>
+<update id="modifffy" parameterType="soloDTO">
+	update solo set
+	sname = #{sname},sbirth = #{sbirth},sage = #{sage},sgender = #{sgender}, sphone=#{sphone},semail=#{semail},saddress=#{saddress}, scompanyName= #{scompanyName}, scompanyFile = #{scompanyFile}, spw = #{spw}, cid=#{cid}
+	where sid = #{sid}
+</update>
+<delete id="delettt" parameterType="soloDTO">
+	delete from solo where sid =
+	#{sid} and spw = #{spw}
+</delete>
+<select id="resumeSolo" resultType="soloDTO">
+	 select * from solo where sid = #{userid}
+</select>
+
+<update id="paysmember" parameterType="soloDTO">
+	update solo set
+	stype = #{stype}, sdate = #{sdate}
+	where sid = #{sid}
+</update>
+
+<update id="loginsmember" parameterType="soloDTO">
+   update solo 
+   set stype = #{stype} , sdate = null
+   where sid = #{sid}
+</update>
+<update id="fileDelete" parameterType="soloDTO">
+	update solo set
+	scompanyFile = null
+	where sid = #{sid} and spw=#{spw}
+</update>
+<select id="findloSolo" resultType="Integer">
+    select count(*) from solo where sname = #{fname} and semail = #{femail}
+</select>
+<select id="findid" resultType="soloDTO">
+    select sid from solo where sname = #{fname} and semail = #{femail}
+</select>
+<select id="findpwSolo" resultType="Integer">
+    select count(*) from solo where sid = #{fid} and semail = #{femail}
+</select>
+<select id="findemail" resultType="String">
+    select semail from solo where sid = #{userid}
+</select>
+<update id="modifyspw">
+	update solo set spw = #{spw}
+	where sid = #{sid}
+</update>
+
+</mapper>

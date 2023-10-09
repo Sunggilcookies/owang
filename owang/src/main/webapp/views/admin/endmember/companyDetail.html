@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
+		/* 전체 페이지 스타일 */
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f5f5f5;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			margin: 0 10px 20px 10px;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			
+			opacity: 1; /* 초기에 표시되도록 설정 */
+   			visibility: visible; /* 초기에 표시되도록 설정 */
+		    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #333;
+			color: #fff;
+		}
+
+
+		td:first-child {
+			width: 15%;
+
+
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+
+		/* 버튼 스타일 */
+		button {
+			margin-left: 10px;
+			margin-bottom: 10px;
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+
+		button:hover {
+			
+			background-color: #0056b3;
+		}
+
+		/* 알림 메시지 스타일 */
+		.alert {
+			background-color: #f8d7da;
+			border-color: #f5c6cb;
+			color: #721c24;
+			padding: 10px;
+			border: 1px solid transparent;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+
+		/* 컨테이너 스타일 */
+		.container {
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+		 .hidden {
+			 opacity: 0;
+   			 visibility: collapse;
+   			  
+        	
+        }
+
+        .show {
+            display: table;
+        }
+	</style>
+	 <script>
+        function toggleTable(id) {
+            var table = document.getElementById(id);
+            if (table.classList.contains("hidden")) {
+                table.classList.remove("hidden");
+                table.classList.add("show");
+            } else {
+                table.classList.remove("show");
+                table.classList.add("hidden");
+            }
+        }
+    </script>
+</head>
+
+<body>
+	<container id="container">
+		<th:block th:replace="~{admin/adheader}" />
+		<div class="main">
+			<h1>공고 리스트</h1>
+			<button onclick="toggleTable('mainTable')">공고리스트 접기/열기</button>
+			<table border="" id="mainTable" class="show">
+				<tr>
+
+					<th>제목</th>
+					<th>회사 이름</th>
+					<th>채용시작일</th>
+					<th>채용마감일</th>
+					<th>조회수</th>
+					<th>기업아이디</th>
+					<th>지원 목록</th>
+				</tr>
+				<tr th:each="dto : ${mainData}">
+					<td th:text="${dto.recruitTitle}" />
+					<td th:text="${dto.cname}" />
+					<td th:text="${dto.regDate}" />
+					<td th:text="${dto.realMagam}" />
+					<td th:text="${dto.cnt}" />
+					<td th:text="${dto.cid}" />
+					<td>
+						<th:block th:if="${dto.appnum!=0}">
+							 <a th:href="@{'/admin_member/appnum/detail/' + ${dto.cid} + '/' + ${#uris.escapePath(dto.recruitTitle)}}"
+               					th:text="${dto.appnum}" />
+						</th:block>
+						<th:block th:unless="${dto.appnum!=0}">
+							<span th:text="${dto.appnum}" />
+						</th:block>
+					</td>
+				</tr>
+			</table>
+			<h1>리뷰</h1>
+			<button onclick="toggleTable('review')">리뷰 접기/열기</button>
+			<table id="review">
+				<th>작성자</th>
+				<th>제목</th>
+				<th>장점</th>
+				<th>단점</th>
+
+				<tr th:each="dto : ${reData}">
+					<td th:text="${dto.sid}" />
+					<td th:text="${dto.rvtitle}" />
+					<td th:text="${dto.rvjang}" />
+					<td th:text="${dto.rvdan}" />
+				</tr>
+
+			</table>
+
+			<h1>결제</h1>
+			<button onclick="toggleTable('pay')">결제 접기/열기</button>
+			<table id="pay">
+				<th>거래번호</th>
+				<th>상품명</th>
+				<th>상품금액</th>
+				<th>결제요청</th>
+
+				<tr th:each="pay : ${paymentData}" th:if="${pay.amount > 0}">
+					<td th:text="${pay.imp_uid}" />
+					<td th:text="${pay.name}" />
+					<td th:text="${pay.formatAmount}" />
+					<td th:text="${pay.started_at}" />
+
+				</tr>
+			</table>
+			<a href="javascript:goBack()" style="margin-left: 10px;">이전 페이지로</a>
+		</div>
+	</container>
+
+	<script>
+		function goBack() {
+			window.history.back();
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+@charset "UTF-8";
+/*recruit_insert css*/
+
+*{margin: 0;padding: 0;}
+
+.wrap{
+	width: 1000px;
+	height: auto;
+	margin: 0px auto 100px auto;	
+}
+
+#home{
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+h1{text-align: center;}
+
+/* 폰트 적용 */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+ }
+
+/*타이틀박스*/
+.title_box{
+	border-bottom: 1px solid #111;
+	padding-bottom: 20px;
+	background-image: url("/css/images/recruit_remove.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+	height:170px;
+	margin-top: 40px;
+}
+
+/*타이틀 박스 문구 (다양한~)*/
+#p{margin-left: 20px;}
+
+
+	
+/*[ insert ] 공고등록 */
+#insert_wrap{
+	width: 1000px;
+    margin: 0px auto;
+    margin-bottom: 100px;
+    /*padding:50px 20px 40px 170px;*/
+
+}
+
+
+#insert_table{
+	/*text-align: center;*/
+	margin-left: 40px;
+	margin: 30px auto;
+	font-weight: 16px;
+}
+
+#label{
+	width: 100px;
+	font-weight: inherit;
+	font-size: 16px;
+	display: inline-block;
+	text-align: left;
+}
+
+
+
+
+input[type="text"] {
+    text-align: left; 
+}
+
+/*작성하기 버튼*/
+#writeButton{
+	width: 120px;
+	height: 45px;
+	background-color:#007bff;
+	color: rgb(255, 255, 255);
+	font-size: 18px;
+	border-radius: 15px;
+	border: none;
+	padding: 5px;
+	cursor: pointer;
+	
+}
+
+a{
+	text-decoration: none;
+}
+
+td {
+    vertical-align: middle;
+    padding: 5px 0;
+}
+

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.QnaMapper">
+
+	
+	<select id="list" resultType="qDTO" parameterType="qDTO">
+		select * from notice order by gid desc, seq limit #{start}, #{limit}
+	</select>
+	
+	
+	<select id="listCnt" resultType="Integer">
+		select count(*) from notice
+	</select>
+	
+	
+	<update id="addCount" parameterType="Integer">
+		update notice set cnt = cnt + 1 where id = #{id}
+	</update>
+	
+	<select id="detail" resultType="qDTO" parameterType="Integer">
+		select * from notice where id = #{id}
+	</select>
+	
+	<select id="maxId"  resultType="Integer">
+		select max(id) from notice 
+	</select>
+	
+	<insert id="insseerr" parameterType="qDTO">
+		insert into notice (title, pname, pw, content, upfile, reg_date, cnt, seq, lev, gid, id)
+		values
+		(#{title},#{pname},#{pw},#{content},#{upfile}, sysdate(),0,0,0, #{id}, #{id})
+	</insert>
+	<!-- 삭제하기 -->
+	<delete id="delettt" parameterType="qDTO">
+		delete from notice where id = #{id}
+	</delete>
+	
+	<!-- 수정하기 -->
+	<update id="modifffy" parameterType="qDTO">
+		update notice set 
+		pname = #{pname}, content= #{content}, title= #{title}, upfile = #{upfile}
+		where id = #{id}
+	</update>
+	
+	<!-- 파일없음 -->
+	<!-- <update id="fileDelete" parameterType="nDTO">
+		update notice set upfile = null where id = #{id} and pw= #{pw}
+	</update> -->
+	
+	<select id="idPwChk" parameterType="qDTO" resultType="Integer">
+		select count(*) from notice where id = #{id} and pw= #{pw}
+	</select>
+
+</mapper>

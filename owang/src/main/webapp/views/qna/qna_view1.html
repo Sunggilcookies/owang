@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notice/css.css}">
+</head>
+
+<body>
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+<div class="board_wrap">
+    <div class="board_title">
+    </div>
+        <div class="board_view_wrap">
+            <div class="board_view">
+                <div class="title">
+                    입사지원 완료 했는데 내 이력서를 열람하지 않는 이유는 무엇인가요?
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd>1</dd>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd>오왕매니저</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd>2023.9.23</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>25</dd>
+                    </dl>
+                </div>
+                <div class="cont" style="white-space: pre-wrap;">
+입사지원 완료하면, 그 즉시 인사담당자는 오왕 사이트를 통해 회원님의 이력서를 확인할 수 있습니다.
+
+기업에게 '지원자 알림' 메일이 발송되며, 해당 메일에는 오왕 사이트를 통해 이력서를 확인할 수 있는 링크가 첨부되어 있습니다.
+
+첨부되어 있는 링크를 통해 기업에서는 이력서를 확인할 수 있습니다.
+
+ 
+
+기업 인사담당자가 이력서 열람 시 해당 구직자에게 즉시 '이력서 열람 알림 메일'이 발송됩니다.
+
+
+
+해당 메일을 수신하지 못한 경우에는 아래와 같으니 이점 참고 부탁드립니다.
+
+
+
+기업 인사담당자가 아직 열람을 하지 않은 경우 
+
+ - 인사담당자의 스타일에 따른 차이
+
+
+ex) 채용공고 마감 며칠 후 일괄 검토 
+
+ex) 선택적 열람
+
+  - 상황에 따른 차이 
+
+ex) 모집 기간 중 채용 완료로 추가 검토 안 함 
+
+이 밖에도 다양한 경우의 수가 있기 때문에 미열람에 대한 정확한 사유는 공고 내의 담당자 연락처로 직접 문의해 주시기 바랍니다.
+ 
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="/qna/qna" class="on">목록</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

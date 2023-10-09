@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품 매출 내역</title>
+	<script th:inline="javascript">
+		var errorMsg = /*[[${errorMsg}]]*/ null;
+		if (errorMsg !== null) {
+			alert(errorMsg);
+			window.history.back();
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+			// from 선택시 to는 그 이후가 선택되도록
+			let inputSd = document.querySelector('input[name="from"]');
+			let inputEd = document.querySelector('input[name="to"]');
+			let inputPage = document.querySelector('input[name="page"]');
+
+			inputSd.addEventListener('input', function () {
+				inputEd.min = this.value;
+			});
+			inputEd.addEventListener('input', function () {
+				if (this.value < inputSd.value || this.value > /*[[${today}]]*/ null) {
+					alert('날짜를 확인하세요');
+					this.value = '';
+				}
+			});
+
+			// a링크를 tr영역으로 확장
+			const tableRows = document.querySelectorAll('.allpayment tr');
+			tableRows.forEach(function (row) {
+				const link = row.querySelector('a');
+				if (link) {
+					row.addEventListener('click', function () {
+						link.click();
+					});
+				}
+				row.addEventListener('mouseover', function () {
+					this.setAttribute('title', '상세내역 확인');
+				});
+
+				row.addEventListener('mouseout', function () {
+					this.removeAttribute('title');
+				});
+			});
+		});
+		function alldays() {
+			document.querySelector('input[name="from"]').value = '';
+			document.querySelector('input[name="to"]').value = '';
+			document.querySelector('.rangeform').submit();
+		}
+	</script>
+	<style>
+		.main {
+			padding-left: 20px;
+			margin-top: 35px;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+		}
+
+		table {
+			width: 880px;
+			border-collapse: collapse;
+			border-top: 2px solid #000;
+		}
+
+		tr {
+			cursor: pointer;
+		}
+
+		tr:not(:first-child):hover {
+			background-color: #e0e0e0;
+		}
+
+		th {
+			color: #fff;
+			background-color: #333;
+			padding: 8px;
+			border-bottom: 1px solid #999;
+		}
+
+		td {
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		form {
+			align-items: center;
+		}
+
+		.alter {
+			display: flex;
+			flex-direction: column;
+
+		}
+
+		form input[type="date"] {
+			width: 218px;
+			padding: 6px 12px;
+			border-radius: 4px;
+			margin: 5px 15px;
+			text-align: center;
+			border: 1px solid black;
+		}
+
+		label,
+		select,
+		input {
+			margin-right: 10px;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+		}
+
+		input[type="submit"] {
+			padding: 7px 12px;
+			background-color: rgba(0, 64, 0, 0.6);
+			border: 1px solid rgba(0, 64, 0, 0.3);
+			border-radius: 4px;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: rgba(0, 64, 0, 0.8);
+			border: 1px solid rgba(0, 64, 0, 0.6);
+		}
+
+		button {
+			margin: 5px 5px;
+			padding: 6px 12px;
+			border: 1px solid rgba(0, 64, 0, 0.1);
+			border-radius: 4px;
+			cursor: pointer;
+			color: #999;
+		}
+
+		button.active,
+		button:hover {
+			border: 1px solid rgba(0, 64, 0, 1);
+			color: #000;
+			background-color: #f9f9f9;
+		}
+
+		form button {
+			margin-left: auto;
+			margin-right: 70px;
+			padding: 6px 12px;
+			color: #103305;
+			border: none;
+			cursor: pointer;
+		}
+
+		form button:hover {
+			border: none;
+			background-color: rgba(0, 64, 0, 0.1);
+		}
+
+		.alri {
+			text-align: right;
+		}
+
+		.alct {
+			text-align: center;
+		}
+
+		.id {
+			text-align: center;
+			padding-right: 20px;
+		}
+
+		.gprice {
+			text-align: right;
+			padding-right: 10px;
+		}
+
+		.pagingtbl span {
+			font-size: 1.2rem;
+		}
+
+		.pagingtbl span,
+		.pagingtbl a {
+			padding: 0 5px;
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<header>
+			<div th:replace="~{admin/adheader}"></div>
+		</header>
+
+		<div class="main">
+			<h1>결제 내역</h1>
+			<form action="/admin_product/payment/sch" method="post">
+				<div style="margin-bottom: 20px;">
+					<input type="text" name="searchKeyword" id="searchKeyword">
+					<input type="submit" value="검색">
+				</div>
+			</form>
+			<div class="btn-container">
+				<button onclick="alldays()">전체기간</button>
+			</div>
+			<form action="/admin_product/payment/1" class="rangeform">
+				<div style="margin-bottom: 20px;">
+					<label for="status">결제상태</label>
+					<select name="status" id="status">
+						<option value="paid" th:selected="${status == 'paid'}">완료</option>
+						<option value="all" th:selected="${status == 'all'}">모두</option>
+						<option value="ready" th:selected="${status == 'ready'}">대기</option>
+						<option value="cancelled" th:selected="${status == 'cancelled'}">취소</option>
+						<option value="failed" th:selected="${status == 'failed'}">실패</option>
+					</select>
+					<label for="limit">1페이지당 자료수</label>
+					<select name="limit" id="limit">
+						<option value="15" th:selected="${limit == 15}">15</option>
+						<option value="30" th:selected="${limit == 30}">30</option>
+						<option value="50" th:selected="${limit == 50}">50</option>
+						<option value="100" th:selected="${limit == 100}">100</option>
+					</select>
+					<label for="sorting">정렬</label>
+					<select name="sorting" id="sorting">
+						<option value="-started" th:selected="${sorting == '-started'}">-결제요청</option>
+						<option value="started" th:selected="${sorting == 'started'}">+결제요청</option>
+						<option value="-paid" th:selected="${sorting == '-paid'}">-결제완료</option>
+						<option value="paid" th:selected="${sorting == '-paid'}">+결제완료</option>
+						<option value="-updated" th:selected="${sorting == '-updated'}">-최종수정</option>
+						<option value="updated" th:selected="${sorting == 'updated'}">+최종수정</option>
+					</select>
+				</div>
+				<div>
+					<input type="date" name="from" id="from" th:value="${from}" th:max="${today}">~
+					<input type="date" name="to" id="to" th:value="${to}" th:max="${today}">
+					<input type="submit" value="검색">
+				</div>
+			</form>
+			<form class="alter" action="/admin_product/graph" method="get">
+				<input type="hidden" name="startDate" th:value="${from}">
+				<input type="hidden" name="endDate" th:value="${to}">
+				<button type="submit">해당기간 결제정산 보러가기 ></button>
+			</form>
+			<p th:if="${total!=null && totalPages!=null}">총 [[${total}]]건, 총 [[${totalPages}]]페이지</p>
+			<table class="allpayment">
+				<tr>
+					<th style="width: 81px">결제상태</th>
+					<th style="width: 177px">거래번호</th>
+					<th class="id">회원아이디</th>
+					<th style="width: 204px">상품명</th>
+					<th style="width: 93px">상품금액</th>
+					<th style="width: 183px">결제요청</th>
+				</tr>
+				<th:block th:if="${paymentData != null}">
+					<tr th:each="payment : ${paymentData}">
+						<td class="alct" th:text="${payment.status}"></td>
+						<td>
+							<a th:href="|/admin_product/payment/detail/${payment.imp_uid}|" th:text="${payment.imp_uid}"
+								onclick="window.open(this.href, '결제내역상세', 'width=600,height=650');
+                     return false;" target="_blank" />
+						</td>
+						<td class="id" th:text="${payment.id}" />
+						<td th:text="${payment.name}"></td>
+						<td class="gprice" th:text="${payment.formatAmount}"></td>
+						<td class="alct" th:text="${payment.started_at}"></td>
+					</tr>
+				</th:block>
+			</table>
+			<table class="pagingtbl">
+				<tr>
+					<td colspan="9" align="center">
+						<!-- 맨첫 페이지 -->
+						<th:block th:unless="${from == null or to == null}">
+							<a th:if="${prevPage > 1}"
+								th:href="|/admin_product/payment/1?status=${status}&limit=${limit}&from=${from}&to=${to}&sorting=${sorting}|"
+								th:text="처음" />
+						</th:block>
+						<th:block th:if="${from == null or to == null}">
+							<a th:if="${prevPage > 1}"
+								th:href="|/admin_product/payment/1?status=${status}&limit=${limit}&sorting=${sorting}|"
+								th:text="처음" />
+						</th:block>
+						<!-- 이전 페이지 -->
+						<th:block th:unless="${from == null or to == null}">
+							<a th:if="${totalPages != 0 and prevPage != page}"
+								th:href="|/admin_product/payment/${prevPage}?status=${status}&limit=${limit}&from=${from}&to=${to}&sorting=${sorting}|"
+								th:text="이전" />
+						</th:block>
+						<th:block th:if="${from == null or to == null}">
+							<a th:if="${totalPages != 0 and prevPage != page}"
+								th:href="|/admin_product/payment/${prevPage}?status=${status}&limit=${limit}&sorting=${sorting}|"
+								th:text="이전" />
+						</th:block>
+						<!-- 페이지 처리 -->
+						<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+							<span th:if="${i == page} and i != 0" th:text="${i}"></span>
+							<th:block th:unless="${from == null or to == null}">
+								<a th:unless="${i == page or i == 0}"
+									th:href="|/admin_product/payment/${i}?status=${status}&limit=${limit}&from=${from}&to=${to}&sorting=${sorting}|"
+									th:text="${i}" />
+							</th:block>
+							<th:block th:if="${from == null or to == null}">
+								<a th:unless="${i == page or i == 0}"
+									th:href="|/admin_product/payment/${i}?status=${status}&limit=${limit}&sorting=${sorting}|"
+									th:text="${i}" />
+							</th:block>
+						</th:block>
+						<!-- 다음 페이지 -->
+						<th:block th:unless="${from == null or to == null}">
+							<a th:if="${totalPages != 0 and nextPage != page}"
+								th:href="|/admin_product/payment/${nextPage}?status=${status}&limit=${limit}&from=${from}&to=${to}&sorting=${sorting}|"
+								th:text="다음" />
+						</th:block>
+						<th:block th:if="${from == null or to == null}">
+							<a th:if="${totalPages != 0 and nextPage != page}"
+								th:href="|/admin_product/payment/${nextPage}?status=${status}&limit=${limit}&sorting=${sorting}|"
+								th:text="다음" />
+						</th:block>
+						<!-- 맨끝 페이지 -->
+						<th:block th:unless="${from == null or to == null}">
+							<a th:if="${totalPages != 0 and nextPage < totalPages}"
+								th:href="|/admin_product/payment/${totalPages}?status=${status}&limit=${limit}&from=${from}&to=${to}&sorting=${sorting}|"
+								th:text="맨끝" />
+						</th:block>
+						<th:block th:if="${from == null or to == null}">
+							<a th:if="${totalPages != 0 and nextPage < totalPages}"
+								th:href="|/admin_product/payment/${totalPages}?status=${status}&limit=${limit}&sorting=${sorting}|"
+								th:text="맨끝" /a>
+						</th:block>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</container>
+</body>
+
+</html>

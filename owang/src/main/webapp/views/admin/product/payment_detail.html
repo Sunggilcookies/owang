@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>매출 내역 상세</title>
+	<script th:inline="javascript">
+		function confirmCancel() {
+			var confirmed = confirm("정말 결제를 취소하시겠습니까?");
+			return confirmed;
+		}
+
+		var msg = /*[[${param.alert}]]*/ null;
+		if (msg !== null) {
+			alert("결제가 취소되었습니다");
+		}
+	</script>
+	<style>
+		body {
+			margin: 20px;
+		}
+
+		table {
+			border: 1px solid #f0f0f0;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th,
+		td {
+			padding: 10px;
+		}
+
+		th {
+			text-align: left;
+			font-weight: bold;
+			background-color: #f2f2f2;
+		}
+
+		button {
+			padding: 8px 16px;
+			background-color: rgba(0, 64, 0, 0.7);
+			border-radius: 5px;
+			color: #fff;
+			border: none;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: rgba(0, 64, 0, 1);
+		}
+
+		a {
+			text-decoration: none;
+			color: rgba(0, 64, 0, 0.5);
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+		
+		.space{
+			margin: 30px 0;
+		}
+		.pnamestrong{
+			font-size: 1.3rem;
+			font-weight: bold;
+			padding-left: 10px;
+			padding-bottom: 2px;
+		}
+		.dateweak{
+			color: #777;
+			font-size: 0.8rem;
+			padding-top: 0;
+		}
+		.index{
+			color: #777;
+			font-size: 0.9rem;
+		}
+		.alct{
+			text-align: center;
+		}
+		.alri{
+			text-align: right;
+			padding-right: 20px;
+		}
+		.strong{
+			font-weight: 800;
+			border-bottom: 1px solid #f0f0f0;
+			background-color: rgba(0, 64, 0, 0.1);
+		}
+	</style>
+</head>
+
+<body>
+	<!--<th:block th:replace="~{admin/adheader}" />-->
+	<h2>결제내역 상세</h2>
+	<table>
+		<th:block th:if="${paymentData}!=null">
+			<tr>
+				<td class="strong" colspan="4">고객정보</td>
+			</tr>
+			<tr>
+				<td class="index">이름</td>
+				<td th:text="${paymentData[0].buyer_name}" />
+				<td class="index">연락처</td>
+				<td th:text="${paymentData[0].buyer_tel}" />
+			</tr>
+			<tr>
+				<td class="index">아이디</td>
+				<td th:text="${paymentData[0].id}" />
+				<td class="index">메일</td>
+				<td th:text="${paymentData[0].buyer_email}" />
+			</tr>
+	</table>
+	<div class="space"></div>
+	<table>
+		<tr>
+			<td class="strong" colspan="4">결제정보</td>
+		</tr>
+		<tr>
+			<td class="pnamestrong" colspan="3" th:text="${paymentData[0].name}" />
+
+			<td class="alri" rowspan="2"><a th:href="${paymentData[0].receipt_url}"
+					onclick="window.open(this.href, '매출전표', 'width=450,height=450'); return false;"
+					target="_blank">매출전표</a></td>
+		</tr>
+		<tr>
+			<td class="dateweak" colspan="3">
+				<span th:text="${paymentData[0].started_at}+' ~ '" />
+
+				<th:block th:if="${paymentData[0].paid_at != '0'}">
+					<th:block th:unless="${paymentData[0].cancelled_at != '0'}">
+						<span th:text="${paymentData[0].paid_at}" />
+					</th:block>
+					<th:block th:if="${paymentData[0].cancelled_at != '0'}">
+						<span th:text="${paymentData[0].cancelled_at}" />
+					</th:block>
+				</th:block>
+				<th:block th:if="${paymentData[0].failed_at != '0'}">
+					<span th:text="${paymentData[0].failed_at}" />
+				</th:block>
+			</td>
+		</tr>
+		<tr>
+			<td class="index">주문상태</td>
+			<td th:text="${paymentData[0].status}" />
+				<!--결제실패-->
+			<th:block th:if="${paymentData[0].failed_at != '0'}">
+				<td class="index" colspan="2" th:text="'('+${paymentData[0].fail_reason+')'}" />
+			</th:block>
+				<!--결제취소-->
+			<th:block th:if="${paymentData[0].cancelled_at != '0'}">
+				<td class="index" colspan="2" th:text="'('+${paymentData[0].cancel_reason+')'}" />
+			</th:block>
+			<!--결제취소버튼-->
+			<th:block th:if="${paymentData[0].cancelled_at == '0' and paymentData[0].failed_at == '0'}">
+				<form action="/admin_product/payment/cancle" id="cancelForm" method="post"
+					onsubmit="return confirmCancel()">
+					<input type="hidden" name="id" th:value="${paymentData[0].id}" />
+					<input type="hidden" name="impUid" th:value="${paymentData[0].imp_uid}" />
+					<input type="hidden" name="name" th:value="${paymentData[0].name}" />
+					<td class="alri" colspan="2"><button type="submit">결제취소</button></td>
+				</form>
+			</th:block>
+		</tr>
+		<tr>
+			<td class="index">최종금액</td>
+			<th:block th:if="${paymentData[0].cancelled_at == '0' and paymentData[0].failed_at == '0'}">
+				<td th:text="${paymentData[0].formatAmount}" />
+			</th:block>
+			<th:block th:unless="${paymentData[0].cancelled_at == '0' and paymentData[0].failed_at == '0'}">
+				<td>0원</td>
+			</th:block>
+			<td class="index">
+				<span th:text="'= '+${paymentData[0].formatAmount}" />
+				<th:block th:if="${paymentData[0].failed_at != '0'}">
+					<span th:text="'- '+${paymentData[0].formatAmount}" />
+				</th:block>
+				<th:block th:unless="${paymentData[0].failed_at != '0'}">
+					<span th:text="'- '+${paymentData[0].formatCancle}" />
+				</th:block>
+			</td>
+		</tr>
+		<tr>
+			<td class="index">주문번호</td>
+			<td colspan="2" th:text="${paymentData[0].merchant_uid}" />
+		</tr>
+		<tr>
+
+			<td class="index">고유번호</td>
+			<td colspan="2" th:text="${paymentData[0].imp_uid}" />
+		</tr>
+		<tr>
+			<td class="index">결제수단</td>
+			<td colspan="3">
+				<span th:text="${paymentData[0].pg_provider}" /> | <span th:text="${paymentData[0].pay_method}" />
+				<span th:if="${paymentData[0].pay_method == '카드결제'}">
+					 | <span th:text="${paymentData[0].card_name}" /> | 
+					<span th:text="' '+${paymentData[0].card_number}" />
+				</span>
+				<span th:if="${paymentData[0].pay_method == '계좌이체'}" th:text="' | '+${paymentData[0].bank_name}" />
+			</td>
+		</tr>
+		<th:block th:if="${paymentData}==null">
+			<tr>
+				<td colspan="4">결제 내역이 없습니다.</td>
+			</tr>
+		</th:block>
+	</table>
+</body>
+
+</html>

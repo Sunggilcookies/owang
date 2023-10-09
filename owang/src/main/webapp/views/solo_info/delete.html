@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>delete</title>
+<script>
+      function goBack() {
+         window.history.back();
+      }
+      
+      <!-- input type text <==> password -->
+      function togglePassword() {
+        var passwordInput = document.getElementById("spw");
+        var visibilityOnIcon = document.getElementById("visibilityOnIcon");
+        var visibilityOffIcon = document.getElementById("visibilityOffIcon");
+      
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          visibilityOnIcon.style.display = "none";
+          visibilityOffIcon.style.display = "inline";
+        } else {
+          passwordInput.type = "password";
+          visibilityOnIcon.style.display = "inline";
+          visibilityOffIcon.style.display = "none";
+        }
+      }
+</script>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" th:href="@{/css/solo_info/delete.css}">
+<header>
+      <div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+<body>
+
+
+<div id="solo_info_delete">
+     <div id="delete_text">
+      <span>회원탈퇴</span>
+   </div>
+      
+   <div id="delete_ment">
+      <div id="delete_warning">
+         <span class="material-symbols-outlined">
+            warning
+         </span>
+         <span>주의사항</span>
+         <span class="material-symbols-outlined">
+            warning
+         </span>
+      </div>
+      <div id="delete_guide">
+         <ul>
+            <li>
+               오왕 회원 탈퇴 시, 모든 개인 정보 및 활동 내역이 삭제됩니다. &nbsp;이 정보들은 복구할 수 없으니 신중히 결정해 주세요.
+            </li>
+            <li>
+               미결제된 리뷰 열람권 또는 환불 처리 중인 금액이 있는 경우,&nbsp; 해당 금액에 대한 처리를 완료해주세요.
+            </li>
+            <li>
+               회원 탈퇴 후에는 오왕 회원 전용 서비스에 접근할 수 없으며, &nbsp;다시 가입을 원하실 경우 새로운 계정을 생성해야 합니다.
+            </li>
+         </ul>
+      </div>
+   <form method="post" id="delete_form">
+      <div id="delete_notice">
+         <input type="checkbox" id="agreeCheckbox" required />
+         <label for="agreeCheckbox">위 사항을 숙지했으며, 탈퇴를 진행하겠습니다.</label>
+      </div>
+   </div>
+   <div id="delete_wrap">
+   
+      <input type="hidden" th:value="${sid}" name="sid"/>
+   
+      <li>
+         <span id="delete_input">비밀번호 입력</span>
+      </li>
+      <li>
+         <input type="password" name="spw" id="spw" required />
+      </li>
+      <li>
+         <input type="submit" value="탈퇴하기" id="spw_btn"/>
+      </li>
+      <button type="button" onclick="togglePassword()" id="pwseehide" }>
+         <span id="visibilityOnIcon" class="material-symbols-outlined">visibility</span>
+         <span id="visibilityOffIcon" class="material-symbols-outlined" style="display: none;">visibility_off</span>
+      </button>
+      </form>
+   </div>
+    <a href="javascript:goBack()">뒤로</a>
+
+</div>
+   <footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+</body>
+</html>

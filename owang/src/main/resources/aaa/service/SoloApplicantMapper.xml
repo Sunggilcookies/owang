@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.SoloApplicantMapper">
+
+	<!-- 지원서 접수 -->
+<insert id="appinsert" parameterType="aDTO">
+	    INSERT INTO applicant 
+		(recruit_id, recruit_title, sid, sname, sbirth, sage, sgender, sphone, semail, saddress, scompanyName, scompanyFile,
+		rsid, apphoto, aptitle, apcareer, apcompany, apworkstart, apworkend, apwork, 
+		apacademic, apacademicstat, apintroduce, aplicense, aplicenseorg, aplicenseyear, aplanguage, aplanguagelevel, 
+		apsubmitdate, cname, cid, cemail)
+		values 
+		(
+		#{rcDTO.recruitId},
+		#{rcDTO.recruitTitle},
+		#{sDTO.sid}, 
+		#{sDTO.sname},
+		#{sDTO.sbirth},
+		#{sDTO.sage}, 
+		#{sDTO.sgender},
+		#{sDTO.sphone}, 
+		#{sDTO.semail},
+		#{sDTO.saddress},
+		#{sDTO.scompanyName},
+		#{sDTO.scompanyFile},
+		#{srDTO.rsid},
+		#{srDTO.rsphoto}, #{srDTO.rstitle}, #{srDTO.rscareer}, #{srDTO.rscompany}, #{srDTO.rsworkstart}, #{srDTO.rsworkend}, #{srDTO.rswork},
+		#{srDTO.rsacademic}, #{srDTO.rsacademicstat}, #{srDTO.rsintroduce}, #{srDTO.rslicense}, #{srDTO.rslicenseorg}, #{srDTO.rslicenseyear}, 
+		#{srDTO.rslanguage}, #{srDTO.rslanguagelevel},
+		sysdate(), 
+		#{mcDTO.cname},
+		#{mcDTO.cid},
+		#{mcDTO.cemail}
+		);
+		
+		<selectKey keyProperty="ano" resultType="Integer" order="AFTER">
+			select max(ano) from applicant
+		</selectKey>
+		
+	</insert>
+
+
+	<!-- 지원서 리스트 출력 -->
+	<select id="applist" resultType="aDTO" parameterType="aDTO">
+		SELECT 
+		    ano, recruit_id, recruit_title, sid, sname, rsid, apphoto, aptitle, apcareer, apcompany, apworkstart, apworkend, apwork, 
+		    apacademic, apacademicstat, apintroduce, aplicense, aplicenseorg, aplicenseyear, aplanguage, aplanguagelevel, 
+		    apsubmitdate, cname, cid, apcancel, apread, appass
+		FROM applicant 
+		WHERE sid = #{sid}
+		ORDER BY apsubmitdate DESC
+
+
+	</select>
+	
+	<!-- 지원서 개수 -->
+	<select id="appcnt" resultType="Integer" >
+		select count(*) from applicant
+	</select>
+	
+	<!-- 지원서 상세보기 -->
+	<select id="appdetail" resultType="aDTO">
+		select * from applicant where ano = #{ano} and sid = #{sid}
+	</select>
+	
+	<!-- 지원서 삭제 -->
+	<delete id="appdelete"  parameterType="aDTO">
+		delete from applicant where ano = #{ano}
+	</delete>
+	
+	<select id="apptotal" resultType="Integer">
+		select count(*) from applicant
+	</select>
+	
+	<!-- 개인 지원서 취소 시 apcancel 1로 변경 -->
+	<update id="appstate" parameterType="Integer">
+		update applicant set
+		apcancel = 1
+		where ano = #{ano}
+	</update>
+	
+	<!-- 해당공고의 지원자 수  -->
+	<select id="appnum" resultType="Integer"  parameterType="aDTO">
+		select count(*) from applicant
+		where recruit_id = #{recruitId}
+	</select>
+	
+	<!-- 해당공고의 지원자 수  -->
+	<update  id="recnt" parameterType="Integer">
+	UPDATE recruit
+SET appnum = (
+    SELECT COUNT(*)
+    FROM applicant
+    WHERE recruit_id = #{id}
+)
+WHERE recruit_id = #{id}
+	</update>
+	
+</mapper>

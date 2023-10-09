@@ -1,0 +1,28 @@
+server :
+  port : 80
+
+spring :
+  thymeleaf:
+    prefix : views/
+    suffix : .html
+    cache : false
+  mail:
+    host: smtp.naver.com 
+    port: 465
+    username: ajh1070337@naver.com
+    password: wogns0211
+    properties:
+     mail.smtp.auth: true
+     mail.smtp.ssl.enable: true
+     mail.smtp.ssl.trust: smtp.naver.com 
+     
+  datasource :
+    driver-class-name : com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://localhost:3306/owang
+    username : owangadmin
+    password : 123456789
+    
+mybatis:
+  type-aliases-package: aaa.model
+  configuration:
+    map-underscore-to-camel-case: true

@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet" th:href="@{/css/solo_applicant/home.css}">
+<header>
+   <div th:insert="~{header :: header}"></div>
+</header>   
+<body>
+<div id="solo_recruit_home">
+   <div id="recruit_ad">
+      <span>지금 오왕의 구인구직 시스템을 이용해보세요.</span>
+   </div>
+   <div id="recruit_text">
+      <span>지원서 관리</span>
+   </div>      
+   <div id="recruit_none">
+       <span th:if="${#lists.isEmpty(appdata)}">앗! 지원내역이 존재하지 않습니다</span>
+   </div>
+   <div id="gotorc" th:if="${appdata.isEmpty()}">
+      <a href="/recruit/list/1">채용공고 보러가기&nbsp
+         <span class="material-symbols-outlined">
+            arrow_forward
+         </span>
+      </a>
+   </div>
+   <div id="rctotal">
+      <span th:if="${not appdata.isEmpty()}" th:text="${'총 ' + appdata.size() + ' 건의 지원내역이 존재합니다'}"></span>
+   </div>
+
+   <div id="recruit_list" th:if="${not appdata.isEmpty()}" th:each="adto, astart : ${appdata}">
+      <div id="rcdate">
+         No.<span th:text="${astart.count}" />
+         <li>
+            <span th:text="${#dates.format(adto.apsubmitdate, 'yyyy-MM-dd HH:mm')}" />
+         </li>
+      </div>
+      <div id="rccontent">
+         <!-- 기업 명 -->
+         <li>
+            <a th:href="'/company/detail/' + ${adto.cid}" th:text="${adto.cname}"></a>
+         </li>
+         <!-- 공고 제목 -->
+           <li>
+            <a th:href="'/recruit/detail/' + ${adto.cid} + '/' + ${applicantDTO.page} + '/' + ${adto.recruitId}" th:text="${adto.recruitTitle}"></a>
+         </li>
+         <!-- 지원 이력서 -->
+         <li>
+            <span class="material-symbols-outlined">description</span>
+            <a th:href="|/solo_applicant/detail/${applicantDTO.page}/${adto.ano}|" th:text="${adto.aptitle}" />
+         </li>
+      </div>
+      <div id="rcpass">   
+         <!-- 합격여부 -->
+         <li th:if="${adto.apcancel != 1}">
+            <span th:if="${adto.apread == 0}">
+               <span class="material-symbols-outlined" style="color: rgb(45, 101, 242); font-size: 17px;">
+                  check_circle
+               </span>
+               지원완료 &nbsp;<span style="font-size: 16px; color: #ccc; position: relative; bottom: 2px;">|</span>&nbsp; 미열람
+            </span>
+            <span th:if="${adto.apread == 1 and adto.appass == 0}">열람완료</span>
+             <span th:if="${adto.apread == 1 and adto.appass == 1}" style="color: blue;">합격</span>
+             <span th:if="${adto.appass == 2}" style="color: red;">불합격</span>
+         </li>
+         <!-- 지원 취소 -->
+         <li th:if="${adto.apcancel == 0}">
+             <a th:href="|/solo_applicant/modify/${applicantDTO.page}/${adto.ano}|" th:onclick="return confirm('[[${adto.cname}]]에 지원을 취소하겠습니까?')">지원취소</a>
+         </li>
+         <li id="canceled" th:if="${adto.apcancel == 1}">
+            취소된 지원 입니다
+                        <a th:href="|/solo_applicant/delete/1/${adto.ano}|" onclick="return confirm('지원서를 삭제하시겠습니까?');" />
+
+            <span class="material-symbols-outlined">delete</span></a>
+         
+         </li>
+      </div>
+   </div>
+    </div>
+
+</body>
+ <footer>
+   <div th:insert="~{footer :: footer}"></div>
+</footer>  
+
+</html>

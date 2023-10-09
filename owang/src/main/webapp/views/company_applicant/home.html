@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+	.content-box {
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			margin: 0px;
+			padding: 0px;
+			display: block;
+			background-color: rgb(255, 255, 255);
+			font-size: 16px;
+		}
+		.footer-box {
+	    position: relative;
+	    padding: 60px 0px;
+	    max-width: 1060px;
+	    margin: 0px auto;
+	    overflow: hidden;
+		}
+		
+    /* 제목 텍스트에 대한 스타일 설정 */
+    h1 {
+		  /* 가운데 정렬 설정 */
+        font-size: 24px;
+        font-weight: bold;
+        color: #333; /* 검은색으로 설정 */
+        margin: 50px auto; /* 테이블 가운데 정렬 */
+    }
+
+    /* 테이블 스타일 설정 */
+    table {
+		margin-top: 20px;
+        border-collapse: collapse; /* 테이블 셀 경계를 합치기 */
+        width: 100%; /* 테이블 너비를 100%로 설정 */
+        --fa-style-family-brands: "Font Awesome 6 Brands";
+			--fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+			--fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+			--fa-style-family-classic: "Font Awesome 6 Free";
+			--fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 18px;
+			border-top-width: 1px;
+			border-bottom-width: 1px;
+			border-left-width: 1px;
+			border-right-width: 1px;
+			margin: 20px auto 0px auto; /* 테이블 가운데 정렬 */
+    }
+	th{
+		width: 200px;
+	}
+    /* 테이블 셀 스타일 설정 */
+ /* 테이블 셀 스타일 수정 */
+th, td {
+    border: 1px solid #ccc; /* 셀 테두리 설정 */
+    padding: 12px; /* 셀 안의 여백을 늘립니다 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    font-size: 16px; /* 글자 크기를 18px로 설정 */
+    white-space: nowrap;
+    overflow: auto;
+}
+
+    /* 버튼 스타일 설정 */
+a.button {
+    display: inline-block;
+   padding: 18px 28px; /* 버튼 패딩을 조절 (원하는 크기로 수정 가능) */
+    font-size: 18px; /* 버튼 내의 글씨 크기를 조절 (원하는 크기로 수정 가능) */
+    background-color: rgb(128, 128, 128); /* 버튼 배경색을 파란색으로 설정 */
+    color: #fff; /* 버튼 텍스트 색상을 흰색으로 설정 */
+    text-decoration: none;
+    border-radius: 4px; /* 버튼 모서리를 둥글게 설정 */
+    margin-right: 10px; /* 버튼 사이 여백 설정 */
+    margin-top:10px;
+    margin-bottom: 20px;
+}
+ #logoImage {
+        max-width: 300px; /* 이미지의 최대 너비를 지정합니다. */
+        max-height: 200px; /* 이미지의 최대 높이를 지정합니다. */
+        width: auto; /* 이미지의 가로 크기를 자동으로 조절하여 비율 유지 */
+        height: auto; /* 이미지의 세로 크기를 자동으로 조절하여 비율 유지 */
+    }
+a.buttonz {
+    display: inline-block;
+   padding: 18px 28px; /* 버튼 패딩을 조절 (원하는 크기로 수정 가능) */
+    font-size: 18px; /* 버튼 내의 글씨 크기를 조절 (원하는 크기로 수정 가능) */
+    background-color:rgb(57, 57, 255); /* 버튼 배경색을 파란색으로 설정 */
+    color: #fff; /* 버튼 텍스트 색상을 흰색으로 설정 */
+    text-decoration: none;
+    border-radius: 4px; /* 버튼 모서리를 둥글게 설정 */
+    margin-right: 10px; /* 버튼 사이 여백 설정 */
+    margin-top:10px;
+    margin-bottom: 20px;
+}
+
+  /* 버튼 호버(마우스 오버) 스타일 수정 */
+a.button:hover {
+    background-color: rgb(0, 0, 0); /* 마우스 오버시 배경색 변경 */
+}
+a.buttonz:hover {
+    background-color:  rgb(0, 0, 160); /* 마우스 오버시 배경색 변경 */
+}
+  /* 수정 및 삭제 버튼 위치 및 마진 수정 */
+.right-button-container {
+    float: right; /* 오른쪽에 배치 */
+    margin-top: 30px; /* 위쪽 마진 30px 추가 */
+    margin-right: 120px; /* 오른쪽 마진 20px 추가 */
+}
+
+/* 홈으로 버튼 위치 및 마진 수정 */
+.left-button-container {
+    float: left; /* 왼쪽에 배치 */
+    margin-top: 30px; /* 위쪽 마진 30px 추가 */
+    margin-left: 120px; /* 왼쪽 마진 20px 추가 */
+}
+/* 테이블 내의 버튼 스타일 수정 */
+table button {
+    padding: 10px 20px; /* 버튼 패딩을 조절 (원하는 크기로 수정 가능) */
+    font-size: 20px; /* 버튼 내의 글씨 크기를 조절 (원하는 크기로 수정 가능) */
+    background-color: rgb(61, 61, 61);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.description-box {
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 16px;
+			position: relative;
+			
+		}
+/* 버튼 호버(마우스 오버) 스타일 수정 */
+table button:hover {
+    background-color: rgb(0, 0, 134);
+}
+
+td:nth-child(5){
+	max-width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
+</head>
+<body>
+	<header>
+   <div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+<main class="content-box">
+	
+		<div class="footer-box"> <!-- Container -->
+		<div class="description-box">
+		<h1 style="font-size: 20px; margin-left: 10px; color: rgb(52 54 63);">지원서 관리 페이지</h1>
+		<h1 style="font-size: 60px; color: rgb(52 54 63); margin-left: 20px;	margin-bottom: 55px;">
+						[[${zzcname}]]</h1>
+						<hr>
+		</div>
+		
+		
+<h2>기업 지원자 관리</h2>
+<span th:if="${appdata.isEmpty()}">
+	<h2>지원자가 존재하지 않습니다</h2>
+</span>
+	<span class="a" th:if="${not appdata.isEmpty()}"
+	 th:text="${'총 ' + appdata.size() + ' 명의 지원자가 존재합니다.'}"></span>
+	<table border="">
+		
+	<tr th:if="${not appdata.isEmpty()}">
+		<td>.no</td>
+		<td>지원일</td>
+		<td>지원자명</td>
+		<td>기업명</td>
+		<td>공고제목</td>
+		<td>지원이력서</td>
+		<td>합격</td>
+		<td>불합격</td>
+	</tr>
+    <!-- appdata가 값이 있는 경우 데이터 출력 -->
+    <tr th:each="adto, astart : ${appdata}">
+        <td th:text="${astart.count + applicantDTO.start}" th:value="${adto.ano}" />
+        <td th:text="${#dates.format(adto.apsubmitdate, 'yyyy-MM-dd')}" />
+        <td th:text="${adto.sname}"/>
+         <!-- 기업 명 -->
+		<td>
+			<a th:href="'/company/detail/' + ${adto.cid}" th:text="${adto.cname}"></a>
+		</td>
+		<!-- 공고 제목 -->
+        <td>
+			<a th:href="'/recruit/detail/' + ${adto.cid} + '/' + ${applicantDTO.page} + '/' + ${adto.recruitId}" th:text="${adto.recruitTitle}"></a>
+		</td>
+		<!-- 지원 이력서 -->
+		<td>
+		    <th:block th:if="${adto.apcancel == 1}">
+		        <span>취소된 지원입니다</span>
+		    </th:block>
+		    <a th:href="|/company_applicant/detail/${applicantDTO.page}/${adto.ano}|" th:text="${adto.aptitle}" th:unless="${adto.apcancel == 1}" />
+		</td>
+		<input type="hidden" th:value="${adto.ano}" name="ano"/>
+		<!-- 합격 -->
+        <td> 
+            <th:block th:if="${adto.appass == 1}" th:colspan="2">
+		        <span>합격자 입니다</span>
+		    </th:block>
+            <a th:if="${adto.appass != 1 and adto.appass == 0}" th:href="|/company_applicant/pass/${applicantDTO.page}/${adto.ano}|" th:onclick="return confirm('[[${adto.sname}]]님을 합격처리 하시겠습니까?')">합격</a>
+        </td>
+		<!-- 불합격 -->
+        <td>
+		    <th:block th:if="${adto.appass == 2}">
+		        <span>불합격자 입니다</span>
+		    </th:block>
+            <a th:if="${adto.appass != 2 and adto.appass == 0}"  th:href="|/company_applicant/nonpass/${applicantDTO.page}/${adto.ano}|" th:onclick="return confirm('[[${adto.sname}]]님을 불합격처리 하시겠습니까?')">불합격</a>
+        </td>
+    </tr>
+	<!--<tr th:if="${not appdata.isEmpty()}">
+	    <td colspan="9" align="center">
+	        <a th:if="${applicantDTO.pageStart > 1}" th:href="${applicantDTO.pageStart - 1}" th:text="'[이전]'" />
+	        <th:block th:each="ad: ${#numbers.sequence(applicantDTO.pageStart, applicantDTO.pageEnd)}">
+	            <span th:if="${ad == applicantDTO.page}" th:text="${ad}" />
+	            <a th:unless="${ad == applicantDTO.page}" th:href="${ad}" th:text="${ad}"></a>
+	        </th:block>
+	        <a th:if="${applicantDTO.pageEnd < applicantDTO.pageTotal}" th:href="${applicantDTO.pageEnd + 1}" th:text="'[다음]'" />
+	    </td>
+	</tr>-->
+
+</table>
+<h2>합격자 명단</h2>
+<span th:if="${apppassdata.isEmpty()}">
+	<h2>합격자가 존재하지 않습니다</h2>
+</span>
+	<span th:if="${not apppassdata.isEmpty()}"   class="a" th:text="${'총 ' + apppassdata.size() + ' 명의 합격자가 존재합니다.'}"></span>
+<table border="" th:if="${not apppassdata.isEmpty()}">
+	<tr>
+		<th>.no</th>
+		<th>지원일</th>
+		<th>지원자명</th>
+		<th>기업명</th>
+		<th>공고제목</th>
+		<th>지원이력서</th>
+	</tr>
+	<tr th:each="appass, astart : ${apppassdata}">
+        <td th:text="${astart.count + applicantDTO.start}" th:value="${appass.ano}" />
+        <td th:text="${appass.apsubmitdate}" />
+        <td th:text="${appass.sname}" />
+         <!-- 기업 명 -->
+		<td>
+			<a th:href="'/company/detail/' + ${appass.cid}" th:text="${appass.cname}"></a>
+		</td>
+		<!-- 공고 제목 -->
+        <td>
+			<a th:href="'/recruit/detail/' + ${appass.cid} + '/' + ${applicantDTO.page} + '/' + ${appass.recruitId}" th:text="${appass.recruitTitle}"></a>
+		</td>
+		<!-- 지원 이력서 -->
+		<td>
+		    <th:block th:if="${appass.apcancel == 1}">
+		        <span>취소된 지원입니다</span>
+		    </th:block>
+		    <a th:href="|/company_applicant/detail/${applicantDTO.page}/${appass.ano}|" th:text="${appass.aptitle}" th:unless="${appass.apcancel == 1}" />
+		</td>
+		<input type="hidden" th:value="${appass.ano}" name="ano"/>
+    </tr>
+</table>
+
+<h2>불합격자 명단</h2>
+<span th:if="${appnonpassdata.isEmpty()}">
+	<h2>불합격자가 존재하지 않습니다</h2>
+</span>
+	<span  class="a" th:if="${not appnonpassdata.isEmpty()}" th:text="${'총 ' + appnonpassdata.size() + ' 명의 불합격자가 존재합니다.'}"></span>
+<table border=""  th:if="${not appnonpassdata.isEmpty()}">
+	<tr>
+		<th>.no</th>
+		<th>지원일</th>
+		<th>지원자명</th>
+		<th>기업명</th>
+		<th>공고제목</th>
+		<th>지원이력서</th>
+	</tr>
+	<tr th:each="apnonpass, astart : ${appnonpassdata}">
+        <td th:text="${astart.count + applicantDTO.start}" th:value="${apnonpass.ano}" />
+        <td th:text="${apnonpass.apsubmitdate}" />
+        <td th:text="${apnonpass.sname}" />
+         <!-- 기업 명 -->
+		<td>
+			<a th:href="'/company/detail/' + ${apnonpass.cid}" th:text="${apnonpass.cname}"></a>
+		</td>
+		<!-- 공고 제목 -->
+        <td>
+			<a th:href="'/recruit/detail/' + ${apnonpass.cid} + '/' + ${applicantDTO.page} + '/' + ${apnonpass.recruitId}" th:text="${apnonpass.recruitTitle}"></a>
+		</td>
+		<!-- 지원 이력서 -->
+		<td>
+		    <th:block th:if="${apnonpass.apcancel == 1}">
+		        <span>취소된 지원입니다</span>
+		    </th:block>
+		    <a th:href="|/company_applicant/detail/${applicantDTO.page}/${apnonpass.ano}|" th:text="${apnonpass.aptitle}" th:unless="${apnonpass.apcancel == 1}" />
+		</td>
+		<input type="hidden" th:value="${apnonpass.ano}" name="ano"/>
+    </tr>	
+    
+  
+</table>
+<div>  <span><a style="margin-left: 0px; margin-top: 20px; color: #000000; font-size: 20px;"
+					href="javascript:goBack()"><i style="margin-left: 0px; margin-top: 20px; color: #000000; font-size: 40px;"
+						class="material-icons">arrow_back</i>이전 페이지로</a></span></div>
+		</div>
+	</main>
+	<script>
+		function goBack() {
+			window.history.back();
+		}
+	</script>
+</body>
+<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </foote>
+</html>

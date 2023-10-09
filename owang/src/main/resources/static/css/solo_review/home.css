@@ -1,0 +1,217 @@
+
+body{
+	 height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+#solo_review_home{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 30px;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+ 	max-width: 1200px;
+}
+
+/* 마이 리뷰 */
+#review_text{
+	font-size: 50px;
+	color: rgb(55, 63, 87);
+	font-weight: 450;
+	margin-top: 80px;
+	margin-left: 60px;
+	margin-bottom: 100px;
+}
+
+
+/* 리뷰 없음 문구 */
+#review_none{
+	margin-top: 40px;
+	padding-bottom: 150px;
+	font-size: 40px;
+	text-align:center;
+	color: rgb(200, 206, 219);
+	font-weight: 250;
+}
+
+#review_ad{
+	float:right;
+	font-size: 15px;
+}
+
+#review_list{
+	width: 420px;
+	margin: 0 auto;
+	border-radius: 20px;
+	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+	padding: 30px;
+	display: inline-block;
+	margin-left: 65px;
+	margin-right: 15px;
+	margin-bottom: 70px;
+	position: relative;
+}
+
+
+#review_list li{
+	list-style: none;
+	
+}
+
+#review_list li:nth-of-type(1){
+	margin-left: 0px;
+	
+	margin-bottom: 20px;
+}
+
+#review_list li:nth-of-type(1) span:nth-of-type(1){
+	margin-right: 10px;
+	
+}
+
+
+/* 수정 삭제 */
+#review_list li:nth-of-type(1) span:nth-of-type(3){
+	float: right;
+	color: rgb(95, 99, 104);
+	font-size: 20px;
+}
+
+/* 기업 명 */
+#review_list li:nth-of-type(1) span:nth-of-type(2){
+	font-size: 20px;
+	letter-spacing: 10px;
+	color: rgb(55, 63, 87);
+	
+}
+
+/* 리뷰 제목 */
+#review_list #review_title{
+	font-size: 25px;
+	font-weight: 350;
+	text-align: center;
+	margin-bottom: 40px;
+	color: rgb(95, 99, 104);
+} 
+
+#review_list #review_title span:nth-of-type(1){
+	text-align: center;
+} 
+
+#review_list #review_title p{
+	margin: 0 auto;
+} 
+
+/* 제목 따옴표 */
+#review_list #review_title p:nth-of-type(1){
+	margin-bottom: 15px;
+	font-weight: 300;
+}
+
+#review_list #review_title p:nth-of-type(3){
+	margin-top: 25px;
+	font-weight: 300;
+}
+
+
+/* 장점 */
+#review_list li:nth-of-type(3) {
+	margin-bottom: 20px;	
+	text-align: left;
+	
+}
+
+#review_list li:nth-of-type(3) #review_jang{
+	
+	font-size: 19px;
+	font-weight: 350;
+	color: rgb(75, 136, 250);
+}
+
+#review_list #review_jang::after{
+	content: "|";
+	color: #ccc;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+/* 단점 */
+#review_list li:nth-of-type(4){
+	margin-bottom: 30px;
+	text-align: left;
+}
+
+#review_list #review_dan::after{
+	content: "|";
+	color: #ccc;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+#review_list li:nth-of-type(4) span:nth-of-type(1){
+	font-size: 19px;
+	font-weight: 350;
+	color: rgb(255, 98, 98);
+}
+
+/* 수정 삭제 버튼 */
+#review_content .review_btn{
+	position: absolute;
+    z-index: 9990;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    width: 80px;
+    left: 430px;
+    background-color: rgb(254, 252, 245);
+    border-radius: 5px;
+    top:45px;
+  	transition: all 0.3s ease; /* 트랜지션 속성을 적용 (0.3초 동안 부드러운 애니메이션) */
+
+}
+
+#review_content .review_btn li{
+	margin: 0 auto;
+	
+	text-decoration: none;
+}
+
+#review_content .review_btn li:nth-of-type(1){
+	margin-bottom: 15px;
+}
+
+#review_content .review_btn li a{
+	text-decoration: none;
+	color: rgb(55, 63, 87);
+	padding: 10px;
+}
+
+#review_content .review_btn li a:hover{
+	color: rgb(114, 129, 167);
+}
+
+.ellipsis-icon {
+	position: relative;
+	left: 10px;	
+}
+
+
+#review_content .ellipsis-icon:hover{
+	cursor: pointer;
+}
+
+
+/* 작성일 */
+#review_content li:nth-of-type(5){
+	padding-top: 20px;
+	font-size: 14px;
+	text-align: right;
+	color: rgb(79, 90, 125);
+}
+
+#review_content li:nth-of-type(5) span:nth-of-type(1)::after{
+	content: "|";
+	color: #eee;
+	margin-left: 15px;
+	margin-right: 15px;
+}

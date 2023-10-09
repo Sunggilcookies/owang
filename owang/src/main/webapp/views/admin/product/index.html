@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>인덱스</title>
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+	<style>
+		.main {
+			padding-left: 35px;
+			margin-top: 100px;
+		}
+
+		.grid-container {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			grid-gap: 20px;
+			width: 870px;
+		}
+
+		.card {
+			margin-top: 20px;
+			background-color: rgba(0, 64, 0, 0.1);
+			border: 2px solid #f0f0f0;
+			border-radius: 8px;
+			padding: 20px;
+			box-shadow: 0 4px 6px #f0f0f0;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			cursor: pointer;
+		}
+
+		.card:hover .count{
+			  transform: translateY(-10px); /* 위로 움직이는 효과 */
+		}
+
+		.card-content {
+			text-align: left;
+		}
+
+		.card h3 {
+			margin: 10px 0;
+			color: #103305;
+		}
+
+		.card a {
+			margin-top: auto;
+			color: rgb(0, 64, 0);
+			text-decoration: none;
+			text-align: right;
+		}
+
+		.big {
+			font-size: 50px !important;
+			/* 아이콘의 크기 */
+			font-variation-settings: 'OPSZ' 50 !important;
+			color: #103305 !important;
+		}
+
+		.solo {
+			font-size: 50px;
+			font-weight: bold;
+			color: rgb(255, 99, 132);
+		}
+
+		.comp {
+			font-size: 50px;
+			font-weight: bold;
+			color: rgb(54, 162, 235);
+		}
+
+		.info {
+			font-size: 50px;
+			font-weight: bold;
+			color: rgb(0, 64, 0);
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<header>
+			<div th:replace="~{admin/adheader}"></div>
+		</header>
+		<div class="main">
+			<div class="grid-container">
+				<!-- 첫 번째 카드 -->
+				<div class="card" onclick="location.href='/admin_solo/solocompany/1';">
+					<div class="card-content">
+						<span class="material-symbols-outlined big">admin_panel_settings</span>
+						<h3>재직회원 미승인</h3>
+					</div>
+					<div class="count"><span class="solo">[[${soloChk}]]</span>건</div>
+					<a>바로가기></a>
+				</div>
+				<div class="card" onclick="location.href='/ask/list/1';">
+					<div class="card-content">
+						<span class="material-symbols-outlined big">support_agent</span>
+						<h3>문의 미답변</h3>
+					</div>
+					<div class="count"><span class="info">[[${askChk}]]</span>건</div>
+					<a>바로가기></a>
+				</div>
+				<div class="card" onclick="location.href='/admin_company/cMiList/1';">
+					<div class="card-content">
+						<span class="material-symbols-outlined big">fact_check</span>
+						<h3>사업증명 미인증</h3>
+					</div>
+					<div class="count"><span class="comp">[[${compChk}]]</span>건</div>
+					<a>바로가기></a>
+				</div>
+				<div class="card" th:onclick="window.location.href='/admin_product/payment/1?from='+[[${today}]]+'&to='+[[${today}]]">
+					<div class="card-content">
+						<span class="material-symbols-outlined big">receipt_long</span>
+						<h3>오늘 결제완료</h3>
+					</div>
+					<div class="count"><span class="info">[[${payChk}]]</span>건</div>
+					<a>바로가기></a>
+				</div>
+			</div>
+		</div>
+	</container>
+</body>
+
+</html>

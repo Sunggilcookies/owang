@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품 관리</title>
+	<!-- Chart.js 라이브러리 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+	<style>
+		.main {
+			padding-left: 20px;
+			margin-top: 35px;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+		}
+
+		.btn-container {
+			margin-left: 10px;
+		}
+
+		button {
+			margin: 5px 5px;
+			padding: 6px 12px;
+			border: 1px solid rgba(0, 64, 0, 0.1);
+			border-radius: 4px;
+			cursor: pointer;
+			color: #999;
+		}
+
+		button.active,
+		button:hover {
+			border: 1px solid rgba(0, 64, 0, 1);
+			color: #000;
+			background-color: #f9f9f9;
+		}
+
+		form {
+			display: flex;
+			align-items: center;
+		}
+
+		form input[type="date"] {
+			width: 218px;
+			padding: 6px 12px;
+			border-radius: 4px;
+			margin: 5px 15px;
+			text-align: center;
+			border: 1px solid black;
+		}
+
+		input[type="submit"] {
+			padding: 7px 12px;
+			background-color: rgba(0, 64, 0, 0.6);
+			border-radius: 4px;
+			border: 1px solid rgba(0, 64, 0, 0.3);
+			color: #fff;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: rgba(0, 64, 0, 0.8);
+			border: 1px solid rgba(0, 64, 0, 0.6);
+		}
+
+		form button {
+			margin-left: auto;
+			margin-right: 70px;
+			padding: 6px 12px;
+			color: #103305;
+			border: none;
+			cursor: pointer;
+		}
+
+		form button:hover {
+			border: none;
+			background-color: rgba(0, 64, 0, 0.1);
+		}
+
+		table {
+			width: 855px;
+			border-collapse: collapse;
+			border-top: 2px solid #000;
+			border-bottom: 2px solid #000;
+		}
+
+		tr:not(:first-child):hover {
+			background-color: #e0e0e0;
+		}
+
+		th {
+			color: #fff;
+			padding: 8px;
+			border-bottom: 1px solid #999;
+		}
+
+		td {
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		div>table {
+			margin: 10px;
+		}
+
+		#btnrange-container {
+			margin-left: 15px;
+		}
+
+		#btnrange-container>button {
+			margin: 5px 0;
+		}
+
+		#solotbl {
+			width: 290px;
+		}
+
+		#comptbl {
+			width: 330px;
+		}
+
+		#member-container {
+			display: flex;
+			margin: 90px 0;
+		}
+
+		#member-container>div>canvas {
+			margin: 30px 15px 0 5px;
+		}
+
+		.alri {
+			text-align: right;
+		}
+
+		.alct {
+			text-align: center;
+		}
+
+		.pname {
+			text-align: left;
+			padding-left: 130px;
+		}
+
+		.gprice {
+			text-align: right;
+			padding-right: 10px;
+		}
+
+		#solotr {
+			background-color: rgba(255, 99, 132, 0.5);
+		}
+
+		#comptr {
+			background-color: rgba(54, 162, 235, 0.5);
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<header>
+			<div th:replace="~{admin/adheader}"></div>
+		</header>
+		<div class="main">
+			<h1>결제 정산</h1>
+			<div class="btn-container">
+				<button data-range="365" onclick="rangedays(365)">1년</button>
+				<button onclick="rangedays(180)">6개월</button>
+				<button onclick="rangedays(90)">3개월</button>
+				<button onclick="rangedays(30)">1개월</button>
+				<button onclick="rangedays(7)">1주</button>
+			</div>
+			<form action="">
+				<input type="date" name="startDate" th:value="${startDate}" th:max="${today}">~
+				<input type="date" name="endDate" th:value="${endDate}" th:max="${today}">
+				<input type="submit" value="검색">
+			</form>
+			<form class="alter" action="/admin_product/payment/1" method="get">
+				<input type="hidden" name="from" th:value="${startDate}">
+				<input type="hidden" name="to" th:value="${endDate}">
+				<button type="submit">해당기간 결제내역 보러가기 ></button>
+			</form>
+			<h3 class="alct">기간내 총매출: <span th:text="${#numbers.formatInteger(totalSum, 3, 'COMMA')+'원'}" /></h3>
+			<div id="btnrange-container">
+				<button id="btnMonth">월간</button>
+				<button id="btnWeek">주간</button>
+				<button id="btnDay">일간</button>
+			</div>
+			<div>
+				<canvas id="lineChart" width="850" height="400"></canvas>
+			</div>
+
+			<div id="member-container">
+				<div>
+					<canvas id="pieChart" width="225" height="225"></canvas>
+				</div>
+				<div>
+					<table id="solotbl">
+						<tr id="solotr">
+							<th colspan="2">개인회원</th>
+							<th class="gprice" th:text="${#numbers.formatInteger(sSum, 3, 'COMMA')+'원'}" />
+							<th>
+								<!-- 퍼센트 값을 계산하여 출력 -->
+								<span th:unless="${totalSum==0}" th:text="${(sSum * 100) / totalSum + '%'}" />
+							</th>
+						</tr>
+						<tr th:each="item, index : ${slist}" th:if="${index.index < 5}">
+							<td class="alri" th:text="${(index.index + 1)+'위'}" />
+							<td th:text="${item['sid']}"></td>
+							<td class="gprice" th:unless="${item['total']==0}"
+								th:text="${#numbers.formatInteger(item['total'], 3, 'COMMA')+'원'}" />
+							<td class="gprice" th:if="${item['total']==0}" th:text="'(취소됨)'" />
+							<td class="alri">
+								<span th:if="${sSum != 0}" th:text="${((item['total'] * 100) / sSum) + '%'}"></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<table id="comptbl">
+						<tr id="comptr">
+							<th colspan="2">기업회원</th>
+							<th class="gprice" th:text="${#numbers.formatInteger(cSum, 3, 'COMMA')+'원'}" />
+							<th>
+								<span th:unless="${totalSum==0}" th:text="${(cSum * 100) / totalSum + '%'}" />
+							</th>
+						</tr>
+						<tr th:each="item, index : ${clist}" th:if="${index.index < 5}">
+							<td class="alri" th:text="${(index.index + 1)+'위'}" />
+							<td th:text="${item['cid']}" />
+							<td class="gprice" th:unless="${item['total']==0}"
+								th:text="${#numbers.formatInteger(item['total'], 3, 'COMMA')+'원'}" />
+							<td class="gprice" th:if="${item['total']==0}" th:text="'(취소됨)'" />
+							<td class="alri">
+								<span th:if="${cSum != 0}" th:text="${((item['total'] * 100) / cSum) + '%'}" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div>
+				<table>
+					<tr style="background-color: #333;">
+						<th colspan="2">상품</th>
+						<th class="gprice" th:text="${#numbers.formatInteger(pSum, 3, 'COMMA')+'원'}" />
+						<th></th>
+					</tr>
+					<tr th:each="item, index : ${plist}" th:if="${index.index < 5}">
+						<td class="alri" th:text="${(index.index + 1)+'위'}" />
+						<td class="pname" th:text="${item['pname']}"></td>
+						<td class="gprice" th:unless="${item['total']==0}"
+							th:text="${#numbers.formatInteger(item['total'], 3, 'COMMA')+'원'}" />
+						<td class="gprice" th:if="${item['total']==0}" th:text="'(취소됨)'" />
+						<td class="alri">
+							<span th:if="${pSum != 0}" th:text="${((item['total'] * 100) / pSum) + '%'}"></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</container>
+	<script th:inline="javascript">
+		// 컨트롤러에서 에러메시지가 왔다면 alert를 띄우고 이전페이지로
+		var errorMsg = /*[[${errorMsg}]]*/ null;
+		if (errorMsg !== null) {
+			alert(errorMsg);
+			window.history.back();
+		}
+
+		let inputSd = document.querySelector('input[name="startDate"]');
+		let inputEd = document.querySelector('input[name="endDate"]');
+
+		// startDate 선택시 endDate는 그 이후가 선택되도록
+		document.addEventListener('DOMContentLoaded', function () {
+			inputSd.addEventListener('input', function () {
+				inputEd.min = this.value;
+			});
+
+
+			const buttons = document.querySelectorAll('.btn-container button');
+			function setActiveButton(range) {
+				const selectedStartDate = new Date();
+				const selectedEndDate = new Date();
+
+				selectedStartDate.setDate(selectedStartDate.getDate() - (range - 1));
+
+				buttons.forEach(function (button) {
+					let buttonRange = parseInt(button.getAttribute('data-range'));
+					let buttonEndDate = new Date();
+					let buttonStartDate = new Date();
+					buttonStartDate.setDate(buttonStartDate.getDate() - (buttonRange - 1));
+
+					if (
+						selectedStartDate === buttonStartDate &&
+						selectedEndDate === buttonEndDate
+					) {
+						button.classList.add('active');
+					} else {
+						button.classList.remove('active');
+					}
+				});
+			}
+
+		});
+
+		// 최근 range 매출보기
+		function rangedays(range) {
+			let endDate = new Date();
+			let startDate = new Date();
+			startDate.setDate(startDate.getDate() - (range - 1));
+			// 시작일과 종료일 값을 설정
+			inputEd.valueAsDate = endDate;
+			inputSd.valueAsDate = startDate;
+			// 서브밋
+			document.querySelector('form').submit();
+		}
+
+		// 그래프 데이터
+		let graphDatas = /*[[${graphData}]]*/ null;
+		//   console.log(graphDatas);
+		let startDate = new Date(/*[[${startDate}]]*/);
+		let endDate = new Date(/*[[${endDate}]]*/);
+
+
+		function prepareGraphData(startDate, endDate, graphDatas) {
+
+			let allDates = getDates(startDate, endDate);
+			// 시작 날짜와 끝 날짜 사이의 모든 날짜를 가져오는 함수
+			function getDates(startDate, endDate) {
+				let dates = [];
+				let thisDate = new Date(startDate);
+				// startDate부터 endDate까지 하루씩 더하면서 날짜를 배열에 넣음
+				while (thisDate <= endDate) {
+					dates.push(new Date(thisDate));
+					thisDate.setDate(thisDate.getDate() + 1);
+				}
+				return dates;
+			}
+
+			// 데이터를 tempMap에 넣기(복사)
+			let tempMap = new Map();
+			graphDatas.forEach(item => {
+				tempMap.set(item.date, item.totalAmount);
+			});
+
+			// tempMap과 비교하여 누락된 날짜를 채우기
+			allDates.forEach(date => {
+				// 날짜를 iso문자열로 변환하고 T를 기준으로 나눠 yyyy-mm-dd 형식 날짜를 가져옴
+				// iso문자열 : 년-월-일T시:분:초 / 2023-09-11T14:30:00
+				let isoDate = date.toISOString().split('T')[0];
+				// tempMap에 날짜가 없으면
+				if (!tempMap.has(isoDate)) {
+					// graphDatas에 없는 날짜와 값을 0으로 해서 넣어줌
+					graphDatas.push({date: isoDate, totalAmount: 0});
+				}
+			});
+
+			// graphDatas의 정렬기준(a, b를 날짜로 변환해서 빼기: a가 크면 양수- 뒤로 감, a가 작으면 음수- 앞으로 감) - 날짜순
+			graphDatas.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+			return graphDatas;
+		}
+
+
+		// 1주씩 데이타 그룹화
+		function groupDataByWeek(gdata, startDate, endDate) {
+
+			// 특정일이 속해있는 주 중에 첫 날(일요일) 가져오기
+			Date.prototype.getStartOfWeek = function () {
+				// 연 월 일 정보 가져와서 요일 정보 빼기 - 요일이 0(일요일)으로 됨
+				let startOfWeek = new Date(this.getFullYear(), this.getMonth(), this.getDate() - this.getDay());
+				return startOfWeek;
+			}
+
+			let groupedData = [];
+			let currentWeekStart = null;
+			let weekTotal = 0;
+
+			gdata.forEach(item => {
+				let itemDate = new Date(item.date);
+				let startOfWeek = itemDate.getStartOfWeek();
+
+				if (currentWeekStart != null && (currentWeekStart.getTime() != startOfWeek.getTime())) {
+					// 현재 주의 첫날이 같으면 데이터를 묶고, 현재 주의 첫날이 달라지면 그 주의 데이터를 groupedData에 추가
+					let formattedDate = (currentWeekStart.getMonth() + 1) + "월 "
+						+ (Math.ceil(currentWeekStart.getDate() / 7) + 1) + "주차(" + currentWeekStart.getDate() + "일~ )";
+					groupedData.push({date: formattedDate, totalAmount: weekTotal});
+					// 초기화
+					weekTotal = 0;
+				}
+				weekTotal += item.totalAmount;
+				currentWeekStart = startOfWeek;
+			});
+			if (currentWeekStart !== null) {
+				// 마지막 주의 데이터를 groupedData에 추가
+				let formattedDate = currentWeekStart.getFullYear() + "년 " + (currentWeekStart.getMonth() + 1) + "월 "
+					+ (Math.ceil(currentWeekStart.getDate() / 7) + 1) + "주차(" + currentWeekStart.getDate() + "일~"
+					+ endDate.getDate() + "일)";
+				groupedData.push({date: formattedDate, totalAmount: weekTotal});
+			}
+			if (groupedData.length > 0) {
+				// 자료 첫 주의 라벨 수정
+				let firstData = groupedData[0];
+				let currentWeekStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - startDate.getDay());
+				let currentWeekEnd = new Date();
+				currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+				firstData.date = currentWeekStart.getFullYear() + "년 " + (currentWeekStart.getMonth() + 1) + "월 "
+					+ (Math.ceil(currentWeekStart.getDate() / 7) + 1) + "주차("
+					+ startDate.getDate() + "일~" + (currentWeekEnd).getDate() + "일)";
+			}
+			return groupedData;
+		}
+
+
+		// 1달씩 데이타 그룹화
+		function groupDataByMonth(gdata, startDate, endDate) {
+			let groupedData = [];
+			let currentMonth = null;
+			let monthTotal = 0;
+
+			gdata.forEach(item => {
+				let itemDate = new Date(item.date);
+				let itemMonth = itemDate.getMonth();
+
+				if (currentMonth != null && (currentMonth != itemMonth)) {
+					// 현재 월이 변경되면 그 월의 데이터를 groupedData에 추가
+					let formattedDate = (currentMonth + 1) + "월";
+					groupedData.push({date: formattedDate, totalAmount: monthTotal});
+					monthTotal = 0;
+				}
+				monthTotal += item.totalAmount;
+				currentMonth = itemMonth;
+			});
+			if (currentMonth !== null) {
+				// 마지막 월의 데이터를 groupedData에 추가
+				let formattedDate = endDate.getFullYear() + "년 " + (currentMonth + 1) + "월( ~" + endDate.getDate() + "일)";
+				groupedData.push({date: formattedDate, totalAmount: monthTotal});
+			}
+			// 첫 번째 주의 데이터를 수정
+			if (groupedData.length > 0) {
+				let firstData = groupedData[0];
+				let currentMonth = startDate.getMonth();
+				firstData.date = startDate.getFullYear() + "년 " + (currentMonth + 1) + "월(" + startDate.getDate() + "일~ )";
+			}
+
+			return groupedData;
+		}
+
+
+		let lineChart = null;
+		function drawGraph(graphDatas) {
+
+			// 이전 그래프 파괴
+			if (lineChart) {
+				lineChart.destroy();
+			}
+
+			// 라벨(x축) = graphDatas의 date
+			let labels = graphDatas.map(function (item) {
+				return item.date;
+			});
+			// 데이타(y축) = graphDatas의 totalAmount
+			let data = graphDatas.map(function (item) {
+				return item.totalAmount;
+			});
+
+			let graphData = {
+				labels: labels,
+				datasets: [{
+					label: "매출",
+					data: data,
+					backgroundColor: '#f0f0f0',
+					borderColor: 'orange',
+					borderWidth: 2
+				}]
+			};
+			// 캔버스에 그래프 그리기
+			let lineCanvas = document.getElementById('lineChart').getContext('2d');
+
+			lineChart = new Chart(lineCanvas, {
+				type: 'line',   // 꺾은선 그래프
+				data: graphData,
+				options: {
+					// 반응형 해제, 반응형으로 두면 크기가 무조건 꽉 채워짐
+					responsive: false,
+					scales: {
+						y: {
+							// y축 시작값 0으로 설정
+							beginAtZero: true,
+							// 눈금의 최대값은 자료의 최대값과 최대값에 5000 더한 값 범위 안에서 설정
+							suggestedMax: Math.ceil(Math.max(...data) / 5000) * 5000,
+							ticks: {
+								// 자료값이 0일 때 눈금선값의 소수점 자리수 설정
+								precision: -3
+							}
+						}
+					},
+					plugins: {
+						legend: {
+							// 범례 표시 해제
+							display: false
+						}
+					},
+				}
+			});
+		}
+
+		let btnrange = document.querySelectorAll('#btnrange-container button');
+		// 버튼 클릭 이벤트
+		document.getElementById('btnMonth').addEventListener('click', function () {
+			// 이름을 다르게 해야 함
+			newDatas = prepareGraphData(startDate, endDate, graphDatas);
+			newDatas = groupDataByMonth(newDatas, startDate, endDate);
+			drawGraph(newDatas);
+			btnrange.forEach(button => button.classList.remove('active'));
+			document.getElementById('btnMonth').classList.add('active');
+		});
+
+		document.getElementById('btnWeek').addEventListener('click', function () {
+			newDatas = prepareGraphData(startDate, endDate, graphDatas);
+			newDatas = groupDataByWeek(newDatas, startDate, endDate);
+			drawGraph(newDatas);
+			btnrange.forEach(button => button.classList.remove('active'));
+			document.getElementById('btnWeek').classList.add('active');
+		});
+
+		document.getElementById('btnDay').addEventListener('click', function () {
+			newDatas = prepareGraphData(startDate, endDate, graphDatas);
+			drawGraph(newDatas);
+			btnrange.forEach(button => button.classList.remove('active'));
+			document.getElementById('btnDay').classList.add('active');
+		});
+
+		// startDate와 endDate 검사
+		function checkDateRange(startDate, endDate) {
+			// 일(day)로 나눔
+			let dateRange = (endDate - startDate) / (1000 * 60 * 60 * 24);
+			let buttons = document.querySelectorAll('#btnrange-container button');
+			if (dateRange >= 179) {
+				document.getElementById('btnMonth').click();
+				btnrange.forEach(button => button.classList.remove('active'));
+				document.getElementById('btnMonth').classList.add('active');
+			} else if (dateRange >= 29) {
+				document.getElementById('btnWeek').click();
+				btnrange.forEach(button => button.classList.remove('active'));
+				document.getElementById('btnWeek').classList.add('active');
+			} else {
+				document.getElementById('btnDay').click();
+				btnrange.forEach(button => button.classList.remove('active'));
+				document.getElementById('btnDay').classList.add('active');
+			}
+		};
+		checkDateRange(startDate, endDate);
+
+		// 매출액 회원비율 원그래프 그리기
+		function drawPieChart(ssum, csum) {
+			let pieCanvas = document.getElementById('pieChart').getContext('2d');
+			let total = ssum + csum;
+			let spercent = (ssum / total) * 100;
+			let cpercent = (csum / total) * 100;
+
+			let data = {
+				labels: ['기업회원', '개인회원'],
+				datasets: [{
+					label: '매출액 비율',
+					data: [cpercent, spercent],
+					backgroundColor: [
+						'rgba(54, 162, 235, 0.5)',
+						'rgba(255, 99, 132, 0.5)',
+					],
+					borderColor: [
+						'rgba(54, 162, 235, 0.4)',
+						'rgba(255, 99, 132, 0.4)',
+					],
+					borderWidth: 2
+				}]
+			};
+
+			let pieChart = new Chart(pieCanvas, {
+				type: 'pie',
+				data: data,
+				options: {
+					responsive: false,
+					plugins: {
+						legend: {
+							display: false,
+							position: 'top',
+						},
+						//						title: {
+						//							display: true,
+						//							text: '매출액 회원 비율'
+						//						},
+						tooltip: {
+							callbacks: {
+								label: function (context) {
+									let label = context.label || '';
+									let value = context.parsed;
+									return `${label}: ${value.toFixed(2)}%`;
+								}
+							}
+						}
+					}
+				}
+			});
+		}
+		let ssum = /*[[${sSum}]]*/ 0;
+		let csum = /*[[${cSum}]]*/ 0;
+		drawPieChart(ssum, csum);
+	</script>
+</body>
+
+</html>

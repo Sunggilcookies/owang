@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/review/insertmod.css}">
+	  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<h1> 리뷰 수정 페이지 </h1>
+
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+	
+	<main class="content-box">
+
+		<div class="footer-box"> <!-- Container -->
+<form action="" method="post"  th:object="${mainData}">
+	<input type="hidden" th:field="*{cid}" />
+	<table border="">
+		<tr>
+			<td>작성자</td>
+			<td><input type="text" th:field="*{sid}" readonly/></td>
+		</tr>
+		<tr>
+			<td>기업이름</td>
+			<td><input type="text" th:field="*{cname}"  readonly/></td>
+		</tr>
+		<tr>
+			<td>리뷰제목</td>
+			<td><input type="text" th:field="*{rvtitle}" /> </td>
+		</tr>
+		<tr>
+			<td>기업 장점</td>
+			<td><textarea type="text" rows="10" cols="30" th:field="*{rvjang}"   required></textarea></td>
+		</tr>
+		<tr>
+			<td>기업 단점</td>
+			<td><textarea type="text"  rows="10" cols="30" th:field="*{rvdan}" required/></td>
+		</tr>
+			<tr align="center">
+				
+				
+				<td colspan="2">
+					<input type="submit" value="전송" /> 
+				</td>
+			</tr>
+		
+		
+	</table>
+	
+</form>
+	<a   th:href="|/review/list/${reviewDTO.cid}/${reviewDTO.page}|" #2D65F2; i class="fa-solid fa-reply" style=" margin-left: 80px; margin-top: 20px; color: #000000; font-size: 40px;" id="before"></a>
+	</div>
+	</main>
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </foote>
+    
+    
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.ProductMapper">
+
+	<select id="list" resultType="pDTO">
+		select * from product order by product_client, product_price
+	</select>
+	<select id="detail" resultType="pDTO" parameterType="String">
+		select * from product where product_id = #{productId}
+	</select>
+	<select id="period" resultType="int" parameterType="String">
+		select product_valid from product where product_id = #{productId}
+	</select>
+
+	<insert id="insert" parameterType="pDTO">
+		insert into product (product_name, product_client, product_valid, product_price) 
+		values (#{productName}, #{productClient}, #{productValid}, #{productPrice})
+	</insert>
+	
+	<delete id="delete" parameterType="pDTO">
+		delete from product where product_id = #{productId}
+	</delete>
+	
+	<update id="modify" parameterType="pDTO">
+		update product set 
+		product_name = #{productName}, product_valid = #{productValid}, product_price = #{productPrice}
+		where product_id = #{productId}
+	</update>
+</mapper>

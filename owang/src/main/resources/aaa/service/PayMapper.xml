@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.PayMapper">
+
+<select id="endpay" parameterType="String" resultType="payDTO">
+	select * from payment where cid = #{cid}
+</select>
+<select id="endpay2" parameterType="String" resultType="payDTO">
+	select * from payment where sid = #{sid}
+</select>
+
+	<select id="list" resultType="payDTO">
+		select * from payment order by
+		DATE(paid_at) desc
+	</select>
+	<select id="detail" resultType="payDTO" parameterType="String">
+		select *
+		from payment where imp_uid = #{impUid}
+	</select>
+
+	<!-- imp_uid로 검색해서 일치하는 id 가져오기 -->
+	<select id="idget" resultType="String">
+		select
+		CASE
+		WHEN cid IS NOT NULL AND cid != '' THEN cid
+		WHEN sid IS NOT NULL AND sid != '' THEN sid
+		Else ''
+		END AS result
+		from payment where imp_uid = #{impUid}
+	</select>
+
+	<!-- id로 imp_uid 리스트 가져오기 -->
+	<select id="impuids" parameterType="String" resultType="String">
+		SELECT imp_uid
+		FROM payment
+		WHERE sid = #{id} OR cid = #{id}
+	</select>
+
+	<!-- 기간제한 -->
+	<sql id="dateRange">
+		WHERE DATE(paid_at) BETWEEN #{startDate} AND #{endDate}
+	</sql>
+
+	<!-- 일자별 결제 금액 합산 -->
+	<select id="dailytotal" resultType="java.util.Map">
+		SELECT DATE(paid_at) as date, SUM(amount) as totalAmount
+		FROM payment
+		<if test="startDate != null and endDate != null">
+			<include refid="dateRange" />
+		</if>
+		GROUP BY DATE(paid_at)
+		ORDER BY DATE(paid_at)
+	</select>
+
+	<!-- 개인아이디별 결제 금액 합산 -->
+	<select id="totalbys" resultType="java.util.Map">
+		SELECT sid, SUM(amount) as total
+		FROM payment
+		<if test="startDate != null and endDate != null">
+			<include refid="dateRange" />
+		</if>
+		GROUP BY sid
+		ORDER BY total DESC
+	</select>
+	<!-- 기업아이디별 결제 금액 합산 -->
+	<select id="totalbyc" resultType="java.util.Map">
+		SELECT cid, SUM(amount) as total
+		FROM payment
+		<if test="startDate != null and endDate != null">
+			<include refid="dateRange" />
+		</if>
+		GROUP BY cid
+		ORDER BY total DESC
+	</select>
+
+	<!-- 상품별 결제 금액 합산 -->
+	<select id="totalbyp" resultType="java.util.Map">
+		SELECT pname, SUM(amount) as total
+		FROM payment
+		<if test="startDate != null and endDate != null">
+			<include refid="dateRange" />
+		</if>
+		GROUP BY pname
+		ORDER BY total DESC
+	</select>
+
+	<!-- 탈퇴한 회원의 결제내역인지 아닌지 -->
+	<select id="isEndMem">
+		SELECT COUNT(*) = 0
+		FROM payment
+		WHERE (sid = #{id} OR
+		cid = #{id}) AND end_date IS NULL
+	</select>
+	
+	<!-- 특정일에 해당하는 결제내역의 개수 -->
+	<select id="dayPayCnt">
+		SELECT COUNT(*)
+		FROM payment
+		WHERE DATE(paid_at) = #{date} and amount > 0
+	</select>
+
+
+	<insert id="insert" parameterType="payDTO">
+		insert into payment (sid, cid,
+		imp_uid, product_id, pname, amount, paid_at)
+		values (#{sid}, #{cid}, #{impUid}, #{productId}, #{pname}, #{amount},
+		#{paidAt})
+	</insert>
+
+
+	<!-- 결제취소시 금액을 0으로 -->
+	<update id="payCancel">
+		update payment set
+		amount = 0
+		where imp_uid = #{impUId}
+	</update>
+
+	<!-- 회원탈퇴시 탈퇴일 추가 -->
+	<update id="endMem">
+		update payment set
+		end_date = sysdate()
+		WHERE sid = #{id} OR cid = #{id}
+	</update>
+</mapper>

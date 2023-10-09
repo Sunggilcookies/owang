@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>기업회원가입 폼</title>
+
+	<html xmlns:th="http://www.thymeleaf.org">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<link rel="stylesheet" th:href="@{/css/join/joincom.css}">
+
+</head>
+<script th:inline="javascript">
+	var countdown; // 카운트다운 타이머 변수
+
+	function startCountdown() {
+		var count = 60; // 초기 카운트 설정 (60초)
+		// "인증번호 전송" 버튼 비활성화
+		$("#sendBtn").css("display", "none");
+
+		// 카운트다운 시작
+		countdown = setInterval(function () {
+			$("#zzmessage").text(count + "초 후에 인증번호발송이 다시 활성화됩니다.");
+			count--;
+
+			// 카운트가 0이 되면 타이머 종료하고 버튼 활성화
+			if (count < 0) {
+				clearInterval(countdown);
+				$("#sendBtn").css("display", "inline-block");
+				$("#zzmessage").text(""); // 메시지 초기화
+			}
+		}, 1000);
+	}
+
+	function sendNumber() {
+		// "인증번호 전송" 버튼 비활성화
+		$("#sendBtn").css("display", "none");
+
+		// 메시지 표시용 div 엘리먼트
+		var messageDiv = $("#zzmessage");
+		messageDiv.text(""); // 메시지 초기화
+
+		$("#mail_number").css("display", "block");
+		$.ajax({
+			// 서버 측에서 동적으로 설정되어야 하는 URL
+			url: "/join/cmail",
+			type: "post",
+			dataType: "json",
+			data: {"cmail": $("#cemail").val()},
+			success: function (data) {
+				messageDiv.text("인증번호 발송");
+				$("#Confirm").val(data);
+
+				// 카운트다운 시작
+				startCountdown();
+			}
+		});
+	}
+	function confirmNumber() {
+		var number1 = $("#number").val().trim(); // 입력 값에서 공백 제거
+		var number2 = $("#Confirm").val();
+		var csuserid = /*[[${csuserid}]]*/ null;
+		if (number1 == number2) {
+			alert("인증되었습니다.");
+
+
+			$("#cemail").prop("readonly", true);
+			$("#sendBtn").css("display", "none");
+			$("#mail_number").css("display", "none");
+			clearInterval(countdown); // 카운터를 멈춤
+			var messageDiv = $("#zzmessage");
+			messageDiv.text("인증되었습니다"); // 메시지 초기화
+			window.emailVerificationSuccess = true;
+		} else {
+			alert("번호가 다릅니다.");
+			window.emailVerificationSuccess = false;
+		}
+	}
+</script>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	<div class="container">
+		<div class="join">
+			<h1><span style="color:#0400B8">기업</span> 회원가입</h1>
+			<hr>
+			<div>
+				<button id="showTermsButton">이용약관 보기</button>
+			</div>
+			<form method="post" enctype="multipart/form-data" onsubmit="return submitForm();">
+				<div class="showTerm"><label><input type="radio" name="termsAgreement" required>이용약관동의</input>
+					</label></div>
+
+				<table border="">
+					<tr>
+						<th>아이디</th>
+						<td><input type="text" name="cid" id="cid" required><input type="button" value="ID 중복체크"
+								placeholder="알파벳이나 숫자 6자리 이상 18자리 이하" onclick="checkDuplicateID()">
+							<div id="checkcId"></div>
+						</td>
+					</tr>
+
+					<tr>
+						<th>비밀번호</th>
+						<td><input type="password" pattern="^\S.*$" id="cpw" name="cpw" required></td>
+					</tr>
+					<tr>
+						<th>암호확인</th>
+						<td><input type="password" pattern="^\S.*$" id="cpw2" name="cpw2" required></td>
+					</tr>
+					<tr>
+						<th>회사명</th>
+						<td><input type="text" pattern="^\S.*$" id="cname" name="cname" required></td>
+					</tr>
+					<tr>
+						<th>회사로고이미지(필수)</th>
+						<td>
+							<input type="file" name="lommff" id="lommff" required onchange="lovalidateFile()">
+							<div id="lofileError" style="color: red;"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>개업연월일</th>
+						<td><input type="date" pattern="^\S.*$" name="cbuild" th:max="${today}" required></td>
+					</tr>
+					<tr>
+						<th>업종</th>
+						<td><input type="text" pattern="^\S.*$" id="ccategory" name="ccategory" required></td>
+					</tr>
+					<tr>
+						<th>직원수</th>
+						<td><input type="number" id="cstaff"  name="cstaff" required></td>
+					</tr>
+					<tr>
+						<th>1년 매출액(백만원기준)</th>
+						<td>
+							<input type="number" pattern="^\S.*$" id="csales" name="csales" oninput="updateText(this)"
+								required>
+							<span id="csalesText"></span>
+						</td>
+					</tr>
+					<tr>
+						<th>휴대폰번호</th>
+						<td class="phone">
+							<input type="number" id="firstNumber" placeholder="010" required /> -
+							<input type="number" id="secondNumber" placeholder="1234" required /> -
+							<input type="number" id="thirdNumber" placeholder="5678" required />
+							<div id="error-message" style="color: red;"></div>
+							<input type="hidden" id="ccall" name="ccall" />
+						</td>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td><input type="email" id="cemail" name="cemail" required>
+							<button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호전송</button>
+							<div id="zzmessage"></div>
+							<div id="mail_number" name="mail_number" style="display: none">
+								<input type="text" name="number" id="number" placeholder="인증번호 입력" />
+								<button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일
+									인증</button>
+								<input type="hidden" id="Confirm" name="Confirm" value="" />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>대표자</th>
+						<td><input type="text" pattern="^\S.*$" id="cceo" name="cceo" required></td>
+					</tr>
+					<tr>
+						<th>본점소재지</th>
+						<td><input type="text" pattern="^\S.*$" name="caddress" required></td>
+					</tr>
+					<tr>
+						<th>사업자등록증(필수)</th>
+						<td>
+							<input type="file" name="mmff" id="mmff" required onchange="validateFile()">
+							<div id="fileError" style="color: red;"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>회사 소개</th>
+						<td>
+							<textarea id="ccontent" name="ccontent" rows="10" cols="50" required placeholder="ex) TNH는 2007년 창업이후 병.의원용 CRM솔루션 및 EMR 소프트웨어 개발을 시작으로 의료마케팅과 전자의무기록 시스템의 혁신을 위해 끊임없이 도전해 왔습니다.
+
+TNH는 탁월한 개발자, 마케팅 전문가와 의료인 자문단이 주축이된 의료 소프트웨어 전문기업입니다.
+2008년 온라인 기반의 혁신적이고 편리한 환자관리용 매니저 솔루션 및 2010년 업계최초 온/오프라인 연동형 전자의무기록을 탄생 시켰습니다.
+
+TNH는 새로운 10년을 위해 솔루션 및 서비스를 고객 및 사용자 관점에서 혁신을 하고자 하며, 이를 위해 같이 동행할 능력있는 신입/경력 Front-End 개발자 분들을 찾고 있습니다."></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>복지 및 해택</th>
+						<td>
+							<textarea id="cwelfare" name="cwelfare" rows="10" cols="50" required placeholder="ex) • 지원금/보험 : 각종 경조사 지원
+• 급여제도 : 퇴직금, 4대 보험
+• 선물 : 명절선물/귀향비, 생일선물/파티
+• 교육/생활 : 우수사원시상식, 워크샵, 플레이샵, 도서구입비지원, 점심, 저녁식사 제공, 음료제공(차, 커피)
+• 근무 환경 : 회의실, 공기청정기
+• 조직문화 : 자유복장
+• 리프레시 : 연차, 경조휴가제, 근로자의 날 휴무, 휴가비지원
+• 중식지원"></textarea>
+						</td>
+					</tr>
+				</table>
+				<div align="middle">
+					<input type="submit" value="가입">
+				</div>
+
+			</form>
+
+			<script>
+				function updateText(input) {
+					var csalesText = document.getElementById("csalesText");
+					var value = input.value;
+
+					if (!isNaN(value) && value !== "") {
+						csalesText.innerText = value + "0000000원";
+					} else {
+						csalesText.innerText = "null";
+					}
+				}
+				// 직원수 유효성 검사 함수
+				function validatecstaff(cstaff) {
+					// 한글 1글자 이상 5글자 이하인지 검사하는 정규표현식
+					var namePattern = /^[1-9]\d*$/;
+
+					return namePattern.test(cstaff);
+				}
+
+				// 업종 유효성 검사 함수
+				function validatecateg(ccategory) {
+					// 한글 1글자 이상 10글자 이하인지 검사하는 정규표현식
+					var namePattern = /^[가-힣]{1,10}$/;
+
+					return namePattern.test(ccategory);
+				}
+				// 아이디 유효성 검사 함수
+				function validateID(cid) {
+						var idPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,18}$/; // 알파벳숫자 6자리 이상 18자리 이하
+
+					return idPattern.test(cid);
+				}
+
+
+				function checkDuplicateID() {
+
+					var cid = document.getElementById("cid").value;
+
+					$.ajax({
+						type: "POST",
+						url: "/join/checkcId",
+						data: "cid=" + cid,
+						error: function (response) {
+							$("#checkcId").text("실패");
+						},
+						success: function (response) {
+							if (response === "중복") {
+								$("#checkcId").text("이미 사용 중인 ID입니다.");
+
+							} else {
+								// 아이디 유효성 검사 함수 호출
+								if (!validateID(cid)) {
+									$("#checkcId").text("아이디 형식이 이상합니다.");
+									return false; // 유효성 검사에 실패하면 중복 확인을 수행하지 않음
+								} else {
+									$("#checkcId").text("사용 가능한 ID입니다.");
+									document.getElementById("cid").readOnly = true;
+
+								}
+							}
+						}
+					});
+				}
+				// 회사이름 유효성 검사 함수
+				function validateName(cname) {
+					// 한글 1글자 이상 5글자 이하인지 검사하는 정규표현식
+					var namePattern = /^[가-힣a-zA-Z][가-힣a-zA-Z0-9]{0,9}$/;
+
+					return namePattern.test(cname);
+				}
+				// 비밀번호 유효성 검사 함수
+				function validatePassword(cpw) {
+					// 비밀번호는 특수문자, 영어 대소문자, 숫자를 포함하여 8글자 이상으로 입력해야 합니다.
+					var passwordPattern = /^(?!.*\s)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+
+
+					return passwordPattern.test(cpw);
+				}
+				// 대표자 유효성 검사 함수
+				function validatecceo(cceo) {
+					// 한글 1글자 이상 5글자 이하인지 검사하는 정규표현식
+					var namePattern = /^[가-힣]{1,5}$/;
+
+					return namePattern.test(cceo);
+				}
+				// 전화번호 유효성 검사 함수
+				function validatePhoneNumber() {
+					var firstNumber = document.getElementById("firstNumber").value;
+					var secondNumber = document.getElementById("secondNumber").value;
+					var thirdNumber = document.getElementById("thirdNumber").value;
+
+					// 각 입력 필드의 길이를 확인하여 조건을 충족하는지 검사
+					if (0 < firstNumber && 0 < secondNumber && 0 < thirdNumber) {
+						if ((firstNumber.length === 2 || firstNumber.length === 3) && (secondNumber.length === 4 || secondNumber.length === 3)&& thirdNumber.length === 4) {
+							return true; // 조건을 충족하면 유효한 전화번호
+						} else {
+							return false; // 조건을 충족하지 않으면 유효하지 않은 전화번호
+						}
+					} else {return false;}
+
+
+				}
+				
+
+
+				//사업자등룍증 유효성
+				function validateFile() {
+					var mmffInput = document.getElementById("mmff");
+					var fileError = document.getElementById("fileError");
+					var fileName = mmffInput.value;
+					var allowedExtensions = ["jpg", "png"];
+
+					if (fileName === "") {
+						// 파일이 선택되지 않은 경우
+						fileError.innerText = "파일을 선택하세요.";
+						mmffInput.value = ""; // 파일 입력란 초기화
+					} else {
+						var fileExtension = fileName.split('.').pop().toLowerCase();
+
+						if (allowedExtensions.indexOf(fileExtension) === -1) {
+							// 파일 확장자가 허용되지 않는 경우
+							mmffInput.value = ""; // 파일 입력란 초기화
+							fileError.innerText = "지원되지 않는 파일 유형입니다. JPG 또는 PNG 파일을 업로드하세요.";
+						} else {
+							fileError.innerText = ""; // 오류 메시지 초기화
+						}
+					}
+				}
+				//로고 유효성
+
+				function lovalidateFile() {
+					var lommffInput = document.getElementById("lommff");
+					var fileError = document.getElementById("lofileError");
+					var fileName = lommffInput.value;
+					var allowedExtensions = ["jpg", "png"];
+
+					if (fileName === "") {
+						// 파일이 선택되지 않은 경우
+						fileError.innerText = "파일을 선택하세요.";
+						lommffInput.value = ""; // 파일 입력란 초기화
+					} else {
+						var fileExtension = fileName.split('.').pop().toLowerCase();
+
+						if (allowedExtensions.indexOf(fileExtension) === -1) {
+							// 파일 확장자가 허용되지 않는 경우
+							lommffInput.value = ""; // 파일 입력란 초기화
+							fileError.innerText = "지원되지 않는 파일 유형입니다. JPG 또는 PNG 파일을 업로드하세요.";
+						} else {
+							fileError.innerText = ""; // 오류 메시지 초기화
+						}
+					}
+				}
+				function submitForm() {
+					var checkcId = document.getElementById("checkcId").innerText;
+					if (checkcId !== "사용 가능한 ID입니다." && checkcId !== "이미 사용 중인 ID입니다.") {
+						alert("아이디 중복을 확인하세요.");
+						return false;
+					}
+					if (checkcId === "이미 사용 중인 ID입니다.") {
+						alert("아이디 중복을 확인하세요.");
+						return false; // 양식 제출 방지
+					}
+					if (checkcId === "아이디 형식이 이상합니다.") {
+						alert("아이디 형식이 이상합니다.");
+						return false; // 양식 제출 방지
+					}
+					var cpw = document.getElementById("cpw").value;
+					var cpw2 = document.getElementById("cpw2").value;
+					var cname = document.getElementById("cname").value;
+					var cceo = document.getElementById("cceo").value;
+					var ccategory = document.getElementById("ccategory").value;
+					var cstaff = document.getElementById("cstaff").value;
+
+
+					// 비밀번호와 비밀번호 확인이 다른 경우
+
+					if (cpw !== cpw2) {
+						alert("비밀번호가 일치하지 않습니다.");
+						return false; // 비밀번호 불일치면 양식 제출 방지
+					}
+
+					// 비밀번호 유효성 검사
+					if (!validatePassword(cpw)) {
+						alert("비밀번호는 특수문자, 영어 대소문자, 숫자를 포함하여 8글자 이상으로 입력하세요.");
+						return false; // 비밀번호 유효성 검사 실패면 양식 제출 방지
+					}
+					// 비밀번호 유효성 검사
+					if (!validatecstaff(cstaff)) {
+						alert("직원수는 1명 이상이여야 합니다.");
+						return false; // 비밀번호 유효성 검사 실패면 양식 제출 방지
+					}
+					// 회사이름 유효성 검사
+					if (!validateName(cname)) {
+						alert("기업이름은 1글자 이상 10글자 이하로 입력하세요.");
+						return false; // 이름 유효성 검사 실패면 양식 제출 방지
+					}		//대표자이름유효성검사
+					if (!validatecceo(cceo)) {
+						alert("대표자이름은 한글 1글자 이상 5글자 이하로 입력하세요.");
+						return false; // 이름 유효성 검사 실패면 양식 제출 방지
+					}	//대표자이름유효성검사
+					if (!validatecateg(ccategory)) {
+						alert("업종명은 한글 1글자 이상 10글자 이하로 입력하세요.");
+						return false; // 이름 유효성 검사 실패면 양식 제출 방지
+					}
+					// 전화번호 유효성 검사
+
+					if (!validatePhoneNumber()) {
+						alert("올바른 전화번호를 입력하세요.");
+						return false; // 전화번호 유효성 검사 실패면 양식 제출 방지
+					}
+					const firstNumber = document.getElementById("firstNumber").value;
+					const secondNumber = document.getElementById("secondNumber").value;
+					const thirdNumber = document.getElementById("thirdNumber").value;
+
+					const phoneNumber = firstNumber + secondNumber + thirdNumber;
+					document.getElementById("ccall").value = phoneNumber;
+
+					
+
+					// 이메일 인증이 성공한 경우에만 폼을 제출
+					if (window.emailVerificationSuccess) {
+						return true;
+					} else {
+						alert("이메일 인증을 완료하세요.");
+						return false; // 이메일 인증 실패면 양식 제출 방지
+					}
+
+
+					
+
+					return true; // 양식 제출 허용
+				}
+				
+
+				document.getElementById('showTermsButton').addEventListener('click', function () {
+					// 이용약관 페이지를 팝업 창으로 엽니다.
+					var popup = window.open('cterms.html', '이용약관', 'width=600,height=400');
+
+					// 팝업 창이 차단되지 않도록 팝업 창 객체를 검사합니다.
+					if (popup && !popup.closed) {
+						// 팝업 창이 열려 있으면 포커스를 설정합니다.
+						popup.focus();
+					} else {
+						alert('팝업 창을 열 수 없습니다. 팝업 창이 차단되었을 수 있습니다.');
+					}
+				});
+			</script>
+</body>
+
+</html>

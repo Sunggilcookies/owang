@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.AdminCompanyMapper">
+
+	<select id="adminCompanyList" resultType="mcDTO" parameterType="mcDTO">
+		select * from company order by cno desc limit #{start}, #{limit}
+	</select>
+	
+	<select id="companyList" resultType="mcDTO" parameterType="mcDTO">
+		select * from company where capproval = false  order by cno desc limit #{start}, #{limit}
+	</select>
+	
+	<select id="companyCapprovalList2" resultType="mcDTO" parameterType="mcDTO">
+		select * from company where capproval = true or ctype = 2 order by cno desc
+	</select>
+	
+	<!-- 재훈추가 - 신규입점기업 -->
+	<select id="companyNewIn" resultType="mcDTO" parameterType="mcDTO">
+		select * from company order by cdate asc
+	</select>
+	
+	
+	<select id="companyCapprovalList" resultType="mcDTO" parameterType="mcDTO">
+		select * from company where capproval = true or ctype = 2 order by cno desc limit #{start}, #{limit}
+	</select>
+	<select id="join" resultType="mcDTO" parameterType="mcDTO">
+		select * from company where capproval = true or ctype = 2 order by cno desc 
+	</select>
+		
+	<select id="adminAddCont" resultType="Integer">
+		select count(*) from company where capproval = true
+	</select>
+	<select id="adminAddMiCont" resultType="Integer">
+		select count(*) from company where capproval = false
+	</select>
+	<select id="adminAddAllCnt" resultType="Integer">
+		select count(*) from company
+	</select>
+
+	<select id="adminCDetail">
+		select * from company where cno = #{cno}
+	</select>
+	
+	<update id="checkoutFile"  parameterType="Integer">
+	    update company set capproval = true where cno = #{cno}
+	</update>
+	
+	<delete id="deleteCompany"   parameterType="mcDTO">
+		delete from company where cno = #{cno}
+	</delete>
+	
+	<sql id="plz_1">
+    <if test="searchOption == 'all'">
+         ( cname like concat('%' #{keyword}, '%')
+        or cceo like concat('%' #{keyword}, '%')
+        or ccall like concat('%' #{keyword}, '%')
+        or cid like concat('%' #{keyword}, '%')
+        )
+    </if>
+    <if test="searchOption == 'cname'">
+        and cname like concat('%' #{keyword}, '%')
+    </if>
+    <if test="searchOption == 'ccid'">
+        and cid like concat('%' #{keyword}, '%')
+    </if>
+    <if test="searchOption == 'cceo'">
+        and cceo like concat('%' #{keyword}, '%')
+    </if>
+    <if test="searchOption == 'ccall'"> 
+        and `ccall` like concat('%' #{keyword}, '%')
+    </if>
+</sql>
+	<select id="searchCompany" resultType="mcDTO"  parameterType="String">
+		select * from company
+		<where>
+			<include refid="plz_1"></include>
+		</where>
+	</select>
+	
+
+</mapper>

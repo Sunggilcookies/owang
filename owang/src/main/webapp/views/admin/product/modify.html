@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품 관리</title>
+	<script th:inline="javascript">
+		document.addEventListener("DOMContentLoaded", function () {
+			let addForm = document.getElementById("addForm");
+			let del = document.querySelectorAll(".delbtn");
+
+			// 상품추가폼 제출(submit)시
+			addForm.addEventListener("submit", function (event) {
+				event.preventDefault(); // 폼 기본동작 방지
+				let priceIn = document.querySelector("input[name='productPrice']");
+				let clientSel = document.querySelector("select[name='productClient']");
+				let validIn = document.querySelector("input[name='productValid']");
+				let pNameIn = document.querySelector("input[name='productName']");
+
+				if (priceIn.value < 1000) {
+					alert("상품가격의 최소단위는 1000원입니다");
+					return;
+				}
+				if (clientSel.value == "") {
+					alert("상품대상을 선택하세요");
+					return;
+				}
+				if (clientSel.value == '기업') {
+					pNameIn.value = '[오왕]채용공고권 ' + validIn.value + '일권';
+				} else {
+					pNameIn.value = '[오왕]리뷰열람권 ' + validIn.value + '일권';
+				}
+				if (confirm(pNameIn.value + "으로 상품을 추가하시겠습니까?")) {
+					this.submit();
+				}
+			});
+
+
+			// 상품 삭제 버튼 각각
+			del.forEach(function (button) {
+				// 버튼 클릭시 이벤트
+				button.addEventListener("click", function () {
+					// confirm 확인받고 상품삭제
+					if (confirm("정말로 상품을 삭제하시겠습니까?")) {
+						// 버튼의 아이디(=상품아이디) 가져오기
+						let productId = this.getAttribute("id");
+						// 파라미터로 상품아이디 보내기
+						let deleteUrl = `/admin_product/deleteProduct?productId=${productId}`;
+						window.location.href = deleteUrl; // 지정된 URL로 이동
+					}
+				});
+			});
+		});
+	</script>
+	<style>
+		.main {
+			padding-left: 30px;
+			margin-top: 35px;
+		}
+
+		h1 {
+			width: 900px;
+			text-align: center;
+		}
+
+		table {
+			width: 900px;
+			border-collapse: collapse;
+			border-top: 2px solid #000;
+		}
+
+		tr:not(:first-child):not(.space):hover {
+			background-color: #e0e0e0;
+		}
+
+		th {
+			color: #fff;
+			background-color: #333;
+			padding: 8px;
+			border-bottom: 1px solid #999;
+		}
+
+		td {
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		input[type="text"],
+		input[type="number"] {
+			width: 100%;
+			padding: 8px;
+			box-sizing: border-box;
+		}
+
+		input[type="submit"] {
+			padding: 6px 12px;
+			background-color: #4caf50;
+			border-radius: 20%;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #45a049;
+		}
+
+		.delbtn {
+			padding: 6px 12px;
+			background-color: rgba(0, 64, 0, 0.8);
+			border-radius: 20%;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		.delbtn:hover {
+			background-color: #103305;
+		}
+
+		.solo {
+			color: rgb(255, 99, 132);
+		}
+
+		.comp {
+			color: rgb(54, 162, 235);
+		}
+
+		.valid {
+			width: 100px;
+		}
+
+		.pname {
+			text-align: left;
+			padding-left: 160px;
+		}
+
+		.price {
+			text-align: right;
+			width: 106px;
+			padding-right: 10px;
+		}
+
+		.space {
+			border-top: 2px solid #000;
+		}
+
+		.alct {
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<header>
+			<div th:replace="~{admin/adheader}"></div>
+		</header>
+		<div class="main">
+			<h1>상품 추가</h1>
+			<!-- 폼제출시 동작은 상품추가 -->
+			<form action="insertProduct" method="post" th:object="${ProductDTO}" id="addForm">
+				<table>
+					<tr class="alct">
+						<th>대상</th>
+						<th>유효일</th>
+						<th>상품명</th>
+						<th>금액</th>
+						<th></th>
+					</tr>
+					<tr th:each="dto : ${data}" align="center">
+						<td th:if="${dto.productClient == '개인'}" class="solo" th:text="${dto.productClient}"></td>
+						<td th:if="${dto.productClient == '기업'}" class="comp" th:text="${dto.productClient}"></td>
+						<td class="valid" th:text="${dto.productValid}"></td>
+						<td class="pname" th:text="${dto.productName}"></td>
+						<td class="price" th:text="${dto.formatPrice}"></td>
+						<!-- 삭제버튼 아이디를 해당상품의 상품아이디로. th:attr로 동적으로 할당, 그렇지 않으면 동작 안됨 -->
+						<td><input type="button" value="삭제" class="delbtn" th:attr="id=${dto.productId}"></td>
+					</tr>
+					<tr class="space">
+						<td colspan="5"></td>
+					</tr>
+					<tr class="alct">
+						<td>
+							<select th:field="*{productClient}">
+								<option value="" selected>선택</option>
+								<option value="개인">개인</option>
+								<option value="기업">기업</option>
+							</select>
+						</td>
+						<td><input type="number" th:field="*{productValid}" min="1"></td>
+						<td><input type="hidden" th:field="*{productName}">자동으로 생성합니다</td>
+						<td><input type="text" th:field="*{productPrice}" pattern="[0-9]*" required></td>
+						<td><input type="submit" value="추가"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</container>
+</body>
+
+</html>

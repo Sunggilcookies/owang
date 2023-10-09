@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.SoloScrabMapper">
+
+	<!-- 스크랩 추가 -->
+	<!-- 
+	<insert id="scinsert" parameterType="scDTO">
+	    INSERT INTO scrab 
+		(recruit_id, recruit_title,
+		sid, rsid, scrabdate, cname, cid)
+		values 
+		(
+		#{rcDTO.recruitId},
+		#{rcDTO.recruitTitle},
+		#{sDTO.sid}, 
+		#{srDTO.rsid},
+		sysdate(), 
+		#{mcDTO.cname},
+		#{mcDTO.cid});
+		
+		<selectKey keyProperty="scid" resultType="Integer" order="AFTER">
+			select max(scid) from scrab
+		</selectKey>
+		
+	</insert>
+ -->
+	<insert id="scinsert" parameterType="scDTO">
+	    INSERT INTO scrab 
+	    (recruit_id, recruit_title, realMagam, recruit_money, recruit_location, recruit_mtype,
+	     sid, rsid, scrabdate, cname, cid)
+	    VALUES 
+	    (#{recruitId}, #{recruitTitle}, #{realMagam}, #{recruitMoney}, #{recruitLocation}, #{recruitMtype},
+	    #{sid}, #{rsid}, now(), #{cname}, #{cid})
+	</insert>
+	
+
+	<!-- 스크랩 리스트 출력 -->
+	<select id="sclist" resultType="scDTO" parameterType="scDTO">
+		SELECT *
+		FROM scrab
+		WHERE sid = #{sid}
+		ORDER BY scrabdate DESC
+
+	</select>
+	
+	<!-- 스크랩 개수 -->
+	<select id="sccnt" resultType="Integer" >
+		select count(*) from scrab
+	</select>
+	
+
+	<!-- 스크랩 삭제 -->
+	<delete id="scdelete"  parameterType="scDTO">
+		delete from scrab where scid = #{scid}
+	</delete>
+	
+	<!-- 스크랩 디테일 -->
+	<select id="scdetail" resultType="scDTO">
+		select * from scrab where scid = #{scid} and sid = #{sid}
+	</select>
+	
+	
+</mapper>

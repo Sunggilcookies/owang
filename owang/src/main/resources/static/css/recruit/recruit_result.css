@@ -1,0 +1,395 @@
+@charset "UTF-8";
+/*recruit_Result css*/
+
+/*채용공고 리스트*/
+
+/**{margin: 0;padding: 0;}*/
+
+.wrap{
+	width: 1000px;
+	height: auto;
+	margin: 0px auto 100px auto;	
+}
+
+#home{
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+h1,h4{text-align: center;}
+h2{text-align: center;  margin: 20px;}
+
+/* 폰트 적용 */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+ }
+
+/*타이틀박스*/
+.title_box{
+	border-bottom: 1px solid #111;
+	padding-bottom: 20px;
+	background-image: url("/css/images/recruit_remove.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+	height:170px;
+	margin-top: 40px;
+}
+
+/*타이틀 박스 문구 (다양한~)*/
+#p{margin-left: 20px;}
+
+form{margin-left: 20px;}
+
+/*list- 검색*/
+.search{
+	margin-top:30px;
+	align-items: center;
+	width: 100%;
+	/*margin-left: 140px;*/
+	vertical-align: middle;
+
+}
+
+.ele{
+	float: right;
+	/*margin-right: 10px;*/
+	 padding: 10px; /* 버튼 간 간격을 조절 */
+} 
+
+/* 목록으로 아이콘*/
+#list{
+	
+	
+}
+
+
+/*검색-select*/
+#select{
+	width: 100px;
+	height: 48px;
+	font-size: 16px;
+	border: 2px solid rgb(45, 101, 242);
+	border-radius: 5px;
+	box-sizing: border-box;
+	font-family :'Noto Sans KR', sans-serif;
+	font-stretch :100%;
+	padding-left: 5px;
+	text-align :start; /*텍스트 가로정렬*/
+	margin-left: 20px;
+	
+}
+
+/*검색-input*/
+#search_input{
+	width: 700px;
+	height: 48px;
+	font-size: 16px;
+	border: 2px solid rgb(45, 101, 242);
+	border-radius: 5px;
+	box-sizing: border-box;
+	font-family : 'Noto Sans KR', sans-serif;
+	font-stretch : 100%;
+	padding-left :15px;
+	padding-right : 42px;
+	text-align :start; /*텍스트 가로정렬*/
+}
+/*검색 - 돋보기 그림*/
+.dod{
+	border: none;
+	height: 60px;
+	width: 100px;
+	background-color: rgba(0, 0, 0, 0);
+	cursor: pointer; 
+	/*손모양*/
+	
+}
+/* 폰트어썸 - 아이콘 크기 조절 */
+.dod i.fa-magnifying-glass {
+    font-size: 24px; 
+}
+
+/*  탭 메뉴 gp*/  
+.tabs {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0); /* 탭의 배경색 */
+    border-bottom: 2px solid #ccc; /* 탭의 아래 경계선 */
+    font-weight: bold;
+    font-size: 24px;
+    border-radius: 25px;
+    
+
+}
+
+.tabs li {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    
+    position: relative; /* 호버 시 배경색 변경을 위해 position 속성 추가 */
+}
+
+.tabs a {
+    text-decoration: none;
+    color: #333; /* 탭의 텍스트 색상 */
+    display: block;
+    transition: color 0.3s; /* 색상 변경 애니메이션 */
+}
+
+/* 탭 호버 시 스타일 변경 */
+.tabs li:hover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px; /* 아래 밑줄의 높이 설정 */
+    background-color: #007bff; /* 호버 시 배경색 변경 */
+    
+}
+
+
+/*탭 m*/ 
+/*.tab a{
+	height: 14px;
+	padding: 17px 0;
+	font-size: 18px;
+	color: #666;
+	font-family: 'Noto Sans KR', sans-serif;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight: bold;
+}*/
+
+/*3번탭*/
+
+/*ul li{
+	list-style: none;
+}
+.contents_header{
+	box-sizing: border-box;
+	display: block;
+	font-family :'Noto Sans KR', sans-serif;
+	font-size : 22px;
+	width : 750px;
+}
+
+.side_contents_tab{
+	display: flex;
+	flex-direction : row;
+	font-size : 22px;
+	height: 55px;
+	justify-content : space-around;
+	
+}
+
+.side_contents_tab{
+	align-items: flex-start;
+	appearance : auto;
+	border: 2px solid black;
+	border-radius: 20px;  모든 모서리를 둥글게 만듭니다. 
+    border-bottom-left-radius: 0;  상단 왼쪽 모서리를 둥글게 하지 않음 
+    border-bottom-right-radius: 0;  상단 오른쪽 모서리를 둥글게 하지 않음 
+	margin-top:25px;
+}
+
+.btn_side_contents{
+	color: #333;
+}
+
+.btn_side_contents a:hover{
+	color: #007bff;
+	
+}*/
+
+.list_table{
+	width: 100%;
+	height: auto;
+	text-align: center;
+	font-size: 16px;
+	line-height: 1.8;
+	justify-content: center;
+	margin-top: 35px;
+	/*border-bottom: 3px solid  #007bff;*/
+	border-left: 0;
+	border-right: 0;
+	font-family: 'Noto Sans KR', sans-serif;
+	
+	
+}
+
+.list_table th {
+    /*background-color: #ccc;*/ /* 원하는 블루 색상으로 설정 */
+    
+}
+
+a{
+	color: black;
+	text-decoration: none;
+}
+
+/* 홀수 배경색 설정 */
+.list_table tr:nth-child(odd) td {
+    background-color: #fff; 
+}
+
+/*페이징 처리*/
+.tab-content{
+	text-align: center;
+	margin-top: 10px;
+	}
+	
+/* 공고등록 */
+#insert_wrap{
+	width: 1000px;
+    margin: 0px auto;
+    margin-bottom: 100px;
+    /*padding:50px 20px 40px 170px;*/
+
+}
+
+
+#insert_table{
+	/*text-align: center;*/
+	margin-left: 40px;
+	margin: 30px auto;
+	font-weight: 16px;
+}
+
+#label{
+	width: 100px;
+	font-weight: inherit;
+	font-size: 16px;
+	display: inline-block;
+	text-align: left;
+}
+
+
+
+
+input[type="text"] {
+    text-align: left; 
+}
+
+.hoverTitle{
+	font-weight: bold;
+	font-size: 18px;
+	
+
+}
+
+/* hover 효과 제목*/
+a.hoverTitle:hover {
+	color: #007bff;
+ 	position: relative;
+  	display: inline-block;
+/* 	 text-align: center;*/
+  	background-color: transparent;
+  	color: #007bff; /* 기본 텍스트 색상 */
+  	transition: color 0.3s, transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+ 
+
+a.hoverTitle:hover {
+  color: #007bff; /* hover 시 텍스트 색상 변경 */
+  transform: translateY(-4px); /* 위로 움직이는 효과 */
+}
+
+a.hoverTitle:active {
+  /* 클릭 시 애니메이션 추가 (예: rubberBand) */
+  animation-name: rubberBand;
+  animation-duration: 1s;
+}
+
+
+
+.hoverCompany{
+	font-weight: bold;
+	font-size: 16px;
+	text-align: left;
+}
+
+/* hover 효과 회사이름*/
+a.hoverCompany:hover {
+    color: #007bff;
+ 	position: relative;
+  display: inline-block;
+  text-align: center;
+  background-color: transparent;
+  color: #007bff; /* 기본 텍스트 색상 */
+  transition: color 0.3s, transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+   
+}
+ 
+a.hoverCompany:hover {
+  color: #007bff; /* hover 시 텍스트 색상 변경 */
+  transform: translateY(-4px); /* 위로 움직이는 효과 */
+}
+
+a.hoverCompany:active {
+  /* 클릭 시 애니메이션 추가 (예: rubberBand) */
+  animation-name: rubberBand;
+  animation-duration: 1s;
+}
+
+/*페이지처리*/
+
+/*페이징처리*/
+.pagination-container {
+	text-align: center;
+	margin-top: 20px;
+	height:45px;
+	border: none;
+	
+}
+
+.pagination-link {
+	text-decoration: none;
+	padding: 5px 10px;
+	background-color: #333;
+	color: #fff;
+	border-radius: 5px;
+	margin: 0 1px;
+	
+	/* 페이지 번호 간격 조절 */
+}
+
+.pagination-current {
+	text-decoration: none;
+	padding: 5px 10px;
+	background-color: rgb(197 213 255);
+	color: rgb(0, 0, 0);
+	font-weight: 800;
+	margin: 0 5px;
+	/* 페이지 번호 간격 조절 */
+	border-radius: 5px;
+}
+
+/* 리뉴얼*/
+
+
+#list_title_left{
+	text-align: left;
+	margin-left: 20px;
+}
+
+.list_table th,
+.list_table td {
+    padding-top: 10px; /* 위쪽 간격 조절 */
+    padding-bottom: 10px; /* 아래쪽 간격 조절 */
+}
+
+/*채용시작일~마감일*/
+#chae_start,#chae_end{
+	width: 110px;	
+
+}
+
+

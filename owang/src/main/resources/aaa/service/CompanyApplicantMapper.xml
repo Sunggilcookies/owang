@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.CompanyApplicantMapper">
+
+	<!-- 재훈 추가 -->
+	<select id="applist" resultType="aDTO" parameterType="aDTO">
+   	 	select 
+	   	 	ano, recruit_id, recruit_title, sid, sname, rsid, apphoto, aptitle, apcareer, apcompany, apworkstart, apworkend, apwork, 
+			apacademic, apacademicstat, apintroduce, aplicense, aplicenseorg, aplicenseyear, aplanguage, aplanguagelevel, 
+			apsubmitdate, cname, cid, apcancel, apread, appass
+   	 	from applicant 
+   	 	where cid = #{cid}
+	</select>
+	
+	<select id="apppasslist" resultType="aDTO" parameterType="aDTO">
+   	 	select 
+	   	 	ano, recruit_id, recruit_title, sid, sname, rsid, apphoto, aptitle, apcareer, apcompany, apworkstart, apworkend, apwork, 
+			apacademic, apacademicstat, apintroduce, aplicense, aplicenseorg, aplicenseyear, aplanguage, aplanguagelevel, 
+			apsubmitdate, cname, cid, apcancel, apread, appass
+   	 	from applicant 
+   	 	where cid = #{cid} and appass = 1
+		limit #{start}, #{limit}
+	</select>
+	
+	<select id="appnonpasslist" resultType="aDTO" parameterType="aDTO">
+   	 	select 
+	   	 	ano, recruit_id, recruit_title, sid, sname, rsid, apphoto, aptitle, apcareer, apcompany, apworkstart, apworkend, apwork, 
+			apacademic, apacademicstat, apintroduce, aplicense, aplicenseorg, aplicenseyear, aplanguage, aplanguagelevel, 
+			apsubmitdate, cname, cid, apcancel, apread, appass
+   	 	from applicant 
+   	 	where cid = #{cid} and appass = 2
+		limit #{start}, #{limit}
+	</select>	
+	
+	<select id="appdetail" resultType="aDTO">
+		select * from applicant where ano = #{ano} and cid = #{cid}
+	</select>
+
+	<delete id="appdelete"  parameterType="aDTO">
+		delete from applicant where ano = #{ano}
+	</delete>
+	
+	<!-- 열람 -->
+	<update id="appread" parameterType="Integer">
+		update applicant set
+		apread = 1
+		where ano = #{ano}
+	</update>
+	
+	<!-- 합격 -->
+	<update id="apppass" parameterType="Integer">
+		update applicant set
+		appass = 1
+		where ano = #{ano}
+	</update>
+	
+	<!-- 불합격 -->
+	<update id="appnonpass" parameterType="Integer">
+		update applicant set
+		appass = 2
+		where ano = #{ano}
+	</update>
+	
+	
+	<select id="apptotal" resultType="Integer">
+		select count(*) from applicant where cid = #{cid}
+	</select>
+	
+	<!-- 공고 삭제전  -->
+	<select id="appfind"  resultType="aDTO"  parameterType="String">
+		select * from applicant where cid = #{cid} and apcancel IS NULL and appass IS NULL
+	</select>
+</mapper>

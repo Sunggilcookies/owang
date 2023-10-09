@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>아이디</title>
+	<link rel="stylesheet" th:href="@{/css/login/idpw.css}">
+	
+</head>
+
+<body>
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	<div class="container">
+		<div class="page">
+	<h1>아이디 찾기</h1>
+	<form method="post" onsubmit="return validateForm()">
+		<div id="selectzz" align="center" style="font-weight: 100 ; color: rgb(0, 0, 0);"><a>타입을 선택해주세요.</a></div>
+
+		<div id="errorMessage" align="center" style="color: red;"></div>
+		<div align="center" class="login-type">
+			<button type="button" class="toggle-button" data-login-type="company"
+				onclick="toggleLoginType('company')">기업회원</button>
+			<button type="button" class="toggle-button" data-login-type="individual"
+				onclick="toggleLoginType('individual')">개인회원</button>
+			<input type="hidden" id="idloginType" name="idloginType"> <!-- 추가 -->
+		</div>
+
+		<label for="idname">이름:</label>
+		<input type="text" id="idname" name="idname" required><br>
+
+		<label for="idemail">이메일 주소:</label>
+		<input type="email" id="idemail" name="idemail" required><br>
+
+		<input type="submit" value="찾기">
+		 <div class="buttonzz">
+			<a href="/login/find">뒤로</a>
+		</div>
+	</form>
+		</div>
+	</div>
+	<script>
+		// 폼 제출을 처리하는 JavaScript 함수
+		function validateForm() {
+			const loginTypeField = document.getElementById("idloginType");
+			const errorMessage = document.getElementById("errorMessage");
+
+			if (loginTypeField.value === "") {
+				errorMessage.textContent = "로그인 유형을 선택해주세요.";
+				return false; // 폼 제출을 막음
+			} else {
+				errorMessage.textContent = ""; // 에러 메시지를 지움
+				return true; // 폼 제출 허용
+			}
+		}
+
+
+		function toggleLoginType(type) {
+			errorMessage.textContent = ""; // 에러 메시지를 지움
+			const selectzzDiv = document.getElementById("selectzz");
+			selectzzDiv.style.display = "none";
+
+			const buttons = document.querySelectorAll(".toggle-button");
+			const loginTypeField = document.getElementById("idloginType");
+
+			buttons.forEach(button => {
+				const buttonType = button.getAttribute("data-login-type");
+				if (buttonType === type) {
+					button.classList.add("selected");
+					loginTypeField.value = type;
+				} else {
+					button.classList.remove("selected");
+				}
+			});
+		}
+	</script>
+</body>
+<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </foote>
+    
+
+</html>

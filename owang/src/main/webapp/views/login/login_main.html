@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>이쁜로그인화면가즈아</title>
+
+
+
+   <link rel="stylesheet" th:href="@{/css/ex01.css}">
+   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet">
+   <br>
+   <hr>
+   <style>
+      /* 토글 버튼에 사용할 사용자 정의 스타일을 여기에 추가하세요 */
+      .toggle-button {
+         display: inline-block;
+         padding: 10px 20px;
+         background-color: rgb(79, 79, 79);
+         color: rgba(255, 255, 255, 0.8);
+         border-radius: 5%;
+         border: 2px solid rgb(192, 192, 192);
+         /* 흰색 테두리 추가 */
+         cursor: pointer;
+      }
+
+      .toggle-button.selected {
+         background-color: rgb(0, 0, 0);
+         color: rgb(255, 255, 255);
+         border: 2px solid rgb(255, 255, 255);
+         font-size: larger;
+         /* 선택된 옵션에 대한 색상을 변경하세요 */
+      }
+
+
+      .container {
+         background-color: white;
+      }
+
+
+      .jb-box {
+         width: 100%;
+         height: 100%;
+         overflow: hidden;
+         margin: 0px auto;
+         position: relative;
+      }
+
+      video {
+             object-fit: cover;
+         filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+         /* 그림자 효과 추가 */
+      }
+
+      .jb-text {
+         position: absolute;
+         top: 15%;
+         font-family: 'Hangeuljaemin4-Regular';
+         /* 로고와 글자를 위로 올립니다. */
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 100%;
+
+      }
+
+      @font-face {
+         font-family: 'Hangeuljaemin4-Regular';
+         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Hangeuljaemin4-Regular.woff2') format('woff2');
+         font-weight: normal;
+         font-style: normal;
+      }
+
+      .jb-text p {
+         text-align: center;
+         font-size: 90px;
+
+         font-family: 'Hangeuljaemin4-Regular';
+         color: #FCFAE8;
+         background-color: rgba(0, 0, 0, 0.6);
+         font-weight: 800;
+      }
+
+      .logo {
+         width: 50px;
+         height: 50px;
+         position: absolute;
+         top: 50%;
+         left: calc(50% + 50px);
+         z-index: 0;
+      }
+
+      .gg {
+         font-family: 'Hangeuljaemin4-Regular', sans-serif;
+      }
+   </style>
+
+</head>
+
+<body>
+   <div class="jb-box">
+      <video muted autoplay loop>
+         <source th:src="@{/videos/Network2.mp4}" type="video/mp4">
+
+      </video>
+      <div class="jb-text">
+         <p class="gg">오왕</p>
+         <img class="logo" src="/css/images/stamp.png" alt="Stamp Image">
+      </div>
+   </div>
+   <div class="box">
+      <span class="borderLine"></span>
+      <form method="post" onsubmit="return validateForm()" >
+
+
+         <div id="selectzz" align="center" style="font-weight: 100 ; color: rgb(227, 109, 2);"><a></a>
+         </div>
+         <div id="errorMessage" align="center" style="color: red;"></div>
+         </br>
+         <div align="center" class="login-type">
+           
+            <button type="button" class="toggle-button" data-login-type="company"
+               onclick="toggleLoginType('company')">기업회원</button>
+                <button type="button" class="toggle-button" data-login-type="individual"
+               onclick="toggleLoginType('individual')">개인회원</button>
+            
+
+         </div>
+
+         <div class="inputbox">
+            <input type="text" name="userid" required="required" placeholder="아이디">
+            <i></i>
+         </div>
+         <div class="inputbox">
+            <input type="password" name="userpw" required="required" placeholder="비밀번호">
+            <i></i>
+         </div>
+         <input type="hidden" id="loginType" name="loginType" value=""> <!-- 선택한 로그인 유형을 저장하는 숨은 필드 -->
+
+         <div class="links">
+            <a href="/login/find">비밀번호를 잊으셨나요?</a></br>
+
+            <a href="/join/company">기업회원가입</a>
+            <a href="/join/solo">개인회원가입</a>
+         </div>
+
+         <input type="submit" value="로그인">
+         <a href="/" style="color: rgb(255, 255, 255);">홈으로</a>
+      </form>
+      </form>
+      <script>
+         // 폼 제출을 처리하는 JavaScript 함수
+         function validateForm() {
+            const loginTypeField = document.getElementById("loginType");
+            const errorMessage = document.getElementById("errorMessage");
+
+            if (loginTypeField.value === "") {
+               errorMessage.textContent = "로그인 유형을 선택해주세요.";
+               return false; // 폼 제출을 막음
+            } else {
+               errorMessage.textContent = ""; // 에러 메시지를 지움
+               return true; // 폼 제출 허용
+            }
+         }
+
+         function toggleLoginType(type) {
+            errorMessage.textContent = ""; // 에러 메시지를 지움
+            // JavaScript 코드 추가
+            const selectzzDiv = document.getElementById("selectzz");
+            selectzzDiv.style.display = "none";
+
+            const buttons = document.querySelectorAll(".toggle-button");
+            const loginTypeField = document.getElementById("loginType");
+            const submitButton = document.querySelector('.box form input[type="submit"]');
+            const maintext = document.querySelector('.jb-text p')
+            buttons.forEach(button => {
+               const buttonType = button.getAttribute("data-login-type");
+               if (buttonType === type) {
+                  button.classList.add("selected");
+                  loginTypeField.value = type;
+                  submitButton.style.color = "#FFFFFF"; // 글자 색상 설정
+                  if (type === "individual") {
+                     submitButton.style.background = "rgba(120, 5, 5,0.5)"; // 빨간 배경색
+
+                     maintext.style.background = "rgba(120, 5, 5,0.5";
+                  } else if (type === "company") {
+                     submitButton.style.background = "rgba(5, 2, 122,0.5)"; // 파란 배경색
+
+                     maintext.style.background = "rgba(5, 2, 122,0.5)";
+                  }
+               } else {
+                  button.classList.remove("selected");
+
+               }
+            });
+
+            const borderLine = document.querySelector(".borderLine");
+            const boxz = document.querySelector(".box");
+
+
+
+            if (type === "individual") {
+
+               loginTypeField.value = "individual";
+               boxz.style.background = "rgba(189, 6, 6,0.3)";
+
+            } else if (type === "company") {
+
+               loginTypeField.value = "company";
+               boxz.style.background = "rgba(4, 0, 184,0.3)";
+
+            }
+         }
+
+
+
+      </script>
+</body>
+
+</html>

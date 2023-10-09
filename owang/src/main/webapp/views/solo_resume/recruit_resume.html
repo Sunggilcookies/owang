@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet" th:href="@{/css/solo_resume/detail.css}">
+<header>
+	<div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+<body>
+<div id="resume_detail">
+	<div id="resume_text">
+		<span>
+			<span class="material-symbols-outlined">content_paste</span>
+			이력서 열람</span>
+	</div>	
+	<div id="resume_detail_wrap">
+		<!-- 이력서 제목 -->
+		<div id="rstitle">
+			<span class="material-symbols-outlined" style="transform: scaleX(-1);">format_quote</span>
+			&nbsp;
+			<span th:text="${rdto.rstitle}" />
+			&nbsp;
+			<span class="material-symbols-outlined">format_quote</span>
+		</div>
+		<!-- 기본 정보 -->
+		<div id="resume_info">
+			<input type="hidden" th:value="${solosession.sid}" name="sid" />
+			<div id="resume_name">
+				<li>
+					<!-- 이름 -->
+					<span th:text="${solosession.sname}"/>
+					<!-- 성별 -->
+			    	<span th:text="${solosession.sgender}" />
+			    	<!-- 나이 -->
+				    <span  th:text="|${solosession.sage}세|" />
+				</li>
+			</div>
+			<div id="resume_detail_info">
+				<li>
+				    <span class="material-symbols-outlined">home</span>
+				    <span th:text="${solosession.saddress}" />
+				</li>
+				<li>
+				    <span class="material-symbols-outlined">call</span>
+				    <span colspan="3" th:text="${solosession.sphone}" />
+				</li>
+				<li>
+					<span class="material-symbols-outlined">mail</span>
+				    <span colspan="3" th:text="${solosession.semail}" />
+				</li>
+			</div>
+			<!-- 증명사진 -->
+			<div id="resume_photo">
+				<img th:if="${rdto.img}" th:src="|/resumephoto/${rdto.rsphoto}|"
+	                 style="width:160px; height:200px; border: 1px solid #ccc;"/>			
+			</div>
+		</div>
+	    <!-- 경력 사항 -->
+	    <div id="rscareer">
+			<span id="rscareer_text">경력</span>
+			<span id="rscareer_value" th:text="${rdto.rscareer}" />
+			<ul th:if="${rdto.rscareer == '경력'}">
+		         <!-- 경력일 경우에만 아래 필드들을 보여줍니다. -->
+				 <li>
+					 <span id="rscompany">기업 이름</span>
+					 <span id="rscompany_text" th:text="${rdto.rscompany}"></span>
+			 	 </li>
+				 <li>
+					 <span id="rscompany">근무 기간</span>
+					 <span id="rscompany_text" th:text="${rdto.rsworkstart}" /> ~ <span id="rscompany_text" th:text="${rdto.rsworkend}" />
+				 </li>
+				 <li>
+					 <span id="rscompany">업무 내용</span>
+					 <span id="rscompany_text" th:text="${rdto.rswork}"></span>
+				 </li>
+			</ul>
+	  	</div>
+	  	
+		<!-- 학력 -->
+		<div id="rsschool">
+			 <span id="rsschool_text">최종 학력</p>
+			 <span id="rsschool_one" th:text="${rdto.rsacademic}" />
+			 <span id="rsschool_two" th:text="${rdto.rsacademicstat}" />         
+		</div>
+		<!-- 자기소개 -->
+		<div id="rsintroduce" th:if="${rdto.rsintroduce != null or not #lists.isEmpty(rdto.rsintroduce)}">
+			<span id="rsintroduce_text">자기소개서</span>
+			<!-- 자기소개 없으면 : 등록된 자기소개서가 없습니다 -->
+			<span id="rsintroduce_no" th:if="${rdto.rsintroduce == null or rdto.rsintroduce.isEmpty()}">등록된 자기소개서가 없습니다</span>
+			<!-- 자기소개 있으면 -->
+			<div id="rsintroduce_yes" th:if="${rdto.rsintroduce != null or not #lists.isEmpty(rdto.rsintroduce)}">
+				<div id="rsintroduce_yes_text" th:text="${rdto.rsintroduce}" />
+			</div>
+		</div>
+		<!-- 자격증 -->
+		<div id="rslicense_content">
+			<span id="rslicense_text">자격증</span>
+			<!-- 자격증 없으면 : 등록된 자격증이 없습니다 -->
+			<span id="rslicense_no" th:if="${rdto.rslicense == null or rdto.rslicense.isEmpty()}">등록된 자격증이 없습니다</span>
+			<div id="rslicense_yes" th:if="${rdto.rslicense != null and not #lists.isEmpty(rdto.rslicense)}">
+				<ul>
+	                <li>
+						<span id="rslicense_one">자격증명</span>
+						<span id="rslicense_two" th:text="${rdto.rslicense}" />
+	                </li>
+	                <li>
+						<span id="rslicense_one">발행기관</span>
+		                <span id="rslicense_two" th:text="${rdto.rslicenseorg}" />
+					</li>
+	                <li>
+						<span id="rslicense_one">발행년도</span>
+	                	<span id="rslicense_two" th:text="${rdto.rslicenseyear}" />
+	                </li>
+	            </ul>
+			</div>
+		</div>
+		<!-- 어학 능력 -->
+		<div id="rslanguage_content">
+			<span id="rslanguage_text">어학 능력</span>
+			<!-- 어학 없으면 -->
+			<span id="rslanguage_no" th:if="${rdto.rslanguage == null or rdto.rslanguage.isEmpty()}">등록된
+				어학능력이 없습니다
+			</span>
+			<!-- 어학 있으면 -->
+		<div id="rslanguage_yes" th:unless="${rdto.rslanguage == null or rdto.rslanguage.isEmpty()}">
+			<li>
+				<span id="rslanguage_one" >어학명</span>
+				<span id="rslanguage_two" th:text="${rdto.rslanguage}" ></span>
+				<span id="rslanguage_one" >어학수준</span>
+				<span id="rslanguage_two" th:text="${rdto.rslanguagelevel}"  ></span>
+			</li>
+		</div>
+		</div>
+	</div>
+</div>
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+    
+</body>
+</html>

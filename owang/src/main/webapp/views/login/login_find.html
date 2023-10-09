@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 비밀번호찾기</title>
+    <link rel="stylesheet" th:href="@{/css/login/loginfind.css}">
+    
+
+</head>
+<body>
+    <header>
+        <div th:insert="~{header :: header}"></div>
+    </header>
+    <div class="container">
+		<div class="page">
+        <h1>아이디, 비밀번호 찾기</h1>
+        <div class="button-container">
+			<button class="button" onclick=" window.location.href = '/login/findid'">아이디</button>
+			<button class="button" onclick=" window.location.href = '/login/findpw'">비밀번호</button>
+
+        </div>
+        <a class="buttonzz" href="/login/main"><div >
+			뒤로
+		</div></a>
+       </div>
+    </div>
+</body>
+<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </foote>
+    
+</html>

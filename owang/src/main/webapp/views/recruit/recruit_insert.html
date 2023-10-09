@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/recruit/recruit_insert.css}">
+</head>
+
+<body>
+	<div id="home">
+		<header>
+			<div th:insert="~{header :: header}"></div>
+		</header>
+		
+		<remocon>
+      		 <div th:insert="~{remocon :: remocon}"></div>
+    	</remocon>
+    
+		<!--[[${recruitDTO}]]-->
+		<br>
+		<!--[[${mainData}]]--><br>
+		<!--[[${session.companysession.cdate}]]-->
+		<!--<p><input type="text" th:value="${session['cid']}" readonly style="border: none;"/></p>-->
+
+
+		<div class="title_box">
+			<h1>공고등록 <i class="fa-solid fa-building" style="color: #000000;"></i></h1>
+			<br><br><br><br>
+			<h3 id="p" style="color:  rgb(45, 101, 242);;">[[${session['cid']}]]의 채용공고를 등록하실 수 있습니다.</h3>
+		</div>
+
+
+		<div id="insert_wrap">
+			<form action="" method="post" enctype="multipart/form-data" th:object="${recruitDTO}">
+				<table border="0" id="insert_table">
+					<tr>
+						<td id="label">공고제목</td>
+						<td id="labe2"><input type="text" th:field="*{recruitTitle}" 
+								pattern="^\S.*$" required /></td>
+					</tr>
+					<hr>
+					<!--
+			<tr>
+				<td>회사명</td>
+				<td>
+					<input type="text" th:value="${session['cid']}" name="cid" readonly th:if="${session['cid']}" />
+					<input type="text" th:if="${session.adminSession}" name="cid" list="company-list" />
+					<datalist id="company-list">
+						<th:block th:each="recruit : ${mainData}">
+							<option th:value="${recruit.cid}" class="company-list" />
+							<span th:text="|회사번호 ${recruit.ccall}|" class="company-list"></span>
+						</th:block>
+					</datalist>
+				</td>
+			
+			</tr>
+			-->
+					<tr>
+						<td id="label">근무형태</td>
+						<td id="labe2"><input type="text" readonly value="정규직" /></td>
+					</tr>
+					<tr>
+					<tr>
+						<td id="label">급여(*만원)</td>
+						<td>
+							<input type="radio" value="월급" th:field="*{recruitMtype}" required />
+							월급
+							<input type="radio" value="연봉" th:field="*{recruitMtype}" />
+							연봉
+							<input type="number" th:field="*{recruitMoney}" required />
+						</td>
+					</tr>
+					
+					<!--<tr>
+				<td>근무지역</td>
+				
+				<td><select>
+				     <option value="서울특별시">서울특별시</option>
+				     <option value="경기도">경기도</option>
+				      <option value="부산광역시">부산광역시</option>
+				      <option value="대구광역시">대구광역시</option>
+				      <option value="인천광역시">인천광역시</option>
+				      <option value="광주광역시">광주광역시</option>
+				      <option value="대전광역시">대전광역시</option>
+				      <option value="제주도">제주도</option>
+	    				</select>
+    				</td>
+			</tr>-->
+					<tr>
+						<td id="label">파일</td>
+						<td><input type="file" th:field="*{mmff}" id="imgfile" accept=".jpg, .jpeg, .png, .gif" /></td>
+					</tr>
+					<!--
+			<select name="마감일" th:field="*{recruitMagam}">
+				<option value="7" selected>7일 후</option>
+				<option value="30">30일 후</option>
+				<option value="300">300일 후</option>
+			</select>
+			-->
+					<tr>
+						<td id="label">시작일</td>
+						<td><input type="date" name="regDate" th:min="${today}" required /></td>
+					</tr>
+
+					<tr>
+						<td id="label">마감일</td>
+						<td><input type="date" name="realMagam" th:min="${today}" required /></td>
+					</tr>
+
+					<tr>
+						<td id="label">근무지역</td>
+						<td>
+							<select th:field="*{recruitLocation}">
+								<option value="서울특별시">서울특별시</option>
+								<option value="경기도">경기도</option>
+								<option value="부산광역시">부산광역시</option>
+								<option value="대구광역시">대구광역시</option>
+								<option value="인천광역시">인천광역시</option>
+								<option value="광주광역시">광주광역시</option>
+								<option value="대전광역시">대전광역시</option>
+								<option value="제주도">제주도</option>
+							</select>
+						</td>
+					</tr>
+
+					</tr>
+
+					<tr>
+						<td id="label">상세내용</td>
+						<td><textarea type="text" th:field="*{recruitContent}" rows="30" cols="80" pattern="^\S.*$"
+								placeholder="⚠️허위공고 및 스팸공고를 등록할 경우, &#13;&#10;사내 운영규정 13조 2항에 따라 불이익을 받을 수 있습니다."
+								required /></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<input type="submit" value="작성하기" id="writeButton" />
+							<!--뒤로-->
+							<a th:href="|/recruit/list/${recruitDTO.page}|" i class="fa-solid fa-reply"
+								style="color: #000000;"></a>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		 <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var startDateInput = document.querySelector('input[name="regDate"]');
+            var endDateInput = document.querySelector('input[name="realMagam"]');
+            var imageInput = document.getElementById('imgfile');
+
+            startDateInput.addEventListener("change", function () {
+                var startDate = new Date(startDateInput.value);
+                var endDate = new Date(endDateInput.value);
+
+                if (endDate < startDate) {
+                    alert("마감일은 시작일 이후여야 합니다.");
+                    endDateInput.value = "";
+                }
+            });
+
+            endDateInput.addEventListener("change", function () {
+                var startDate = new Date(startDateInput.value);
+                var endDate = new Date(endDateInput.value);
+
+                if (endDate < startDate) {
+                    alert("마감일은 시작일 이후여야 합니다.");
+                    endDateInput.value = "";
+                }
+            });
+
+            imageInput.addEventListener('change', function () {
+                var selectedFile = imageInput.files[0];
+
+                if (!selectedFile || !selectedFile.type.startsWith('image/')) {
+                    alert('이미지 파일만 업로드할 수 있습니다.');
+                    imageInput.value = '';
+                }
+            });
+        });
+        
+       
+    </script>
+   
+		
+		<footer>
+			<div th:insert="~{footer :: footer}"></div>
+		</footer>
+	</div>
+</body>
+
+</html>

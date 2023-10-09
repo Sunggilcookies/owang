@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>이력서 선택 페이지</title>
+
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet" th:href="@{/css/solo_applicant/submitform.css}">
+
+<body>
+<header>
+	<div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+<div id="applicant_submit">
+  	<div id="applicant_submit_text">
+		<span>지원서 접수</span>
+	</div>
+	<div id="applicant_info">
+		<li>
+			<span class="material-symbols-outlined">corporate_fare
+			</span>
+			<span th:text="${cname}" />
+			<span th:text="${recruitTitle}" />
+		</li>
+	</div>
+	<div id="applicant_choose">
+		<span>제출할 이력서를 선택하세요</span>
+	</div>
+	<form name="rss" method="post">
+		<div id="applicant_form"  th:each="rdto, rstart : ${mainData}">
+        <label class="applicant-label" >
+			<li>
+		 		<input type="radio" id="applicant-radio" name="rsid" th:value="${rdto.rsid}" class="applicant-radio" required/>
+				<a th:href="|/solo_resume/detail/${rdto.rsid}|" th:text="${rdto.rstitle}" />
+			</li>
+			<li>
+				<span>이력서 작성일</span>
+				<span th:text="${#dates.format(rdto.rsregdate, 'yyyy-MM-dd HH:mm')}" /></br>
+				<span>최근 수정일</span>
+				<span th:text="${#dates.format(rdto.rsmoddate, 'yyyy-MM-dd HH:mm')}" />
+			</li>
+		</label>
+	    </div>
+	    <div id="submit_button">
+			<label for="submit">
+		    	<input type="submit" id="submit" style="display: none;">
+		    	지원서 접수<span class="material-symbols-outlined">send</span>
+		    	</input>
+	    	</label>
+	    </div>
+	</form>
+</div>
+<footer>
+       <div th:insert="~{footer :: footer}"></div>
+</footer>
+    
+    
+</body>
+</html>

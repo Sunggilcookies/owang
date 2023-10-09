@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notice/css.css}">
+</head>
+
+<body>
+<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+<div class="board_wrap">
+    <div class="board_title">
+    </div>
+        <div class="board_view_wrap">
+            <div class="board_view">
+                <div class="title">
+                    휴대폰 인증 문자가 오지 않는데 어떻게 해야하나요?
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd>3</dd>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd>오왕매니저</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd>2023.9.24</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>81</dd>
+                    </dl>
+                </div>
+                <div class="cont" style="white-space: pre-wrap;">
+사람중심 취업사이트, 오왕입니다. 오늘도 저희 오왕을 방문해주셔서 감사합니다.
+
+
+문자 수신이 안될 경우에는 아래 두 가지 사항을 확인해주십시요 
+
+1. 휴대폰 재부팅 
+
+문자 수신 문제는 통신사와 디바이스간 연결에 문제가 있을 수 있습니다. 
+
+휴대폰 재부팅을 진행하시면 문자 수신이 정상화 되는 경우도 있으니 우선 휴대폰 재부팅 먼저 진행해주시기 바랍니다. 
+
+
+2. 스팸차단 설정 확인 
+
+인증 문자가 수신되지 않는다면 인증 문자 발송 번호(02-1234-5678)가 스팸번호로 등록되어 있지 않은지 확인해주시길 바랍니다. 
+
+
+
+두 가지 사항을 확인하고도 문제가 해결되지 않는다면 02-1234-5678 또는 help@owang.co.kr로 문의주시면 감사하겠습니다.
+			
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="/qna/qna" class="on">목록</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

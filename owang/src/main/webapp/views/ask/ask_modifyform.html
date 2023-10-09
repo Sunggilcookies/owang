@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>1:1 수정페이지</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/ask/ask.css}">
+<script>
+	function fileDelete(){
+		frm.action = "/ask/fileDelete"
+		frm.submit()
+	}
+</script>
+
+`
+</head>
+<body>
+<div id="home">
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	
+	
+	<remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+    
+    
+<div class="title_box">
+	   <h1>문의글 수정</h1>  
+	   <br><br><br><br>
+	   <h3 id="p" >
+
+	   </h3>
+	   <br/>	
+   </div>	 <!--타이틀박스 끝  -->		
+
+<div id="wrap">   		
+	<form name="frm" method="post" enctype="multipart/form-data" th:object="${dto}" id="insert_form">
+		<input type="hidden" th:field="*{id}" />
+		<input type="hidden" th:field="*{page}" />
+	
+	<table border="0" id="ask_modify">
+			<tr>
+				<td id="label">제목</td>
+				<td><input type="text" th:field="*{title}" pattern="^\S.*$" 
+					placeholder="※ 제목을 입력해주세요" required /></td>
+			</tr>
+			<tr>
+				<td id="label">작성자</td>
+				<td><input type="text" th:field="*{pname}" readonly/></td>
+			</tr>
+			<tr>
+				<td id="label">사진첨부</td>
+				<td>
+					<th:block th:if="${dto.upfile != null}">	
+					<!--<input hidden="text" th:field="*{upfile}" readonly/>-->
+					<input hidden="hidden" th:field="*{upfile}" readonly/>
+					<input  type="button" onclick="fileDelete()" value="파일삭제"/>
+					</th:block>
+					<input th:if="${dto.upfile == null}" type="file" th:field="*{mmff}"/>
+				</td>
+			</tr>
+			<tr>
+				<td id="label">내용</td>
+				<td><textarea th:field="*{content}"  pattern="^\S.*$" 
+						rows="20" cols="100" required id="content"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" value="수정하기" id="modiButton"/>
+					<!--<a th:href="|/ask/detail/${askdto.page}/${askdto.id}|" th:text="뒤로"/>-->
+				</td>
+			</tr>
+		</table>
+	</form>
+</div> 
+	
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+
+
+</div> <!--home 끝-->
+</body>
+
+
+</html>

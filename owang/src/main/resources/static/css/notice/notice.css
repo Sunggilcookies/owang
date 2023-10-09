@@ -1,0 +1,168 @@
+@charset "UTF-8";
+
+*{margin: 0;padding: 0;}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+#home{
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+.title_box{
+	border-bottom: 1px solid #111;
+	padding-bottom: 20px;
+	background-image: url("/css/images/loud.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+	height:170px;
+	margin-top: 40px;
+}
+#p{margin-left: 20px;}
+
+
+#board_wrap{
+    width: 1000px;
+    height: auto;
+    margin: 10px auto;
+    margin-bottom: 100px;
+    padding:50px 50px 50px 50px;
+    text-align: center;
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+/*디테일 detail*/
+#detail_wrap{
+    width: 1000px;
+    height: auto;
+    margin: 10px auto;
+    margin-bottom: 100px;
+    padding:50px 50px 50px 50px;
+    
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    /*border-top: 3px solid black;*/
+    /*border-bottom: 3px solid black;*/
+    align-items: center;
+}
+
+/*공지사항 작성 */
+#insert_wrap {
+    width: 800px;
+    margin: 20px auto 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    
+}
+
+
+#row{
+	display: table-cell;
+	vertical-align: inherit;
+	font-weight: normal;
+	text-align: -internal-center;
+	padding: 11px 0 10px 18px;
+	color: #353535;
+	text-align: left;
+}
+
+/*목록*/
+#list{    
+	height: 64px;
+    padding: 19px 4px;
+    font-size: 20px;
+    line-height: 26px;
+    border-radius: 8px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+}
+
+/*공지사항 - 디테일 페이지 */
+
+.detail_table{
+	text-align: center;
+	margin-left: 40px;
+	margin: 0px auto;
+
+}
+
+
+/*디테일 이미지*/
+#detail_img{
+	width: 700px;
+	height: auto;
+}
+/*목록으로*/
+#detail_del, #detail_modi, #detail_list{
+	border: 1px solid black;
+	width: 66px;
+	height: 31px	;
+	line-height: 32px;
+	color: black;
+	border-radius: 5px;
+	padding: 4px;
+	font-size: 12px;
+	margin-top: 20px;
+	text-decoration: none;
+}
+/*삭제*/
+#detail_del{background-color: #FFc0CB;}
+
+/*디테일 - th*/
+th{
+	width: 80px;
+	text-align: center;
+}
+#detail_title,#detail_pname,#detail_reg,#detail_cnt{
+	text-align: left;
+	padding-left: 15px;
+	
+}
+
+/* 공지사항-insert*/
+h1{
+	text-align: center;
+	margin-top: 20px;}
+	
+#label{
+	width: 110px;
+	font-size: 16px;
+	display: inline-block;
+	text-align: center;
+}	
+
+#insert_table{
+	margin-left: 70px;
+
+}
+
+/*수정페이지*/
+/* #modi_pname, #modi_file,modi_filedel*/
+/* 공지사항-modify*/
+#modi_title{
+	float: left;
+	margin-left: 20px;
+	width: 360px;
+	padding: 3px;
+}
+
+#modi_filedel{
+	float: left;
+	margin-left: 20px;
+	padding: 3px;
+}
+
+#modi_content{
+	float: left;
+	margin-left: 20px;
+	padding: 3px;
+}
+
+

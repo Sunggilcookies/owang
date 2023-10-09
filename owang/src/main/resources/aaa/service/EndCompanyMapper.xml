@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.EndCompanyMapper">
+<!-- 탈퇴 기업 조회 -->
+<select id="endCompanyList" parameterType="mcDTO" resultType="mcDTO">
+	 select * from endcompany  order by cno desc limit #{start}, #{limit}
+</select>
+
+<select id="endCompanycnt" resultType="Integer" >
+	select count(*) from endcompany
+</select>
+	
+<!--탈퇴 기업 추가 -->
+<insert id="endCompanyInsert" parameterType="mcDTO">
+    INSERT INTO endcompany (cemail,cid, cpw, cname, cbuild, ccategory, 
+    cstaff, csales, ccall, cceo, caddress, ccompanyFile, ccontent, ctype, cbcnt, capproval, cdeletedate)
+    VALUES (
+        #{cemail},#{cid},#{cpw},#{cname},#{cbuild},#{ccategory},#{cstaff},#{csales},
+        #{ccall},#{cceo},#{caddress},#{ccompanyFile},
+        #{ccontent},1,0,0, sysdate()
+    )
+</insert>
+
+<select id="idChk" resultType="int">
+    select count(*) from endcompany where cid = #{cid}
+</select>
+
+<!-- 탈퇴한 지원서 접수 -->
+<insert id="endappinsert" parameterType="aDTO">
+  INSERT INTO endapplicant (
+    rsid, sid, cid, sname, sbirth, sage, sgender, sphone, semail, saddress, scompanyName, scompanyFile,
+    cname,   recruit_id,recruit_title, apphoto, aptitle, apcareer, apcompany, apworkstart, apworkend,
+    apwork, apacademic, apacademicstat, apintroduce, aplicense, aplicenseorg, aplicenseyear, aplanguage,
+    aplanguagelevel, apsubmitdate, deletedate
+  )
+	values(
+    #{rsid}, #{sid}, #{cid}, #{sname}, #{sbirth}, #{sage}, #{sgender}, #{sphone}, #{semail}, #{saddress}, #{scompanyName}, #{scompanyFile},
+    #{cname},  #{recruitId},#{recruitTitle}, #{apphoto}, #{aptitle}, #{apcareer}, #{apcompany}, #{apworkstart}, #{apworkend},
+    #{apwork}, #{apacademic}, #{apacademicstat}, #{apintroduce}, #{aplicense}, #{aplicenseorg}, #{aplicenseyear}, #{aplanguage},
+    #{aplanguagelevel}, #{apsubmitdate}, NOW() ) 
+ 
+  
+</insert>
+<!--탈퇴한 지원서 조회 -->
+<select id="endapplist" resultType="aDTO"
+		parameterType="string">
+		select * from applicant where cid = #{cid}
+</select>
+
+<!--탈퇴 공고 추가 -->
+<insert id="endrecruitInsert" parameterType="recruitDTO">
+	insert into endrecruit(rtype,cname, recruit_title, cid, recruit_content,
+	recruit_upfile, reg_date, recruit_money, recruit_mtype,
+	recruit_magam , cnt, realMagam, deletedate, appnum )
+	values
+	(1, #{cname}, #{recruitTitle}, #{cid}, #{recruitContent},
+	#{recruitUpfile}, #{regDate},#{recruitMoney}, #{recruitMtype},
+	#{recruitMagam},0,
+	#{realMagam},sysdate(), #{appnum})
+</insert>
+
+<!-- 탈퇴할 기업의 공고 조회 -->
+<select id="endrecruitList" resultType="recruitDTO"  parameterType="string">
+	select * from recruit where cid = #{cid}
+</select>
+
+
+<insert id="endaskInsert" parameterType="askDTO">
+	insert into endask (title, pname, imp, content, upfile, reg_date, cnt, seq, lev, gid, id, deletedate)
+	values
+	(#{title},#{pname},#{imp},#{content},#{upfile}, sysdate(),0,0,0, #{id}, #{id}, sysdate())
+</insert>
+
+
+<!-- 탈퇴한 기업의 공고 조회 -->
+<select id="endRecruitRealList" resultType="recruitDTO"  parameterType="string">
+	select * from endrecruit where cid = #{cid}
+</select>
+
+<select id="endrecruitone" resultType="recruitDTO" parameterType="String">
+    select * from endrecruit where recruit_title = #{recruitTitle}
+</select>
+
+<!--  탈회한 기업의 공고 이력내역 조회 -->
+<select id="endApplicantList" resultType="aDTO"  parameterType="String">
+	select * from endapplicant where cid = #{cid} and recruit_title = #{rectuit_title}
+</select>
+
+</mapper>

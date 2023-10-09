@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>마이페이지 수정</title>
+	<!-- jQuery 라이브러리 추가 -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:inlin="javascript">
+
+		function fileDelete() {
+			frm.action = "/admin_company/fileDelete/" + "[[${dto.cno}]]";
+			frm.submit()
+		}
+
+	</script>
+	<style>
+		/* 전체 페이지 스타일 */
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f5f5f5;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		h3 {
+			text-align: center;
+			margin-top: 10px;
+			color: #777;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			margin: 0 10px 20px 10px;
+			border-collapse: collapse;
+			margin-top: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		/* 입력 필드 스타일 */
+		input[type="text"],
+		input[type="date"],
+		input[type="file"] {
+			padding: 5px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+		}
+
+		/* 버튼 스타일 */
+		input[type="submit"],
+		input[type="button"] {
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+
+		input[type="submit"]:hover,
+		input[type="button"]:hover {
+			background-color: #0056b3;
+		}
+
+		/* 오류 메시지 스타일 */
+		#fileError {
+			color: red;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+	</style>
+</head>
+
+
+<body>
+	<container id="container">
+		<th:block th:replace="~{admin/adheader}" />
+		<div class="main">
+			<h1>관리자 기업정보 수정</h1>
+			<h3> 개인정보문제로 회원으로부터 <br>사업자등록증갱신 및 변경 요청시 대표자, 개업일, 기업주소, 사업자등록증만 변경 가능합니다.</h3>
+
+
+			<form name="frm" method="post" enctype="multipart/form-data" th:object="${dto}">
+				<input type="hidden" th:field="*{cid}" />
+				<table border="">
+
+					<tr>
+						<td>대표자</td>
+						<td><input type="text" th:field="*{cceo}" /></td>
+					</tr>
+					<tr>
+						<td>개업연월일</td>
+						<td><input type="date" th:field="*{cbuild}" /></td>
+					</tr>
+
+
+					<tr>
+						<td>본점소재지</td>
+						<td><input type="text" th:field="*{caddress}" /></td>
+					</tr>
+					<tr>
+						<td>사업자등록증</td>
+						<td>
+							<th:block th:if="${dto.ccompanyFile != null}">
+								<input type="hidden" th:field="*{ccompanyFile}" />
+								<input type="button" onclick="fileDelete()" th:value="|*{ccompanyFile} 파일삭제|" />
+
+							</th:block>
+							<input th:unless="${dto.ccompanyFile != null}" type="file" th:field="*{mmff}" id="mmff"
+								required onchange="validateFile()" />
+							<div id="fileError" style="color: red;"></div>
+
+
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<input type="submit" value="수정" />
+							<a href="/admin_company/detail" +"${dto.cno}" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</container>
+	<script>
+		function validateFile() {
+			var mmffInput = document.getElementById("mmff");
+			var fileError = document.getElementById("fileError");
+			var fileName = mmffInput.value;
+			var allowedExtensions = ["jpg", "png"];
+
+			if (fileName === "") {
+				// 파일이 선택되지 않은 경우
+				fileError.innerText = "파일을 선택하세요.";
+				mmffInput.value = ""; // 파일 입력란 초기화
+			} else {
+				var fileExtension = fileName.split('.').pop().toLowerCase();
+
+				if (allowedExtensions.indexOf(fileExtension) === -1) {
+					// 파일 확장자가 허용되지 않는 경우
+					mmffInput.value = ""; // 파일 입력란 초기화
+					fileError.innerText = "지원되지 않는 파일 유형입니다. JPG 또는 PNG 파일을 업로드하세요.";
+				} else {
+					fileError.innerText = ""; // 오류 메시지 초기화
+				}
+			}
+		}
+	</script>
+
+
+</body>
+
+</html>

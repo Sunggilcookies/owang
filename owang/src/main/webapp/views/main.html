@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+	<style>
+		#cover{background-color: white}
+		
+		
+		body{
+			font-family:  'Noto Sans KR', sans-serif;
+		}
+		
+		a{
+			color: black;
+			text-decoration: none;
+		}
+		
+		a:hover{
+			text-decoration: underline;
+		}
+		
+		/* 로그인 옆 슬라이드 */
+		.section {
+			box-sizing: border-box;
+			float: left;
+		}
+
+		.section input[id*="slide"] {
+			display: none;
+		}
+
+		.section .slidewrap {
+		
+			box-sizing: border-box;
+			max-width: 800px;
+			max-height: 420px;
+			padding: 16px;
+			margin-top: 20px;
+		}
+
+		.section .slidelist {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+			white-space: nowrap;
+			font-size: 0;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.section .slidelist>li {
+			display: inline-block;
+			vertical-align: middle;
+			width: 100%;
+			transition: all .5s;
+		}
+
+		.section .slidelist>li>a {
+			display: block;
+			position: relative;
+		}
+
+		.section .slidelist>li>a img {
+			border-radius: 4px ;
+			width: 768px;
+			height: 373px;
+		}
+
+		.section .slidelist label {
+			position: absolute;
+			z-index: 10;
+			top: 50%;
+			transform: translateY(-50%);
+			padding: 50px;
+			cursor: pointer;
+			opacity: 0.5;
+
+		}
+
+		.section .slidelist .textbox {
+			position: absolute;
+			z-index: 1;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			line-height: 1.6;
+			text-align: center;
+		}
+
+		.section .slidelist .textbox h3 {
+			font-size: 36px;
+			color: #fff;
+
+			transform: translateY(30px);
+			transition: all .5s;
+		}
+
+		.section .slidelist .textbox p {
+			font-size: 16px;
+			color: #fff;
+			opacity: 0;
+			transform: translateY(30px);
+			transition: all .5s;
+		}
+
+		/* input에 체크되면 슬라이드 효과 */
+		.section input[id="slide01"]:checked~.slidewrap .slidelist>li {
+			transform: translateX(0%);
+		}
+
+		.section input[id="slide02"]:checked~.slidewrap .slidelist>li {
+			transform: translateX(-100%);
+		}
+
+		.section input[id="slide03"]:checked~.slidewrap .slidelist>li {
+			transform: translateX(-200%);
+		}
+
+		/* input에 체크되면 텍스트 효과 */
+		.section input[id="slide01"]:checked~.slidewrap li:nth-child(1) .textbox h3 {
+			opacity: 1;
+			transform: translateY(0);
+			transition-delay: .2s;
+		}
+
+		.section input[id="slide01"]:checked~.slidewrap li:nth-child(1) .textbox p {
+			opacity: 1;
+			transform: translateY(0);
+			transition-delay: .4s;
+		}
+
+		.section input[id="slide02"]:checked~.slidewrap li:nth-child(2) .textbox h3 {
+			opacity: 1;
+			transform: translateY(0);
+			transition-delay: .2s;
+		}
+
+		.section input[id="slide02"]:checked~.slidewrap li:nth-child(2) .textbox p {
+			opacity: 1;
+			transform: translateY(0);
+			transition-delay: .4s;
+		}
+
+		.section input[id="slide03"]:checked~.slidewrap li:nth-child(3) .textbox h3 {
+			opacity: 1;
+			transform: translateY(0);
+			transition-delay: .2s;
+		}
+
+		.section input[id="slide03"]:checked~.slidewrap li:nth-child(3) .textbox p {
+			opacity: 1;
+			transform: translateY(0);
+			transition-delay: .4s;
+		}
+
+		/* 좌,우 슬라이드 버튼 */
+		.slide-control>div {
+			display: none;
+		}
+
+		.section .left {
+			left: 10px;
+			background: url('../images/main/left.png') center center / 100% no-repeat;
+		}
+
+		.section .right {
+			right: 10px;
+			background: url('../images/main/right.png') center center / 100% no-repeat;
+		}
+
+		.section input[id="slide01"]:checked~.slidewrap .slide-control>div:nth-child(1) {
+			display: block;
+		}
+
+		.section input[id="slide02"]:checked~.slidewrap .slide-control>div:nth-child(2) {
+			display: block;
+		}
+
+		.section input[id="slide03"]:checked~.slidewrap .slide-control>div:nth-child(3) {
+			display: block;
+		}
+
+		/* 페이징 */
+		.slide-pagelist {
+			width: 300px;
+			position: relative;
+			top: -70px;
+			left: 290px;
+		}
+
+		.slide-pagelist>li {
+			
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.slide-pagelist>li>label {
+			display: block;
+			padding: 8px 8px;
+			border-radius: 30px;
+			background: #ccc;
+			margin: 20px 10px;
+			cursor: pointer;
+		}
+
+		.section input[id="slide01"]:checked~.slidewrap .slide-pagelist>li:nth-child(1)>label {
+			background: #999;
+		}
+
+		.section input[id="slide02"]:checked~.slidewrap .slide-pagelist>li:nth-child(2)>label {
+			background: #999;
+		}
+
+		.section input[id="slide03"]:checked~.slidewrap .slide-pagelist>li:nth-child(3)>label {
+			background: #999;
+		}
+
+		/* 로그인 옆 슬라이드 끝 */
+
+		/* 공지사항 시작 */
+		.notice {
+			box-sizing: border-box;
+			display: inline-block;
+			padding: 16px;
+			border: 1px solid rgb(228, 228, 228);
+			margin-top: 25px;
+			width: 390px;
+			height: 113px;
+			border-radius: 4px;
+			background-color: white;
+		}
+
+		.notice #notice_text{
+			font-weight: bold;
+			font-family: Montserrat, serif;
+			color: rgb(221, 0, 0);
+			font-size: 16px;
+			letter-spacing: 1px;
+
+		}
+
+		.notice a {
+			text-decoration: none;
+			color: black;
+			white-space: nowrap;
+			/* 텍스트가 한 줄로만 표시되도록 설정 */
+			overflow: hidden;
+			/* 넘치는 텍스트를 숨김 */
+			text-overflow: ellipsis;
+			/* 생략 부호(...)를 표시 */
+			width: 250px;
+			/* 표시할 너비를 지정 (필요에 따라 조절) */
+		}
+
+		.notice .sort span {
+			color: rgb(153, 153, 153);
+			font-family: 'Noto Sans KR', sans-serif;
+			font-weight: 400;
+
+
+		}
+
+		.sort {
+			display: flex;
+			-webkit-box-pack: justify;
+			justify-content: space-between;
+			margin-top: 30px;
+			font-family: 'Noto Sans KR', sans-serif;
+		}
+
+		/* 공지사항 끝 */
+
+		/* 가운데 검색 폼 */
+		#searchForm {
+			text-align: center;
+			padding: 16px;
+			
+		}
+
+		/*
+		#searchForm>label {
+			font-size: 22px;
+		}
+		*/
+
+		#searchForm>input {
+			width: 900px;
+			appearance: none;
+			height: 50px;
+			vertical-align: middle;
+			border-radius: 50px;
+			font-size: 16px;
+			padding-left: 22px;
+			border: 2px solid #ccc;
+			font-family: 'Noto Sans KR', sans-serif;
+			box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+		}
+		
+		#searchForm>input:focus {
+			outline: none;
+			border: 2px solid rgb(45, 101, 242);
+			
+		}
+		
+		#searchForm>::placeholder{
+			font-size: 18px;
+			letter-spacing: 2px;
+			padding-left: 10px;
+		}
+		
+		datalist::-ms-expand {
+			display: none;
+
+		}
+
+		datalist {
+			-o-appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+		}
+
+
+		#searchForm button {
+			position: relative;
+			top: 6px;
+			width: 50px;
+			height: 50px;
+			padding: 10px 5px;
+			background-color: white;
+			border: none;
+			cursor: pointer;
+			position: relative;
+			top: 15px;
+		}
+		
+		#searchForm button span{
+			font-size: 40px;
+			color: rgb(128, 128, 128);
+
+		}
+		
+		#searchForm button:focus {
+			outline: none;
+			}
+
+		/* 가운데 검색 폼 끝 */
+
+		/* 로그인 */
+		.mainLogin {
+			
+			box-sizing: border-box;
+			display: inline-block;
+			padding: 13px;
+			border: 1px solid rgb(228, 228, 228);
+			margin-top: 35px;
+			width: 390px;
+			height: 100%;
+			border-radius: 4px;
+			background-color: rgb(250, 250, 250);
+			
+		}
+		
+		.mainLogin pre{
+			position: relative;
+			
+			line-height: 1.5;
+			}
+		
+		.mainLogin button:first-child{
+			margin-top: 20px;
+			width: 100%;		
+		    background: rgb(121, 121, 121);
+		    color: rgb(255, 255, 255);
+		    height: 48px;
+		    line-height: 46px;
+		    font-size: 16px;
+		    border-radius: 8px;
+		    font-family:inherit;
+		    font-weight: 400;
+		    border:none;
+	    	letter-spacing: 2px;
+	    	transition: background-color 0.3s ease;	
+
+		}
+		.mainLogin button:first-child:hover{
+			background: rgb(162, 162, 162);
+			}
+		
+		.mainLogin button{
+			width: 49%;
+			height: 48px;
+			line-height: 46px;
+			font-size: 15px;
+		    border-radius: 8px;
+		    cursor: pointer;
+		}
+		
+		#joinsolo{
+			border: none;
+			background-color:rgb(255, 98, 98);
+			color: white;
+			font-family: 'Noto Sans KR', sans-serif;
+			letter-spacing: 2px;
+			margin-right: 7px;
+	    	transition: background-color 0.3s ease;	
+
+		}
+		
+		#joinsolo:hover{
+			background-color:rgb(255, 168, 168);
+		}
+			
+		#joincom{
+			border: 1px solid ;
+			background-color:rgb(75, 136, 250);
+			color: white;
+			font-family: 'Noto Sans KR', sans-serif;
+			letter-spacing: 2px;
+			margin-right: -10px;
+	    	transition: background-color 0.3s ease;				
+		}
+		
+		#joincom:hover{
+			background-color:rgb(148, 184, 252);
+		}
+			
+		
+		#upup{
+			display: block;
+			margin-top: 15px;
+			margin-bottom: 5px;
+		}
+		
+		
+		
+		/* 기업로그인 */
+		#companytitle {
+		    font-size: 20px;
+		    
+		    float: left;
+		    margin: 0;
+		}
+		
+		#companyout {
+		    cursor: pointer;
+		    color: #333;
+		    float: right;
+		    margin: inherit;
+		}
+		
+		.login_title{
+			justify-content: space-between;
+			align-items: baseline;
+			display: flex;
+		}
+		
+		#login_email{
+			font-family: Montserrat, serif;
+			color: rgb(102, 102, 102);
+			
+		}
+		
+		
+		#companySkil{
+			flex-wrap: nowrap;
+			border-radius: 8px;
+			align-items: center;
+			text-align: center;
+			width: 100%;
+		    padding: 20px 0px;
+		    height: 53px;
+		    margin-top: 50px;
+		    display: flex;
+		    background-color: rgb(255, 255, 255);
+		    justify-content: space-around;
+		    position: relative;
+		    
+		}
+		
+		#companySkil > a{
+			text-decoration: none;
+			color: black;
+		}
+		#companySkil > a:hover > p:last-of-type{
+			text-decoration: underline;
+		}
+		
+		#companySkil > a:nth-child(1) > p:nth-child(2){
+			margin-top: -10px;
+			
+		}
+		
+		#companySkil > a:nth-of-type(2) > p:nth-child(2){
+			margin-top: -10px;
+			
+		}
+		
+		/* 기업로그인 끝 */
+		
+		.divider {
+			position: absolute;
+		    border-right: 1px solid rgb(184, 184, 184); /* 구분선의 스타일을 정의합니다. */
+		    margin: 0px; /* 좌우 여백을 조절할 수 있습니다. */
+		    height: 50px; /* 구분선의 높이를 조절할 수 있습니다. */
+		    display: inline-block;
+		    vertical-align: middle; /* 내용과 수직 정렬을 위해 사용합니다. */
+		}
+		/* 로그인 끝 */
+		
+		/* 배너 */
+		#banner1, #banner2{
+			margin-top: 30px;
+			text-align: center;
+			
+			}
+			
+		#banner1 img, #banner2 img{
+			border-radius: 5px;
+			max-width: 1180px;
+			max-height: 100px;
+		}
+				
+		/* 채용공고 더보기 */
+		#more_recruit{
+			text-align: right;
+			margin-top: 10px;
+			margin-right: 20px;
+		}
+		
+		#more_recruit a{
+			font-family:inherit;
+			color: rgb(102, 102, 102);
+			font-size: 19px;	
+			letter-spacing: 1px;
+			text-decoration: underline;
+	    	transition: color 0.3s ease;	
+
+		}
+		
+		#more_recruit a:hover{
+			color: rgb(75, 136, 250);
+		}
+
+		
+		#more_recruit span{
+			position: relative;
+			top: 5px;
+			left: 5px;
+			font-size: 25px;
+		}
+		
+	</style>
+	<link rel="stylesheet" th:href="@{/css/main/middleSide.css}">
+	<link rel="stylesheet" th:href="@{/css/main/endSide.css}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+</head>
+
+
+<body>
+<header >
+	<div th:insert="~{header :: header}"></div>
+</header>
+
+	<div id="cover">
+	<div class="section" style="margin: 0; padding: 0;">
+		<input type="radio" name="slide" id="slide01" checked>
+		<input type="radio" name="slide" id="slide02">
+		<input type="radio" name="slide" id="slide03">
+		<div class="slidewrap">
+
+			<ul class="slidelist">
+				<!-- 슬라이드 영역 -->
+				<li class="slideitem">
+					<a>
+						<div class="textbox">
+
+							
+						</div>
+						<img src="up/메인1.jpg" >
+					</a>
+				</li>
+				<li class="slideitem">
+					<a>
+
+						<div class="textbox">
+
+							
+						</div>
+						<img src="up/메인2.jpg" >
+					</a>
+				</li>
+				<li class="slideitem">
+					<a>
+
+						<div class="textbox">
+							
+						
+							
+						</div>
+						<img src="up/메인3.jpg" >
+					</a>
+				</li>
+
+				<!-- 좌,우 슬라이드 버튼 -->
+				<div class="slide-control">
+					<div>
+						<label for="slide03" class="left"></label>
+						<label for="slide02" class="right"></label>
+					</div>
+					<div>
+						<label for="slide01" class="left"></label>
+						<label for="slide03" class="right"></label>
+					</div>
+					<div>
+						<label for="slide02" class="left"></label>
+						<label for="slide01" class="right"></label>
+					</div>
+				</div>
+
+			</ul>
+			<!-- 페이징 -->
+			<ul class="slide-pagelist">
+				<li><label for="slide01"></label></li>
+				<li><label for="slide02"></label></li>
+				<li><label for="slide03"></label></li>
+			</ul>
+		</div>
+
+
+	</div>
+
+	<div class="mainLogin">
+
+		<div class="LoginContent">
+		<th:block th:if="${session['cid'] == null && session['sid'] == null}">
+			<div>
+				<pre style="font-family: 'Noto Sans KR', sans-serif; font-size: 16px;display: inline;">회원가입/로그인하고
+오왕의 다양한 혜택을 만나보세요.</pre>
+			</div>
+			<div>
+				<button onclick=" window.location.href = '/login/main'">로그인</button>
+				<span id="upup">오왕을 더 안전하고 편리하게 이용하세요</span>
+				<button id="joinsolo" onclick=" window.location.href = '/join/solo'">개인회원가입</button>
+				<button id="joincom" onclick=" window.location.href = '/join/company'">기업회원가입</button>
+			</div>
+	   </th:block>
+       <th:block th:if="${session['cid'] != null}">
+		   
+            <div class="login_title">
+				<p id="companytitle" th:text="|${session['companysession'].cname}님 반가워요|"></p>
+				<span id="companyout" onclick=" window.location.href = '/login/logout'">로그아웃</span>
+			</div>
+			<p id="login_email" th:text="|${session['companysession'].cemail}|" style="clear: both;"/>
+			<div id="companySkil">
+				
+				<a th:href="|/recruit/insert/${recruitDTO.page}|">
+				<p>📝</p>
+					<p>공고 작성</p>
+				</a>
+				<span class="divider"></span>
+				<a href="/company/mypage">
+					<p>😎</p>
+					<p>내 정보보기</p>
+				</a>
+			
+				
+			</div>
+			
+        </th:block>
+        <th:block th:if="${session['sid'] != null}">
+			
+            <div class="login_title">
+				<p id="companytitle" th:text="|${session['solosession'].sname}님 반가워요|"></p>
+				<span id="companyout" onclick=" window.location.href = '/login/logout'">로그아웃</span>
+			</div>
+			<p id="login_email" th:text="|${session['solosession'].semail}|" />
+			<div id="companySkil">
+				
+				<a href="/solo_resume/write">
+				<p>📝</p>
+					<p>이력서 작성</p>
+				</a>
+				<span class="divider"></span> 
+				<a href="/solo/solo_info">
+					<p>😎</p>
+					<p>내 정보보기</p>
+				</a>
+
+			</div>
+        </th:block>
+		</div>
+	</div>
+
+
+	<div class="notice">
+
+		<th:block th:each="ndto, dtoStat : ${mainData}">
+
+			<span id="notice_text">NOTICE</span>
+
+			<div class="sort">
+				<a th:href="|/notice/detail/${noticeDTO.page}/${ndto.id}|" th:text="${ndto.title}"></a>
+
+
+				<!--날짜 포맷팅-->
+				<span th:text="${#dates.format(ndto.regDate, 'yyyy-MM')}" />
+			</div>
+		</th:block>
+
+	</div>
+
+
+	<br />
+
+	<form id="searchForm" >
+		
+		<input type="text" id="site-input" list="site-option" placeholder="찾으시는 기업을 검색해주세요">
+		<datalist inputmode="text" id="site-option">
+			<!-- 나름 html을 다뤄봣지만 처음보는 속성이 등장했다 data-url -->
+			<!-- 해당 속성은 html의 변수같은 느낌으로 사용할수있다 -->
+			<!-- 자세한 설명은 아래를 참고하자 -->
+			<!-- https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-HTML-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8Bdata-%EC%86%8D%EC%84%B1 -->
+			<th:block th:each="dto, dtoStat : ${realData}">
+				<option th:value="${dto.cname}" th:data-url="'/company/detail/' + ${dto.cid}"></option>
+			</th:block>
+		</datalist>
+		<!-- 검색창 이모티콘 -->
+		<button onclick="redirectToPage()">
+			<span class="material-symbols-outlined">
+				search
+			</span>
+		</button>
+		<button type="reset">
+			<span class="material-symbols-outlined">
+				close
+			</span>
+		</button>
+	</form>
+	<script>
+		function redirectToPage() {
+			var inputElement = document.getElementById("site-input");
+			var inputdata = inputElement.value;
+
+			let option = document.getElementById('site-option');
+			// "${}" <- 리터럴 템플릿이라 부름 
+			// 참고자료 https://eblee-repo.tistory.com/38
+			let selectedOption = option.querySelector(`option[value="${inputdata}"]`); // 선택된 옵션을 가져옴
+
+			if (selectedOption) {
+				let optiondata = selectedOption.getAttribute('data-url');
+				console.log(inputdata);
+				console.log(optiondata);
+				window.open(optiondata);
+			} else {
+				alert("선택된 기업이 없습니다.");
+			}
+		}
+		function testgogo() {
+			document.getElementById('testgogo')
+		}
+		
+	</script>
+	<div id="banner2">
+		<img src="up/banner2.jpg" >
+	</div>
+	<div id="hot_recruit">
+		<span>인기 채용공고</span>
+	</div>
+	
+	<div class="wrapper">
+		<!-- < 이모티콘 -->
+		<i id="left" class="fa-solid fa-angle-left"></i>
+		
+		<ul class="carousel">
+			<th:block th:each="dto, dtoStat : ${openData}">
+					
+				<li class="card">
+					<div class="img">
+						<!-- 기업 로고 이미지 -->
+						<span th:text="${dto.cname}" th:if="${dto.clogo == null}" />
+						<img th:src="'companylogoup/'+${dto.clogo}" alt="img" draggable="false"
+							th:unless="${dto.clogo == null}">
+					</div>
+					<div id="main_scarb">
+						<a th:href="|/solo_scrab/insert/${dto.cid}/${dto.page}/${dto.recruitId}|"/>
+							<span class="material-symbols-outlined">bookmark</span>
+						</a>	
+					</div>
+					<!-- 디데이 -->
+					<div id="main_Dday">
+						<span th:text="|D-${dto.recruitMagam}|"></span>
+					</div>
+					<!-- 공고 제목 -->
+					<div id="main_recruit_title">
+						<a th:href="|/recruit/detail/${dto.cid}/${recruitDTO.page}/${dto.recruitId}|" th:text="|${dto.recruitTitle}" />
+					</div>
+					<!-- 기업 이름 -->
+					<div id="main_cname">
+						<a th:href="'/company/detail/' + ${dto.cid}" th:text="${dto.cname}"></a>
+					</div>
+					<!-- 지역 -->
+					<div id="main_info">
+						<span th:text="${dto.recruitLocation}" />
+						
+						<span th:text="|지원자&nbsp;${dto.appnum}명|" />	
+					</div>
+				</li>
+
+			</th:block>
+		</ul>
+		<i id="right" class="fa-solid fa-angle-right" style="right: -19px;"></i>
+		<div id="more_recruit">
+			<a href="/recruit/list/all/1">
+			채용공고 더보기<span class="material-symbols-outlined">
+				arrow_right_alt
+			</span>
+			</a>
+		</div>
+	</div>
+	<div id="banner1">
+		<img src="up/banner1.jpg">
+	</div>
+	<script>
+		const wrapper = document.querySelector(".wrapper");
+		const carousel = document.querySelector(".carousel");
+		const firstCardWidth = carousel.querySelector(".card").offsetWidth;
+		const arrowBtns = document.querySelectorAll(".wrapper i");
+		const carouselChildrens = [...carousel.children];
+
+		let isDragging = false, isAutoPlay = true, startX, startScrollLeft, timeoutId;
+
+		// Get the number of cards that can fit in the carousel at once
+		let cardPerView = Math.round(carousel.offsetWidth / firstCardWidth);
+
+		// Insert copies of the last few cards to beginning of carousel for infinite scrolling
+		carouselChildrens.slice(-cardPerView).reverse().forEach(card => {
+			carousel.insertAdjacentHTML("afterbegin", card.outerHTML);
+		});
+
+		// Insert copies of the first few cards to end of carousel for infinite scrolling
+		carouselChildrens.slice(0, cardPerView).forEach(card => {
+			carousel.insertAdjacentHTML("beforeend", card.outerHTML);
+		});
+
+		// Scroll the carousel at appropriate postition to hide first few duplicate cards on Firefox
+		carousel.classList.add("no-transition");
+		carousel.scrollLeft = carousel.offsetWidth;
+		carousel.classList.remove("no-transition");
+
+		// Add event listeners for the arrow buttons to scroll the carousel left and right
+		arrowBtns.forEach(btn => {
+			btn.addEventListener("click", () => {
+				carousel.scrollLeft += btn.id == "left" ? -firstCardWidth : firstCardWidth;
+			});
+		});
+
+		const dragStart = (e) => {
+			isDragging = true;
+			carousel.classList.add("dragging");
+			// Records the initial cursor and scroll position of the carousel
+			startX = e.pageX;
+			startScrollLeft = carousel.scrollLeft;
+		}
+
+		const dragging = (e) => {
+			if (!isDragging) return; // if isDragging is false return from here
+			// Updates the scroll position of the carousel based on the cursor movement
+			carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
+		}
+
+		const dragStop = () => {
+			isDragging = false;
+			carousel.classList.remove("dragging");
+		}
+
+		const infiniteScroll = () => {
+			// If the carousel is at the beginning, scroll to the end
+			if (carousel.scrollLeft === 0) {
+				carousel.classList.add("no-transition");
+				carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth);
+				carousel.classList.remove("no-transition");
+			}
+			// If the carousel is at the end, scroll to the beginning
+			else if (Math.ceil(carousel.scrollLeft) === carousel.scrollWidth - carousel.offsetWidth) {
+				carousel.classList.add("no-transition");
+				carousel.scrollLeft = carousel.offsetWidth;
+				carousel.classList.remove("no-transition");
+			}
+
+			// Clear existing timeout & start autoplay if mouse is not hovering over carousel
+			clearTimeout(timeoutId);
+			if (!wrapper.matches(":hover")) autoPlay();
+		}
+
+		const autoPlay = () => {
+			if (window.innerWidth < 800 || !isAutoPlay) return; // Return if window is smaller than 800 or isAutoPlay is false
+			// Autoplay the carousel after every 2500 ms
+			timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
+		}
+		autoPlay();
+
+		carousel.addEventListener("mousedown", dragStart);
+		carousel.addEventListener("mousemove", dragging);
+		document.addEventListener("mouseup", dragStop);
+		carousel.addEventListener("scroll", infiniteScroll);
+		wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
+		wrapper.addEventListener("mouseleave", autoPlay);
+	</script>
+	
+	<div id="hot_recruit">
+		<span>신규 입점기업</span>
+	</div>
+	
+	<div class="list_wrap">
+		<ul>
+			<th:block th:each="dto, dtoStat : ${mdata}" th:count="9">
+    <li th:class="'item item' + ${dtoStat.index + 1}">
+        <div class="image">
+            <th:block th:if="${dto.clogo == null}">
+                <span th:text="${dto.cname}" style="font-size: 32px; font-family: 'Noto Sans KR', sans-serif;letter-spacing: 1px;"></span>
+            </th:block>
+            <th:block th:unless="${dto.clogo == null}" >
+			   <img th:src="'companylogoup/' + ${dto.clogo}" alt="img" draggable="false"/>
+			</th:block>
+         
+        </div>
+        <div class="cont">
+            <p th:text="${dto.cname}"></p>
+            <p th:text="|창립일&nbsp;${dto.cbuild}|" />
+            <p th:text="|사원수&nbsp;${dto.cstaff}명|" />
+            <p th:text="|연매출&nbsp;${dto.csales}(만원)|" />
+        </div>
+    </li>
+</th:block>
+		</ul>
+	</div>
+
+
+	</div>
+	
+	<footer>
+		<div th:insert="~{footer :: footer}"></div>
+	</footer>
+</body>
+
+</html>

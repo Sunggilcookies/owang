@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/company/companyrecruit.css}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	
+</head>
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+	<remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+	<main class="content-box">
+		<div class="footer-box">
+			<h1 style="font-size: 20px; margin-left: 10px; color: rgb(52 54 63);">공고페이지</h1>
+			<h1 style="font-size: 60px; margin-left: 10px; color: rgb(52 54 63);">[[${zzcname}]]</h1>
+
+
+			<th:block th:if="${self == 1}">
+
+				<h3 style="margin-left: 65%;">채용중인 공고는 <span style="color: #ff460a;">5개</span>까지 작성가능합니다.</h3>
+				<h2  style="margin-left: 82%;"><a id="zzz" href="/recruit/insert/1">공고 등록<i  
+							class="material-icons">edit</i></a></h2>
+			</th:block>
+			<hr>
+			<!-- 현재 채용 중인 공고 -->
+			<section class="recruitment-section">
+				<h2 class="zzh2">현재 채용중인 공고 [[${mainData.size()}]]개</h2>
+				<th:block th:each="rdto, dtoStat : ${mainData}">
+					<div class="gldqWV">
+
+						<div class="recruitbox">
+
+							<div class="rboxtext">
+
+								<div class="cWcLZK">
+									<div class="recruitdate"><span><i class="material-icons">zoom_in</i>조회 :
+											[[${rdto.cnt}]]회 </span> &nbsp; &nbsp;<span> <i
+												class="material-icons">contact_page</i>지원자 :
+											[[${rdto.appnum}]]명</span></div>
+
+									<th:block th:if="${session['sid']}">
+										<span class="blind">
+
+											<a th:href="|/solo_scrab/insert/${rdto.cid}/1/${rdto.recruitId}|"><i
+													id="zzz" class="material-icons">bookmark</i></a></span>
+
+									</th:block>
+								</div>
+								<a title="새창열림"
+									th:href="|/recruit/detail/${rdto.cid}/1/${rdto.recruitId}|">
+									<h2 class="recruittitle">[[${rdto.recruitTitle}]]</h2>
+									<ul class="dDbWka" style="color: rgb(207, 67, 67);">
+										<span th:if="${rdto.recruitMtype == '월급'}">월급 </span>
+										<span th:if="${rdto.recruitMtype == '연봉'}">연봉 </span>
+										<span style="font-weight: 800;">&nbsp; [[${rdto.recruitMoney}]]만원</span></br>
+
+
+									</ul>
+									<ul class="dDbWka">
+
+										공고마감일 <span style="font-weight: 800;">&nbsp; [[${rdto.realMagam}]]
+										</span>
+									</ul>
+								</a>
+
+							</div>
+
+						</div>
+
+					</div>
+				</th:block>
+			</section>
+			<hr>
+			<!-- 만료된 공고 -->
+			<section class="expired-recruitment-section">
+				<h2 class="zzh2">만료된 공고 [[${endsize}]]개</h2>
+				<th:block th:each="rdto, dtoStat : ${closeData}">
+					<div class="gldqWV">
+
+						<div  class="recruitbox">
+
+							<div style="background-color: rgb(225, 225, 225);" class="rboxtext">
+
+								<div class="cWcLZK">
+									<div class="recruitdate"><span><i class="material-icons">zoom_in</i>조회 :
+											[[${rdto.cnt}]]회 </span> &nbsp; &nbsp;<span> <i
+												class="material-icons">contact_page</i>지원자 :
+											[[${rdto.appnum}]]명</span></div>
+
+									<th:block th:if="${session['sid']}">
+										<span class="blind">
+
+											<a th:href="|/solo_scrab/insert/${rdto.cid}/1/${rdto.recruitId}|"><i
+													id="zzz" class="material-icons">bookmark</i></a></span>
+
+									</th:block>
+								</div>
+								<a title="새창열림"
+									th:href="|/recruit/detail/${rdto.cid}/1/${rdto.recruitId}|">
+									<h2 class="recruittitle">[[${rdto.recruitTitle}]]</h2>
+									<ul class="dDbWka">
+
+										공고마감일 <span style="font-weight: 800;">&nbsp; [[${rdto.realMagam}]]
+										</span>
+									</ul>
+								</a>
+
+							</div>
+
+						</div>
+
+					</div>
+				</th:block>
+			</section>
+
+
+
+
+			<div class="pagination-container">
+				<a th:if="${closeDto.pageStart > 1}" th:href="${closeDto.page - 1}+1" th:text="'[처음]'"
+					class="pagination-link" />
+				<a th:if="${closeDto.page > 1}" th:href="${closeDto.page - 1}" th:text="'[이전]'"
+					class="pagination-link" />
+				<th:block th:each="no: ${#numbers.sequence(closeDto.pageStart, closeDto.pageEnd)}">
+					<span th:if="${no==closeDto.page}" th:text="${no}" class="pagination-current" />
+					<a th:unless="${no==closeDto.page || no==0}" th:href="${no}" th:text="${no}"
+						class="pagination-link" />
+				</th:block>
+				<a th:if="${closeDto.page < closeDto.pageTotal}" th:href="${closeDto.page + 1}" th:text="'[다음]'"
+					class="pagination-link" />
+				<a th:if="${closeDto.pageEnd < closeDto.pageTotal}" th:href="${closeDto.pageTotal}" th:text="'[맨끝]'"
+					class="pagination-link" />
+			</div>
+			<span><a style="margin-left: 0px; margin-top: 20px; color: #000000; font-size: 20px;"
+					href="javascript:goBack()"><i
+						style="margin-left: 0px; margin-top: 20px; color: #000000; font-size: 40px;"
+						class="material-icons">arrow_back</i>이전 페이지로</a></span>
+
+		</div>
+	</main>
+	
+<script>
+	
+		function goBack() {
+			window.history.back();
+		}
+
+	</script>
+</body>
+<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </foote>
+    
+</html>

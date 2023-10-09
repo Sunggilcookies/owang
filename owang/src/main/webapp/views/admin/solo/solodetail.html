@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>개인정보상세</title>
+	<style>
+		/* 전체 페이지 스타일 */
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f5f5f5;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			margin: 0 10px 20px 10px;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		th {
+			width: 15%;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+
+		/* 버튼 스타일 */
+		button {
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+
+		button:hover {
+			background-color: #0056b3;
+		}
+
+		/* 알림 메시지 스타일 */
+		.alert {
+			background-color: #f8d7da;
+			border-color: #f5c6cb;
+			color: #721c24;
+			padding: 10px;
+			border: 1px solid transparent;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+
+		/* 컨테이너 스타일 */
+		.container {
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+	</style>
+
+</head>
+
+<body>
+	<container id="container">
+		<th:block th:replace="~{admin/adheader}" />
+		<div class="main">
+			<h1>개인 정보 상세</h1>
+
+			<table border="">
+				<tr>
+					<th>아이디</th>
+					<td th:text="${dto.sid}"></td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td th:text="${dto.sname}"></td>
+				</tr>
+				<tr>
+
+				<tr>
+					<th>회원등급</th>
+					<td>
+						<span th:if="${dto.stype == 2}">
+							<span th:if="${dto.sdate == null}">프리미엄회원(재직자리뷰) 평생이용</span>
+							<span th:unless="${dto.sdate == null}"
+								th:text="|프리미엄회원 마감일:${#dates.format(dto.sdate, 'yyyy-MM-dd')}|"></span>
+						</span>
+						<span th:unless="${dto.stype == 2}" th:text="일반회원"></span>
+					</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td th:text="${dto.sbirth}"></td>
+				</tr>
+				<tr>
+					<th>나이</th>
+					<td th:text="${dto.sage}"></td>
+				</tr>
+				<tr>
+					<th>성별</th>
+					<td th:text="${dto.sgender}"></td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td th:text="${dto.sphone}"></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td th:text="${dto.semail}"></td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td th:text="${dto.saddress}"></td>
+				</tr>
+				<tr th:unless="${dto.scompanyName == null || dto.scompanyName == ''}">
+					<th>재직중인<br> 회사이름</th>
+					<td th:text="${dto.scompanyName}"></td>
+				</tr>
+				<tr th:unless="${dto.scompanyFile == null ||  dto.scompanyFile == ''}">
+					<th>재직증명서</th>
+					<td>
+						<button onclick="openImageInNewWindow()">재직증명서 확인</button>
+
+					</td>
+				</tr>
+				<tr th:unless="${dto.scompanyFile == null ||  dto.scompanyFile == ''}">
+					<th>재직인증</th>
+					<td th:if="${dto.sinjueng==true}" th:text="인증완료"></td>
+					<td th:unless="${dto.sinjueng==true}" th:text="미인증"></td>
+				</tr>
+				<tr>
+					<td>회원삭제</td>
+					<td>
+						<a th:href="@{|/admin_solo/delete/${sid}|}"
+							th:onclick="return confirm('[[${dto.sname}]]회원님을 삭제하시겠습니까?')"
+							th:text="|${dto.sname}회원삭제|" />
+					</td>
+				</tr>
+			</table>
+			<a href="/admin_solo/sololist/1" style="margin-left: 10px ;">목록으로</a>
+		</div>
+	</container>
+	<script>
+		function openImageInNewWindow() {
+			// 이미지 URL 설정
+			var image = "[[${dto.scompanyFile}]]";
+
+			// 새 창 열기
+			var newWindow = window.open('', '_blank');
+
+			// 이미지를 새 창에 표시
+			newWindow.document.write('<img src="/soloup/' + image + '" alt="이미지" />');
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/solo_review/review_modify.css}">
+<body>
+<header>
+   <div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+<div id="review_modify">
+   <div id="review_modify_text">
+      <span>
+         <i class="fa-regular fa-pen-to-square"></i>
+         마이리뷰 수정</span>
+   </div>
+   <form th:action="@{'/solo_review/modify/' + ${mainData.cid} + '/' + ${mainData.page} + '/' + ${mainData.sid}}" method="post" th:object="${mainData}">
+      <ul>
+         <!-- 기업 명 -->
+         <li id="review_cname">
+            <span th:text="*{cname}" />
+         </li>
+         <li id="review_title">
+            <span>제목</span>
+            <span><input type="text" th:field="*{rvtitle}" required maxlength="13" placeholder="제목을 작성해주세요 (13자 이내)" pattern="^\S.*$" /></span>
+         </li>
+         <li id="review_jang">
+            <span>장점</span>
+            <span><input type="text" rows="10" cols="30" th:field="*{rvjang}"  required maxlength="20"  placeholder="장점을 작성해주세요 (20자 이내)" pattern="^\S.*$" ></input></td>
+         </li>
+         <li id="review_dan">
+            <span>단점</span>
+            <span><input type="text"  rows="10" cols="30"   th:field="*{rvdan}" required maxlength="20" placeholder="단점을 작성해주세요 (20자 이내)" pattern="^\S.*$" /></span>
+         </li>
+      </ul>
+      <div id="review_notice">
+         <input type="checkbox" id="agreeCheckbox" required />
+         <label for="agreeCheckbox">위 내용은 사실에 근거하여 작성하였음을 동의합니다.</label>
+ 
+      </div>
+      <div id="review_save">
+         <input type="submit" value="저장" onclick="return confirm('리뷰를 저장하시겠습니까?');" />
+      </div>
+   </form>
+   <a th:href="|/solo_review/home|">뒤로가기</a>
+</div>
+</body>
+</html>

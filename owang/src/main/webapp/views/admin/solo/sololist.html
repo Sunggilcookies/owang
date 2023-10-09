@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>관리자 개인회원 관리</title>
+	<style>
+		/* 전체 페이지 스타일 */
+
+
+		h1 {
+			width: 930px;
+			text-align: center;
+
+		}
+
+		/* 검색 폼 스타일 */
+		form {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		select,
+		input[type="text"],
+		button {
+			padding: 5px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			margin: 0 10px 20px 10px;
+			border-collapse: collapse;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		th {
+			text-align: center;
+		}
+
+		td:last-child {
+			text-align: center;
+		}
+
+		th {
+			background-color: #333;
+			color: #fff;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+
+		/* 삭제 버튼 스타일 */
+		.delete-button {
+			background-color: #dc3545;
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+
+		.delete-button:hover {
+			background-color: #c82333;
+		}
+
+		/* 페이지 네비게이션 스타일 */
+		.pagination {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.pagination a {
+			text-decoration: none;
+			color: #007bff;
+			margin: 0 5px;
+		}
+
+		.pagination a.current {
+			font-weight: bold;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<th:block th:replace="~{admin/adheader}" />
+		<div class="main">
+			<h1>전체개인회원관리</h1>
+
+
+			<form action="/admin_solo/search" method="get">
+				<select name="searchOption">
+
+					<option value="name">이름</option>
+					<option value="id">아이디</option>
+
+				</select>
+				<input type="text" name="keyword" placeholder="검색어 입력">
+				<button type="submit">검색</button>
+
+			</form>
+
+			<table border="">
+				<tr>
+					<th>회원번호</th>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>고객유형</th>
+
+					<th>재직회사</th>
+					<th>재직인증</th>
+					<th>삭제</th>
+
+				</tr>
+				<tr th:each="dto, dtostat : ${soloData}">
+					<td th:text="${dto.sno}"></td>
+					<td th:text="${dto.sid}" />
+
+
+					<td>
+						<a th:href="|/admin_solo/detail/${dto.sid}|" th:text="${dto.sname}"></a>
+					</td>
+					<td>
+						<span th:if="${dto.stype == 2}">
+							<span th:if="${dto.sdate == null}">프리미엄회원(재직자리뷰) 평생이용</span>
+							<span th:unless="${dto.sdate == null}"
+								th:text="|프리미엄회원 마감일:${#dates.format(dto.sdate, 'yyyy-MM-dd')}|"></span>
+						</span>
+						<span th:unless="${dto.stype == 2}" th:text="일반회원"></span>
+					</td>
+					<td th:if="${dto.sinjueng}" th:text="${dto.scompanyName}"></td>
+					<td th:if="${dto.sinjueng}" th:text="인증"></td>
+					<td th:unless="${dto.sinjueng}" th:text="미인증"></td>
+
+					<td th:unless="${dto.sinjueng}" th:text="x"></td>
+					<td> <a th:href="@{|/admin_solo/delete/${dto.sid}|}"
+							th:onclick="return confirm('[[${dto.sname}]]회원님을 삭제하시겠습니까?')" th:text="회원삭제"></a>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="9" align="center">
+						<!-- 현재값에서 현재값 빼주고 더하기 1한거 -->
+						<a th:if="${soloDTO.pageStart > 1}" th:href="${soloDTO.page-soloDTO.page}+1"
+							th:text="'[이전페이지]'" />
+
+						<a th:if="${soloDTO.pageStart < soloDTO.page}" th:href="${soloDTO.page - 1}" th:text="'[이전]'" />
+						<th:block th:each="no: ${#numbers.sequence(soloDTO.pageStart, soloDTO.pageEnd)}">
+							<span th:if="${no==soloDTO.page}" th:text="${no}" />
+							<a th:unless="${no==soloDTO.page}" th:href="${no}" th:text="${no}" />
+						</th:block>
+						<a th:if="${soloDTO.page < soloDTO.pageEnd}" th:href="${soloDTO.page + 1}" th:text="'[다음]'" />
+						<a th:if="${soloDTO.pageEnd < soloDTO.pageTotal}" th:href="${soloDTO.pageTotal}"
+							th:text="'[다음페이지]'" />
+					</td>
+				</tr>
+			</table>
+
+
+			<a href="/admin_solo/sololist/1">모든개인회원보기</a>
+			<a href="/admin_solo/soloonlist/1">프리미엄회원관리</a>
+			<a href="/admin_solo/soloofflist/1">일반회원관리</a>
+
+		</div>
+	</container>
+</body>
+
+</html>

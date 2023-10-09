@@ -1,0 +1,171 @@
+
+body{
+	 height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+#review_modify{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 30px;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+ 	max-width: 1200px;
+}
+
+/* 마이 리뷰 */
+#review_modify_text{
+	margin: 0 auto;
+	width: 700px;
+	text-align: left;
+	font-size: 25px;
+	font-weight: 400;
+	margin-top: 50px;
+	margin-bottom: 20px;
+	letter-spacing: 1px;
+	color: rgb(41, 46, 65);
+	position: relative;
+	right: 30px;
+}
+
+#review_modify form{
+	padding: 30px;
+	width: 700px;
+	margin: 0 auto;
+	border-radius: 8px;
+	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#review_modify form ul{
+	list-style: none;
+	padding-left: 20px;
+}
+
+#review_modify form ul li{
+	padding-bottom: 20px;
+}
+
+/* 기업 명 */
+#review_cname{
+	font-size: 30px;
+	margin-bottom: 40px;
+	text-align: center;
+	letter-spacing: 13px;
+}
+
+/* 제목 */
+#review_title{
+	font-weight: 350;
+	font-size: 22px;
+	margin-bottom: 20px;
+	letter-spacing: 5px;
+}
+
+
+
+#review_title input{
+	border: 1px solid #ccc;
+	font-size: 18px;
+	padding: 5px;
+	height: 35px;
+	padding-left: 15px;
+	font-family: 'Noto Sans KR', sans-serif;
+	width: 520px;
+	letter-spacing: 2px;
+	
+}
+
+#review_title input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+/* 장점 */
+#review_jang{
+	font-weight: 350;
+	font-size: 22px;
+	margin-bottom: 30px;
+	letter-spacing: 5px;
+}
+
+#review_jang input{
+	border: 1px solid #ccc;
+	font-size: 18px;
+	padding: 5px;
+	resize: none;
+	height: 35px;
+	padding-left: 15px;
+	font-family: 'Noto Sans KR', sans-serif;
+	position: relative;
+	width: 520px;	
+	letter-spacing: 2px;
+
+}
+
+#review_jang input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+/* 단점 */
+#review_dan{
+	font-weight: 350;
+	font-size: 22px;
+	margin-bottom: 20px;
+	letter-spacing: 5px;
+}
+
+#review_dan input{
+	border: 1px solid #ccc;
+	font-size: 18px;
+	padding: 5px;
+	resize: none;
+	height: 35px;
+	padding-left: 15px;
+	font-family: 'Noto Sans KR', sans-serif;
+	position: relative;
+	width: 520px;	
+	letter-spacing: 2px;
+}
+
+#review_dan input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#review_save{
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 30px;
+}
+
+#review_save input{
+	padding: 10px;
+	width: 170px;
+	height: 50px;
+	font-size: 18px;
+	letter-spacing: 2px;
+	border-radius: 5px;
+	background-color: rgb(41, 46, 65);
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+	border: none;
+	transition: background-color 0.3s ease;
+}
+
+#review_save input:hover{
+	cursor: pointer;
+	background-color: rgb(106, 145, 244);
+}
+
+/* 동의 상자 */
+#review_notice{
+	text-align: center;
+	padding-top: 30px;
+}
+
+#review_notice label{
+	letter-spacing: 2px;
+}
+
+ul li span:nth-of-type(2){
+	margin-left: 40px;
+}

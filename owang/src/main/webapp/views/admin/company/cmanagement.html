@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>채용공고분석</title>
+	<!-- Chart.js 라이브러리 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+	<style>
+		.main {
+			padding-left: 20px;
+			margin-top: 35px;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+		}
+
+		.donut-container {
+			position: relative;
+			display: inline-block;
+			margin: 10px;
+		}
+
+		.donut-label {
+			position: absolute;
+			top: 50px;
+			left: 50%;
+			transform: translateX(-50%);
+			text-align: center;
+		}
+
+		.donut-label p {
+			font-size: 50px;
+			margin: 0;
+		}
+
+		#bar-container {
+			margin: 50px;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			border-collapse: collapse;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		th {
+			text-align: center;
+			background-color: #333;
+			color: #fff;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+
+		/* 페이지 네비게이션 스타일 */
+		.pagination {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.pagination a {
+			text-decoration: none;
+			color: #000;
+			margin: 0 5px;
+		}
+
+		.pagination .current {
+			font-weight: bold;
+			margin: 0 5px;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #000;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+		.alct {
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<header>
+			<div th:replace="~{admin/adheader}"></div>
+		</header>
+		<div class="main">
+			<h1>공고 현황</h1>
+			<div class="donut-container">
+				<div class="donut-label">
+					<p>[[${todayRct}]]</p>
+					<span>오늘</span>
+				</div>
+				<canvas id="donutDay" width="280" height="200"></canvas>
+			</div>
+
+			<div class="donut-container">
+				<div class="donut-label">
+					<p>[[${weekRct}]]</p>
+					<span>이번주</span>
+				</div>
+				<canvas id="donutWeek" width="280" height="200"></canvas>
+			</div>
+
+			<div class="donut-container">
+				<div class="donut-label">
+					<p>[[${monthRct}]]</p>
+					<span>이번달</span>
+				</div>
+				<canvas id="donutMonth" width="280" height="200"></canvas>
+			</div>
+			<div id="bar-container">
+				<canvas id="barChart" width="800" height="300"></canvas>
+			</div>
+
+			<table border="" class="list_table">
+				<tr>
+					<th>번호</th>
+					<th>제목</td>
+					<th>회사 이름</td>
+					<th>채용시작일</th>
+					<th>채용마감일</th>
+					<th>조회</th>
+					<!--<th>기업아이디(본편에선제거)</td>-->
+					<th>지원</th>
+				</tr>
+				<tr th:each="dto, dtoStat : ${mainData}">
+					<td class="alct" th:text="${dtoStat.count + recruitDTO.start}" />
+					<td>
+						<a th:href="|/recruit/detail/${dto.cid}/${recruitDTO.page}/${dto.recruitId}|"
+							th:text="${dto.recruitTitle}"></a>
+					</td>
+					<td class="alct">
+						<a th:href="'/company/detail/' + ${dto.cid}" th:text="${dto.cname}"></a>
+					</td>
+					<td th:text="${dto.regDate}" />
+					<td th:text="${dto.realMagam}" />
+					<td class="alct" th:text="${dto.cnt}" />
+					<!--  <td th:text="${dto.cid}" />-->
+					<td class="alct" th:text="${dto.appnum}" />
+				</tr>
+			</table>
+
+			<div class="pagination">
+				<a th:if="${recruitDTO.pageStart > 1}" th:href="${recruitDTO.page - recruitDTO.page}+1"
+					th:text="'[처음]'" />
+				<a th:if="${recruitDTO.pageStart > 1}" th:href="${recruitDTO.pageStart - 1}" th:text="'[이전]'" />
+				<th:block th:each="no: ${#numbers.sequence(recruitDTO.pageStart, recruitDTO.pageEnd)}">
+					<span th:if="${no==recruitDTO.page}" th:text="${no}" class="current" />
+					<a th:unless="${no==recruitDTO.page}" th:href="${no}" th:text="${no}" />
+				</th:block>
+				<a th:if="${recruitDTO.pageEnd < recruitDTO.pageTotal}" th:href="${recruitDTO.pageEnd + 1}"
+					th:text="'[다음]'" />
+				<a th:if="${recruitDTO.pageEnd < recruitDTO.pageTotal}" th:href="${recruitDTO.pageTotal}"
+					th:text="'[맨끝]'" />
+			</div>
+		</div>
+	</container>
+	<script th:inline="javascript">
+		function drawDonutChart(chartId, labels, mainData, remain) {
+			let canvas = document.getElementById(chartId).getContext('2d');
+			let chartData = {
+				labels: labels,
+				datasets: [{
+					data: [mainData, remain],
+					backgroundColor: [
+						'rgba(0, 64, 0, 0.5)',
+						// 약간의 음영으로 전체 형태 보여줌
+						'#e0e0e0',
+						// 기본 배경색과 같아서 투명
+						//						'#f0f0f0',
+					],
+					borderColor: [
+						'#f0f0f0',
+						'#f0f0f0',
+					],
+					borderWidth: 2,
+					// 그래프 모서리 둥글게
+					//					borderRadius: 30,
+				}]
+			};
+
+			new Chart(canvas, {
+				type: 'doughnut',
+				data: chartData,
+				options: {
+					// 도넛 안의 원 영역(숫자가 커질수록 도넛이 얇아짐)
+					cutout: 80,
+					// 반응형, 범례 해제
+					responsive: false,
+					plugins: {
+						legend: false,
+					}
+				}
+			});
+		}
+
+		let todayRct = /*[[${todayRct}]]*/ 0;
+		let weekRct = /*[[${weekRct}]]*/ 0;
+		let monthRct = /*[[${monthRct}]]*/ 0;
+		let yearRct = /*[[${yearRct}]]*/ 0;
+
+		// 일기준
+		drawDonutChart('donutDay', ['오늘 채용공고건수', '최근 한주간 1일 평균'], todayRct, weekRct / 7);
+		// 주기준
+		drawDonutChart('donutWeek', ['이번주 채용공고건수', '최근 한달간 7일 평균'], weekRct, monthRct * 7 / 30);
+		// 월기준
+		drawDonutChart('donutMonth', ['이번달 채용공고건수', '최근 일년간 30일 평균'], monthRct, yearRct * 30 / 365);
+
+
+		// 1달씩 데이타 그룹화
+		function groupDataByMonth(gdata) {
+			let groupedData = [];
+			let currentMonth = null;
+			let monthTotal = 0;
+
+			gdata.forEach(item => {
+				let itemDate = new Date(item.date);
+				let itemMonth = itemDate.getMonth();
+
+				if (currentMonth != null && (currentMonth != itemMonth)) {
+					// 현재 월이 변경되면 그 월의 데이터를 groupedData에 추가
+					let formattedDate = (currentMonth + 1) + "월";
+					groupedData.push({date: formattedDate, rcrCnt: monthTotal});
+					monthTotal = 0;
+				}
+				monthTotal += item.rcrCnt;
+				currentMonth = itemMonth;
+			});
+			if (currentMonth !== null) {
+				// 마지막 월의 데이터를 groupedData에 추가
+				let formattedDate = (currentMonth + 1) + "월";
+				groupedData.push({date: formattedDate, rcrCnt: monthTotal});
+			}
+			return groupedData;
+		}
+		function drawBargraph(graphDatas) {
+
+			// 라벨(x축)
+			let labels = graphDatas.map(function (item) {
+				return item.date;
+			});
+			// 데이타(y축)
+			let data = graphDatas.map(function (item) {
+				return item.rcrCnt;
+			});
+
+			let graphData = {
+				labels: labels,
+				datasets: [{
+					label: "채용공고건수",
+					data: data,
+					backgroundColor: 'rgba(0, 64, 0, 0.5)',
+					borderColor: '#f0f0f0',
+					borderWidth: 2,
+					borderRadius: 10,
+				}]
+			};
+			// 캔버스에 그래프 그리기
+			let barCanvas = document.getElementById('barChart').getContext('2d');
+
+			barChart = new Chart(barCanvas, {
+				type: 'bar',
+				data: graphData,
+				options: {
+					// 반응형 해제, 반응형으로 두면 크기가 무조건 꽉 채워짐
+					responsive: false,
+					plugins: {
+						legend: {
+							// 범례 표시 해제
+							display: false
+						}
+					},
+				}
+			});
+		}
+		let gdata = /*[[${graphData}]]*/ null;
+		newDatas = groupDataByMonth(gdata);
+		drawBargraph(newDatas);
+	</script>
+</body>
+
+</html>

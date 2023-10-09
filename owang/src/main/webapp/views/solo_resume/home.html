@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>이력서 관리</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/solo_resume/home.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<header>
+	<div th:insert="~{header :: header}"></div>
+</header>
+<remocon>
+   <div th:insert="~{remocon :: remocon}"></div>
+</remocon>
+
+
+<script th:inline="javascript">
+    // 서버에서 받아온 cnt 값
+    var cnt = /*[[${mainData.size()}]]*/ 0;
+
+    // 이력서 등록 제한 확인 함수
+    function checkResumeCount(event) {
+        if (cnt >= 5) {
+            // 화면에 메시지 출력
+            var messageDiv = document.getElementById("resume_limit");
+            messageDiv.innerText = "이력서는 최대 5개까지 등록할 수 있습니다";
+            event.preventDefault(); // 링크 이동 취소
+        }
+    }
+</script>
+
+<body>
+<div id="solo_resume_home">
+
+	<!-- 안내 문구 -->
+	<div id="resume_ad">
+		<span>지금 오왕의 구인구직 시스템을 이용해보세요.</span>
+	</div>
+	<div id="resume_text">
+		<span>이력서 관리</span>
+	</div>		
+	<div id="resume_none">
+    	<span th:if="${mainData.isEmpty()}">등록된 이력서가 없습니다. 지금 이력서를 등록해보세요!</span>
+	</div>	
+	<div id="resume_limit"></div>
+	<div id="rswrite">
+		<a href="write" onclick="checkResumeCount(event)" >이력서 등록하기</a>
+	</div>
+	<div id="rstotal">
+		<span th:if="${not mainData.isEmpty()}" th:text="${'총 ' + mainData.size() + ' 건의 이력서가 존재합니다'}"></span>
+	</div>
+			
+	<!-- 이력서 출력 -->		
+    <div id="resume_list" th:if="${not mainData.isEmpty()}" th:each="rdto, rstart : ${mainData}">
+		No.<span th:text="${rstart.count}" />
+		<li><span>제목</span>
+            <a th:href="|detail/${rdto.rsid}|" th:text="${rdto.rstitle}" id="rstitle"/>
+		</li>
+		<li>
+			<span class="material-symbols-outlined">work</span>
+			<span th:text="${rdto.rscareer}" id="rscareer"/>
+		</li>
+        <li>이력서 작성일 &nbsp;
+			<span th:text="${#dates.format(rdto.rsregdate, 'yyyy-MM-dd HH:mm')}" />
+		</li>
+		<li>최근 수정일 &nbsp;
+			<span th:text="${#dates.format(rdto.rsmoddate, 'yyyy-MM-dd HH:mm')}" /> 
+		</li>
+        <input type="hidden" th:value="${rdto.rsid}" name="rsid"/>
+		<li>
+			<a th:href="@{|/solo_resume/modify/${rdto.rsid}|}">수정</a>
+        	<a th:href="|delete/${rdto.rsid}|" onclick="return confirm('이력서를 삭제하시겠습니까?');" >삭제</a>
+		</li>
+    </div>
+
+</div>
+
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+
+
+
+	<header>
+		
+    <script>
+		 function showMenu() {
+		            var menuContent = document.getElementById('menu-all-content');
+		            var menuIcon = document.getElementById('menu-icon');
+		
+		            if (menuContent.style.display === 'none') {
+		                menuContent.style.display = 'block';
+		                menuIcon.className = 'fa-solid fa-x'; // 아이콘 변경
+		            } else {
+		                menuContent.style.display = 'none';
+		                menuIcon.className = 'fa-solid fa-bars'; // 아이콘 변경
+		            }
+		        }
+    </script>
+	<!-- 폰트어썸 -->
+	<script src="https://kit.fontawesome.com/cf70e4dc4a.js" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/header/new_header_none.css}">
+	<!-- 비회원 상태 -->
+	<!--<link rel="stylesheet" th:if="${session['cid'] == null and session['sid'] == null}" th:href="@{/css/header/new_header.css}">-->
+	<!--<link rel="stylesheet" th:if="${session['sid']}" th:href="@{/css/header/new_header.css}">-->
+
+		<div id="menu-member">
+			<li id="menu-login" th:if="${session['cid'] == null and session['sid'] == null and session[adminSession] == null}">
+				<a href="/login/main">로그인</a>
+			</li>		
+			<li th:if="${session['cid'] != null}">
+			    <a href="/login/logout" th:text="|기업 회원 ${session['cid']}님 로그아웃|"></a>
+			</li>
+			<li th:if="${session['sid'] != null}">
+			    <a href="/login/logout" th:text="|개인 회원 ${session['sid']}님 로그아웃|"></a>
+			</li>
+			<li th:if="${session['adminSession'] != null}">
+			    <a href="/login/logout" th:text="|관리자님 로그아웃|"></a>
+			</li>
+	
+			<!--<li><a href="/join/company">기업회원가입</a></li>-->
+		</div>	
+        <nav>
+            <div id="header-logo">
+				<a href="/" >
+					<span style="font-size: 6px; position:absolute; top: 3px; left: 20px; font-weight: bold;">한식요리사 구인구직사이트</span>
+					<span style="position: relative; z-index: 2;">오왕</span>
+				    <img th:src="@{/css/images/stamp.png}" alt="Stamp Image" style="position: relative; z-index: 1;">
+				</a>
+			
+            </div>
+        <ul>
+			<!-- 햄버거 아이콘 -->
+			
+            <li id="menu-all">
+				<button onclick="showMenu()">
+	                <i id="menu-icon" class="fa-solid fa-bars"></i>
+					<span>전체보기</span>
+				</button>
+			</li>
+            
+            <li>채용
+                <ul id="menu-recruit-wrap">        
+                    <li id="menu-recruit"><a href="/recruit/list/all/1">채용공고</a></li>
+                    <li><a href="/recruit/calendar">캘린더</a></li>
+                </ul>
+            </li>
+            <!--비회원일 경우 상품안내 ->로그인으로 변경했습니다.-->
+            <li >상품
+                <ul id="menu-product-wrap"> 
+                    <li id="menu-product"><a href="/product/intro">상품안내</a></li>
+                    <li><a href="/product/notice">상품신청</a></li>
+                </ul>
+            </li>
+            <li>개인서비스
+                <ul id="menu-solo-wrap"> 
+                    <li id="menu-solo"><a href="/solo_resume/home">이력서 관리</a></li>
+                    <li><a href="/solo_applicant/home/1">지원서 관리</a></li>
+                    <li><a href="/solo_scrab/home/1">마이 스크랩</a></li>
+                    <li><a href="/solo_review/home">마이 리뷰</a></li>
+                    <li><a href="/solo/solo_info">개인정보 보기</a></li>
+                    <li><a href="/solo/product">결제내역</a></li>
+                </ul>
+            </li>        
+            <li>기업서비스
+                <ul id="menu-company-wrap"> 
+                    <li id="menu-company" th:if="${session['cid']}"><a th:href="|/company/list/${session['cid']}/1|">공고 관리</a></li>
+                    <li><a href="/company_applicant/home/1">지원자 관리</a></li>
+                    
+                    <li th:if="${session['cid']}"><a th:href="|/review/list/${session['cid']}/1|">기업 리뷰</a></li>
+                    <li><a href="/company/mypage">기업정보 보기</a></li>
+                    <li><a href="/company/product">결제내역</a></li>
+                </ul>
+            </li>
+            <li>고객지원
+                <ul id="menu-custom-wrap">
+					<!-- 나중에 수정 -->
+					 <li><a href="/ask/list/1">1:1 문의</a></li>
+                    <!--<li id="menu-custom" th:if="${session['cid'] != null or session['sid'] != null or session['adminSession'] != null}"><a href="/ask/list/1">회원문의</a></li> 안보이게-->
+                    <li><a href="/notice/notice/1">공지사항</a></li>
+                    <!--관리자,회사,개인 아이디 아닐경우 1:1 게시글 못봄-->
+                </ul>
+            </li>
+            
+            <li> 
+				<a href="/admin_product/index" th:if="${session[adminSession] != null}">관리자 페이지 이동</a>
+			</li>
+			
+        </ul>
+        </nav>
+        
+        <!-- 전체메뉴 누르면 나옴 -->
+        <div id="menu-all-content">
+			<ul id="all-content-recruit">    
+				<li>채용</li>    
+                <li><a href="/recruit/list/all/1">채용공고</a></li>
+                <li><a href="/recruit/calendar">캘린더</a></li>
+            </ul>
+            <ul id="all-content-product">
+				<li>상품</li> 
+                <li id="menu-product"><a href="/product/notice">상품안내</a></li>
+                <li><a href="/">상품신청</a></li>
+            </ul>
+             <ul id="all-content-solo">
+ 				<li>개인서비스</li>
+                <li id="menu-solo"><a href="/solo_resume/home">이력서 관리</a></li>
+                <li><a href="/solo_applicant/home/1">지원서 관리</a></li>
+                <li><a href="/solo_scrab/home/1">마이 스크랩</a></li>
+                <li><a href="/solo_review/home">마이 리뷰</a></li>
+                <li><a href="/solo/solo_info">개인정보 보기</a></li>
+                <li><a href="/solo/product">결제내역</a></li>
+            </ul>
+            <ul id="all-content-company">
+	 			<li>기업서비스</li>
+                <li id="menu-company"><a th:href="|/company/list/${session['cid']}/1|">공고 관리</a></li>
+                <li><a href="/company_applicant/home/1">지원자 관리</a></li>
+                <li><a th:href="|/review/list/${session['cid']}/1|">기업 리뷰</a></li>
+                <li><a href="/company/mypage">기업정보 보기</a></li>
+                <li><a href="/company/product">결제내역</a></li>
+            </ul>       
+            <ul id="all-content-custom">
+	 			<li>고객지원</li>
+				<!-- 나중에 수정 -->
+				 <li><a href="/ask/list/1">1:1 문의</a></li>
+                <!--<li id="menu-custom" th:if="${session['cid'] != null or session['sid'] != null or session['adminSession'] != null}"><a href="/ask/list/1">회원문의</a></li> 안보이게-->
+                <li><a href="/notice/notice/1">공지사항</a></li>
+                <!--관리자,회사,개인 아이디 아닐경우 1:1 게시글 못봄-->
+            </ul>
+            
+		</div>
+	
+</header>
+
+
+		

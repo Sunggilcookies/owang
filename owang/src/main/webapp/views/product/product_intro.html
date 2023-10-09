@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품안내</title>
+	<style>
+		.product-temp {
+			font-family: 'Noto Sans KR', sans-serif;
+			text-align: center;
+			background-color: #fff;
+			padding: 40px 0;
+		}
+
+		#product-intro {
+			font-size: 0px;
+		}
+
+		.button-container {
+			text-align: center;
+			margin-top: 50px;
+			font-size: 16px;
+		}
+
+		.button {
+			display: inline-block;
+			padding: 10px 20px;
+			cursor: pointer;
+			text-align: center;
+			text-decoration: none;
+			background-color: rgb(106, 145, 244);
+			color: #fff;
+			border-radius: 5px;
+			border: none;
+		}
+
+		.button:hover {
+			background-color: rgb(65, 70, 89);
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+
+	<remocon>
+		<div th:insert="~{remocon :: remocon}"></div>
+	</remocon>
+
+	<div class="product-temp">
+		<div id="product-intro">
+			<img th:src="@{/css/images/productintro.jpg}" alt="상품안내">
+			<div class="button-container">
+				<a href="/product/notice" class="button">상품신청하러가기 ></a>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div th:insert="~{footer :: footer}"></div>
+	</footer>
+</body>
+
+</html>

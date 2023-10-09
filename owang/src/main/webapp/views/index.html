@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	
+</head>
+<body>
+    <header>
+       <div th:insert="~{header :: header}"></div>
+    </header>
+    <remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+    <script>
+		location.href="/main"
+	</script>
+    
+    <th:blcok th:if="${session.companysession}">
+	<h1>기업세션</h1>
+	[[${session.companysession}]]	
+	</th:blcok>
+    
+	<th:block th:unless="${session.companysession}">
+	<h1>사용자 세션</h1>
+	[[${session.solosession}]]
+	
+	</th:block>
+	<th:block th:if="${session.adminSession}">
+	<h1>관리자 세션</h1>
+	[[${session.adminSession}]]
+
+	</th:block>
+	<!--푸터-->
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+
+</html>

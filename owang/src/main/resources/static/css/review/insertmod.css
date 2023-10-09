@@ -1,0 +1,211 @@
+		
+		.content-box {
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			margin: 0px;
+			padding: 0px;
+			display: block;
+			background-color: rgb(255, 255, 255);
+			font-size: 20px;
+			/* 글꼴 크기를 20px로 조절 */
+			overflow: hidden;
+			
+			/* 플로팅된 자식 요소들을 포함하기 위해 overflow 속성 추가 */
+		}
+
+		/* textarea 스타일 수정 */
+		textarea {
+			width: 85%;
+			/* 가로 너비 조절 */
+			height: 60px;
+			/* 세로 높이 조절 */
+
+			padding: 10px;
+			/* 입력란 안의 여백 조절 */
+			margin: 5px 0;
+			/* 입력란 위아래 여백 설정 */
+			border: 1px solid #ccc;
+			/* 입력란 테두리 설정 */
+			border-radius: 4px;
+			/* 입력란 모서리를 둥글게 설정 */
+			font-size: 18px;
+			font-weight: 700;
+			font-family: "Noto Sans KR", sans-serif;
+			/* 텍스트 에어리어 글꼴 크기를 20px로 조절 */
+		}
+
+		/* footer-box 스타일 수정 */
+		.footer-box {
+			position: relative;
+			padding: 60px 0px;
+			max-width: 1060px;
+			margin: 0px auto;
+			overflow: hidden;
+			/* 플로팅된 자식 요소들을 포함하기 위해 overflow 속성 추가 */
+		}
+
+		/* 제목 텍스트에 대한 스타일 설정 */
+		h1 {
+			text-align: center;
+			/* 가운데 정렬 설정 */
+			font-size: 55px;
+			color: rgb(52, 54, 63);
+			margin-left: 10px;
+			margin-bottom: 55px;
+		}
+
+		/* 수정 및 삭제 버튼 위치 및 마진 수정 */
+		.right-button-container {
+			float: right;
+			/* 오른쪽에 배치 */
+			margin-top: 30px;
+			/* 위쪽 마진 30px 추가 */
+			margin-right: 120px;
+			/* 오른쪽 마진 20px 추가 */
+		}
+
+		/* 홈으로 버튼 위치 및 마진 수정 */
+		.left-button-container {
+			float: left;
+			/* 왼쪽에 배치 */
+			margin-top: 30px;
+			/* 위쪽 마진 30px 추가 */
+			margin-left: 120px;
+			/* 왼쪽 마진 20px 추가 */
+		}
+
+		/* 테이블 스타일 설정 */
+		table {
+			border-collapse: collapse;
+			/* 테이블 셀 경계를 합치기 */
+			width: 85%;
+			/* 테이블 너비를 100%로 설정 */
+			color: rgb(0, 0, 0);
+			font-family: "Noto Sans KR", sans-serif;
+			line-height: 1;
+			font-size: 20px;
+			border-top-width: 1px;
+			border-bottom-width: 1px;
+			border-left-width: 1px;
+			border-right-width: 1px;
+			margin: 0 auto 10px;
+			/* 테이블 가운데 정렬 */
+		}
+
+		/* 테이블 셀 스타일 설정 */
+		th,
+		td {
+			border: 1px solid #ccc;
+			/* 셀 테두리 설정 */
+			padding: 12px;
+			/* 셀 안의 여백을 늘립니다 */
+			text-align: center;
+			/* 텍스트 가운데 정렬 */
+			font-size: 20px;
+			/* 글자 크기를 18px로 설정 */
+		}
+		/* CSS 스타일 추가 */
+    #logoImage {
+        max-width: 300px; /* 이미지의 최대 너비를 지정합니다. */
+        max-height: 200px; /* 이미지의 최대 높이를 지정합니다. */
+        width: auto; /* 이미지의 가로 크기를 자동으로 조절하여 비율 유지 */
+        height: auto; /* 이미지의 세로 크기를 자동으로 조절하여 비율 유지 */
+    }
+		
+		.custom-form{
+				padding: 15px 50px;
+			/* 버튼 패딩을 조절 (원하는 크기로 수정 가능) */
+			font-size: 20px;
+			/* 버튼 내의 글씨 크기를 조절 (원하는 크기로 수정 가능) */
+			background-color: rgb(57, 57, 255);
+			color: rgb(255, 255, 255);
+			text-decoration: none;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+			.custom-form:hover{
+			
+			background-color: rgb(0, 0, 160);
+		
+		}
+		input[type="button"]
+		 {
+			/* 원하는 스타일을 여기에 추가 */
+			/* 그림자 없애기 */
+			padding: 15px 25px;
+			font-family: "Noto Sans KR", sans-serif;
+			/* 버튼 패딩을 조절 (원하는 크기로 수정 가능) */
+			font-size: 18px;
+			/* 버튼 내의 글씨 크기를 조절 (원하는 크기로 수정 가능) */
+			background-color: rgb(61, 61, 61);
+			color: rgb(255, 255, 255);
+			text-decoration: none;
+			border: none;
+			
+			border-radius: 4px;
+			cursor: pointer;
+			
+
+		}
+
+		input[type="submit"]{
+				padding: 15px 25px;
+			font-family: "Noto Sans KR", sans-serif;
+			/* 버튼 패딩을 조절 (원하는 크기로 수정 가능) */
+			font-size: 18px;
+			/* 버튼 내의 글씨 크기를 조절 (원하는 크기로 수정 가능) */
+			background-color: rgb(61, 61, 61);
+			color: rgb(255, 255, 255);
+			text-decoration: none;
+			border: none;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+		th{
+		width: 200px;
+	}
+
+		/* 입력란 스타일 설정 */
+		input[type="text"],
+		input[type="date"],
+		input[type="password"],
+		input[type="email"] {
+			width: 85%;
+			/* 가로 너비 조절 */
+			/* 입력란을 100% 너비로 설정 */
+			padding: 10px;
+			/* 입력란 안의 여백 조절 */
+			margin: 5px 0;
+			/* 입력란 위아래 여백 설정 */
+			border: 1px solid #ccc;
+			/* 입력란 테두리 설정 */
+			border-radius: 4px;
+			/* 입력란 모서리를 둥글게 설정 */
+			font-size: 20px;
+			font-weight: 700;
+			/* 입력란 글자 크기 설정 */
+		}
+
+		/* 버튼 스타일 설정 */
+		a.button {
+			display: inline-block;
+			padding: 18px 20px;
+			/* 버튼 패딩을 조절 (원하는 크기로 수정 가능) */
+			font-size: 18px;
+			/* 버튼 내의 글씨 크기를 조절 (원하는 크기로 수정 가능) */
+			background-color: rgb(128, 128, 128);
+			/* 버튼 배경색을 파란색으로 설정 */
+			color: #fff;
+			/* 버튼 텍스트 색상을 흰색으로 설정 */
+			text-decoration: none;
+			border-radius: 4px;
+			
+		}
+
+		/* 버튼 호버(마우스 오버) 스타일 수정 */
+		a.button:hover {
+			background-color: rgb(0, 0, 0);
+			/* 마우스 오버시 배경색 변경 */
+		}

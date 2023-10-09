@@ -1,0 +1,351 @@
+
+/* 전체 페이지 스타일 */
+
+@font-face {
+    font-family: 'Hangeuljaemin4-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Hangeuljaemin4-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body{
+   background-color: #f0f0f0;
+   width: 1200px;
+   margin: 0 auto;
+}
+
+header {
+	font-family:  'Noto Sans KR', sans-serif;
+	background-color: #fff;
+}
+
+nav{
+	width:100%;
+}
+
+/* 로고 */
+nav #header-logo a{
+    color: #000;
+    float: left;
+    margin-top: 13px;
+    text-decoration: none;
+    font-size: 40px;
+    margin-left: 70px;
+    font-family: 'Hangeuljaemin4-Regular';
+    letter-spacing: 3px;
+}
+
+nav #header-logo a img{
+	width: 25px;
+	height: 25px;
+	top: 10px;
+	right: 30px;
+	
+}
+
+/* 전체보기 */
+
+nav #menu-all{
+	margin-left: 0px;
+}
+
+nav #menu-all:hover{
+	color: rgb(45, 101, 242);
+}
+
+nav #menu-all button{
+	background: none; /* 배경색 제거 */
+	color: inherit;
+	border: none; /* 테두리 제거 */
+	font: inherit;
+	cursor: pointer;
+}
+
+nav #menu-all span{
+	margin-left: 5px;
+}
+
+nav #menu-all::after{
+	content: "|";
+	font-size: 14px;
+	position: relative;
+	left: 27px;
+	bottom: 2px;
+	color: rgb(234, 237, 244);
+	border: 0.1px;
+
+}
+
+nav #menu-all #menu-icon{
+	position: absolute;
+	left: 236px;
+	top: 27px;
+	
+}
+
+nav #menu-all a{
+}
+
+/* 메뉴 */
+nav {
+	position: relative;
+    margin: 0 auto; /* 수평 가운데 정렬을 설정합니다. */
+    width: 1200px;
+    height: 65px;
+    display: inline-block;
+    display: block; 
+    border-bottom: 1px solid #ccc;
+    box-shadow: 1px 1px 10px #eee; /* 그림자 설정 */
+}
+
+nav ul{
+   font-family: 'Noto Sans KR', sans-serif;
+	
+    padding:0px;
+    margin-left: 240px;
+}
+
+
+ 
+
+nav li{
+    display: inline-block;
+}
+
+nav ul li {
+    margin: 16.25px 25px ;
+    padding: 5px; 
+       
+    
+}
+
+nav ul li:hover{
+color:rgb(45, 101, 242);
+}
+
+/* 채용 */
+#menu-recruit-wrap{
+    position: absolute;
+	left: 402px;
+	z-index: 9999;
+}
+
+#menu-recruit{
+   width:100px;
+   
+}
+
+/* 상품 */
+#menu-product-wrap{
+    position: absolute;
+	left: 496px;
+	z-index: 9999;
+}
+
+#menu-product{
+   width: 120px;   
+}
+
+/* 개인서비스 */
+#menu-solo-wrap{
+    position: absolute;
+	left: 589px;
+	z-index: 9999;
+}
+
+
+#menu-solo{
+   width:130px;
+}
+
+/* 기업서비스 */
+#menu-company-wrap{
+    position: absolute;
+	left: 728px;
+	z-index: 9999;
+}
+
+#menu-company{
+   width:130px;
+}
+
+/* 고객지원 */
+#menu-custom-wrap{
+    position: absolute;
+	left: 864px;
+    width: 120px;
+    z-index: 9999;
+}
+
+/* 하위 메뉴 */
+nav ul li ul{
+    
+    text-align: left;
+    position: absolute;
+    padding: 0px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: white;
+    /* 하위 메뉴 높이조정 */
+    top: 50px;
+    /* 하위 메뉴 위치조정 */
+    margin-left: -20px;
+    
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); /* 그림자 설정 */
+    opacity: 0; /* 초기에 투명도를 0으로 설정 */
+    visibility: hidden; /* 초기에 보이지 않도록 설정 */
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s; /* 투명도 전환에는 transition 적용 */
+}
+
+nav ul li:hover ul {
+    display: block; /* 마우스 오버 시 하위 메뉴 표시 */
+ 	opacity: 1; /* 투명도를 1로 변경 */
+    visibility: visible; /* 보이도록 변경 */
+    transition: opacity 0.2s ease, visibility 0s linear 0s; /* 투명도 전환에 transition 적용 */
+}
+
+nav ul ul li a {
+
+    padding: 10px;
+    display: block;
+    height: 20px;
+    color: rgb(92, 102, 123);
+    text-decoration: none;
+    height: 25px;
+    transition: background-color 0.3s ease;	
+
+}
+
+/* 하위 리스트들끼리의 간격 */
+nav ul ul li {
+    text-align: left;
+    display: block;
+    margin: 10px 0;
+    
+    width: 100%;
+    /* background-color: #ccc;*/
+    /*  */
+    padding: 0;
+}
+
+/* 하위 메뉴 호버시 배경색 변경 */
+nav ul ul li a:hover {
+    background-color: rgb(244, 246, 250);
+    display: block;
+}
+
+
+
+/* 로그인 회원가입 */
+#menu-member{
+	height:20px;
+   	text-align: right; 
+    padding-top: 10px;
+    padding-bottom: 2px;
+}
+
+#menu-member li{
+	list-style: none;
+	font-family:  'Noto Sans KR', sans-serif;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+#menu-member li a{
+	text-decoration: none;
+	color: rgb(55, 63, 87);
+	font-size: 15px;
+}
+	/*
+#menu-member #menu-login::after{
+	content: "|";
+	font-size: 14px;
+	margin-left: 17px;
+	color: rgb(234, 237, 244);
+	position: relative;
+	bottom: 2px;
+}
+*/
+#menu-member span{
+	float: left;
+	color: rgb(55, 63, 87);
+	font-size: 15px;
+	margin-left: 17px;
+	margin-top: 15px;
+}
+
+/* 전체 메뉴 */
+#menu-all-content{
+	position: absolute;
+    z-index: 9998;
+	display: none;
+	border: 1px solid rgb(244, 246, 250);
+	width: 780px;
+	margin-left: 230px;
+	box-shadow: 5px 5px 10px rgb(244, 246, 250); /* 그림자 설정 */
+	background-color: white;
+}
+
+
+#menu-all-content ul{
+	display: inline-block;
+	margin-left:-10px;
+	margin-bottom:50px;
+	
+}
+#menu-all-content ul::after{
+	border-right: 1px solid #ccc;
+	
+}
+	
+#menu-all-content ul li:nth-of-type(1){
+	font-weight: 470;	
+	margin-bottom: 10px;
+}
+#menu-all-content ul li{
+	list-style: none;
+	padding-bottom: 10px;
+}
+	
+#menu-all-content ul li a{
+	text-decoration: none;
+ 	color: rgb(41, 46, 65)
+}
+	
+#menu-all-content ul li a:hover{
+	
+ 	color: rgb(45, 101, 242);
+}
+
+/* 전체메뉴 - 채용 */
+#all-content-recruit {
+	position:relative;
+	top: -120px;
+	margin-right: 30px;
+}
+
+/* 전체메뉴 - 상품 */
+#all-content-product {
+	position:relative;
+	top: -120px;
+	margin-right: -15px;
+}
+
+/* 전체메뉴 - 개인 */
+#all-content-solo {
+	position:relative;
+	top: 15px;
+}
+
+/* 전체메뉴 - 기업 */
+#all-content-company {
+	position:relative;
+	top: -18px;
+}
+
+/* 전체메뉴 - 고객지원 */
+#all-content-custom {
+	position:relative;
+	top: -120px;
+}

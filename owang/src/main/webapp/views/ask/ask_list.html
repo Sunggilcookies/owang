@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>질문게시판</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/ask/ask.css}">
+</head>
+<body>
+<div id="home">
+	
+<script>
+	//뒤로가기
+      function goBack() {
+         window.history.back();
+      }
+</script>
+<div id="home">	
+	<header>
+		<div th:include="header :: header"></div>
+	</header>
+	
+	<remocon>
+		<div th:insert="~{remocon :: remocon}"></div>
+	</remocon>
+	
+	<div class="title_box">
+	   <h1>1:1 문의</h1>  
+	   <br>
+	   <h4 id="p">
+  			✔️ 1:1 게시판은 개인정보를 다루는 공간입니다. 따라서 본인이 작성한 글만 확인 가능합니다.<br>
+      		  또한, 본인이 작성한 문의글에 관리자 답변이 달린 경우 수정 및 삭제 기능은 지원되지 않습니다.<br>
+  			✔️ 관리자 답변 이전에는 수정 및 삭제 가능합니다.
+	   </h4>
+	   <br/>
+		
+   </div>
+   
+
+<div id = "ask_table">
+	<table width="920px" border="0">
+		<tr>
+			<th scope="col">No</th>
+			<th scope="col">제목</th>
+			<th scope="col">작성자</th>
+			<th scope="col">등록일</th>
+			<th scope="col">조회수</th>
+		</tr>
+
+		<tr th:each="askdto, dtoStat : ${mainData}">
+			<td th:text="${dtoStat.count + askDTO.start}" class="no"/>
+			<td>
+				<!--공백이두번-->
+				<!--<span th:utext="${'&nbsp;&nbsp;' * askdto.lev}"></span>-->
+				<!--공백 한번으로 줄임-->
+				<span th:utext="${'&nbsp;' * askdto.lev}"></span>
+				<span style="color: red;" th:if="${askdto.lev > 0}" class="re">└[RE]</span>
+				<a th:href="|/ask/detail/${askDTO.page}/${askdto.id}|" th:text="${askdto.title}" class="title"></a>
+			</td>
+			<!--작성자 클릭 시 회원정보 확인가능-->
+			<!--
+			<th:block th:if="${session.adminSession}">
+    				<a th:href="@{|/admin_solo/detail/${askdto.pname}|}" th:text="${askdto.pname}"></a>
+    				<a th:href="@{|/admin_company/detail/${askdto.pname}|}" th:text="${askdto.pname}"></a>
+			</th:block>
+			<td>
+				<a th:href="|/admin_solo/detail/${askdto.pname}|" th:text="${askdto.pname}"></a>
+			</td>-->
+			<!--원래작성자-->
+			<td th:text="${askdto.pname}" class="name"/>
+
+			<td th:text="${#dates.format(askdto.regDate, 'yyyy-MM-dd')}" class="day"></td>
+
+			<td th:text="${askdto.cnt} "class="cnt" />
+		</tr>
+		<tr th:if="${session.adminSession}" >
+			<td colspan="5" align="center" class="pagination-container">
+				<!--<a th:if="${askDTO.pageStart > 1}" th:href="${askDTO.pageStart - 1}" th:text="'[이전]'" />
+
+				<th:block th:each="no: ${#numbers.sequence(askDTO.pageStart, askDTO.pageEnd)}">
+
+					<span th:if="${no==askDTO.page}" th:text="${no}" />
+					<a th:unless="${no==askDTO.page}" th:href="${no}" th:text="${no}" />
+				</th:block>
+				<a th:if="${askDTO.pageEnd < askDTO.pageTotal}" th:href="${askDTO.pageEnd + 1}" th:text="'[다음]'" />-->
+				
+					<a th:if="${askDTO.pageStart > 1}" th:href="${askDTO.pageStart - 1}" th:text="'[이전]'"
+						class="pagination-link" / />
+				
+					<th:block th:each="no: ${#numbers.sequence(askDTO.pageStart, askDTO.pageEnd)}"
+						class="pagination-link">
+				
+					<span th:if="${no==askDTO.page}" th:text="${no}" class="pagination-current" />
+					<a th:unless="${no==askDTO.page}" th:href="${no}" th:text="${no}" 
+					class="pagination-link"/>
+					</th:block>
+					<a th:if="${askDTO.pageEnd < askDTO.pageTotal}" th:href="${askDTO.pageEnd + 1}" th:text="'[다음]'"
+					class="pagination-link"  />	
+			</td>
+		</tr>
+		<!-- 기업로그인 > 글쓰기-->
+		<tr>
+			<td colspan="5" align="center">
+				<a th:href="|/ask/insert/${askDTO.page}|" th:if="${session['cid']}" class="btnC">문의하기  ></a>
+			</td>
+		</tr>
+		<tr>	
+			 <!-- 개인로그인 > 글쓰기 -->
+			<td colspan="5" align="center">
+				<a th:href="|/ask/insert/${askDTO.page}|" th:if="${session['solosession']}"class="btnP">문의하기  ></a>
+			</td>
+		</tr>
+	</table>
+	
+		
+	
+	</div>
+<!--<a href="javascript:goBack()">이전 페이지</a>-->
+
+
+
+	<footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+</div>
+
+</body>
+
+</html>

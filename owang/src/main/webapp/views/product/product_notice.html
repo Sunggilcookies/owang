@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품신청</title>
+	<style>
+		.product-temp {
+			font-family: 'Noto Sans KR', sans-serif;
+			text-align: center;
+			background-color: #fff;
+			padding: 40px 0;
+		}
+
+		.table-container {
+			display: flex;
+			justify-content: space-between;
+			margin: 40px auto;
+		}
+
+		table {
+			border-collapse: collapse;
+			border-top: 1px solid #ddd;
+		}
+
+		#solotbl {
+			margin: 40px 0 40px 110px;
+		}
+
+		#comptbl {
+			margin: 40px 110px 40px 0;
+		}
+
+		tr:hover {
+			background-color: #e0e0e0;
+		}
+
+		th {
+			padding: 8px;
+			border-bottom: 1px solid #999;
+		}
+
+		td {
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.btn-container {
+			margin: 40px 0;
+		}
+
+		.button {
+			display: inline-block;
+			padding: 10px 20px;
+			cursor: pointer;
+			text-align: center;
+			text-decoration: none;
+			background-color: rgb(106, 145, 244);
+			color: #fff;
+			border-radius: 5px;
+			border: none;
+		}
+
+		.button:hover {
+			background-color: rgb(65, 70, 89);
+		}
+
+		.alct {
+			text-align: center;
+		}
+
+		.alle {
+			text-align: left;
+		}
+
+		.price {
+			text-align: right;
+		}
+	</style>
+</head>
+
+<body>
+	<script th:inline="javascript">
+		document.addEventListener("DOMContentLoaded", function () {
+			// 신청버튼 클릭이벤트
+			var submitBtn = document.getElementById("submitBtn");
+			submitBtn.addEventListener("click", function () {
+				if (/*[[${pay}]]*/ "" != null) {
+					var selectedProductId = document.querySelector('input[name="productRadio"]:checked');
+					if (selectedProductId) {
+						window.location.href = "/product/" + selectedProductId.value;
+					} else {
+						alert("상품을 선택해주세요");
+					}
+				} else {
+					alert(/*[[${msg}]]*/ "오류가 발생했습니다");
+					window.location.href = /*[[${goUrl}]]*/ "/";
+				}
+			});
+
+			// tr영역 클릭시 라디오버튼 체크
+			var soloRows = document.querySelectorAll('#solotbl tr');
+			var compRows = document.querySelectorAll('#comptbl tr');
+			soloRows.forEach(function (row) {
+				row.addEventListener("click", function () {
+					var radioBtn = this.querySelector('input[type="radio"]');
+					radioBtn.click();
+				});
+			});
+			compRows.forEach(function (row) {
+				row.addEventListener("click", function () {
+					var radioBtn = this.querySelector('input[type="radio"]');
+					radioBtn.click();
+				});
+			});
+		});
+	</script>
+	<header>
+		<div th:insert="~{header :: header}"></div>
+	</header>
+
+	<remocon>
+		<div th:insert="~{remocon :: remocon}"></div>
+	</remocon>
+
+	<div class="product-temp">
+		<h1>상품신청</h1>
+		
+		<div class="table-container">
+			<table id="solotbl">
+				<tr th:each="dto : ${data}" th:if="${dto.productClient == '개인'}">
+					<td>
+						<input type="radio" th:if="${pay == 'solo'}" th:value="${dto.productId}" name="productRadio">
+						<!-- 개인 선택 -->
+					</td>
+					<td class="alct" style="width: 33px;"><i class="fa-solid fa-user fa-lg" style="color: #f03200"></i>
+					</td>
+					<td class="alle" style="width: 185px;" th:text="${dto.productName}"></td>
+					<td class="price" style="width: 90px;" th:text="${dto.formatPrice}"></td>
+				</tr>
+			</table>
+			
+			<table id="comptbl">
+				<tr th:each="dto : ${data}" th:if="${dto.productClient == '기업'}">
+					<td>
+						<input type="radio" th:if="${pay == 'comp'}" th:value="${dto.productId}" name="productRadio">
+						<!-- 기업 선택 -->
+					</td>
+					<td class="alct" style="width: 33px;"><i class="fa-solid fa-building fa-lg"
+							style="color: #222edb"></i></td>
+					<td class="alle" style="width: 185px;" th:text="${dto.productName}"></td>
+					<td class="price" style="width: 90px;" th:text="${dto.formatPrice}"></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="btn-container">
+			<button id="submitBtn" class="button">신청</button>
+		</div>
+	</div>
+	
+	<footer>
+		<div th:insert="~{footer :: footer}"></div>
+	</footer>
+</body>
+
+</html>

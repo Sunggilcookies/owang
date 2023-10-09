@@ -1,0 +1,188 @@
+body{
+	 height: 100%; /* 기본값으로 설정되어 있음 */
+}
+
+#solo_resume_home{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 30px;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+ 	max-width: 1200px;
+ 	padding-bottom: 100px;
+}
+
+/* 이력서 관리 */
+#resume_text{
+	font-size: 50px;
+	color: rgb(55, 63, 87);
+	font-weight: 450;
+	margin-top: 80px;
+	margin-left: 60px;
+	padding-bottom: 40px;
+}
+
+/* 이력서 없음 문구 */
+#resume_none{
+	margin-top: 40px;
+	font-size: 40px;
+	text-align:center;
+	color: rgb(200, 206, 219);
+	font-weight: 250;
+}
+
+/* 최대 안내 문구 */
+#resume_limit{
+	height: 25px;
+	text-align: right;
+	margin-right: 65px;
+	margin-bottom: -20px;
+	color: rgb(255, 70, 70);
+	
+}
+
+#resume_ad{
+	float:right;
+	font-size: 15px;
+}
+
+#resume_list{
+	width: 1000px;
+	margin: 0 auto;
+	border-top: 1px solid rgb(215, 220, 229);
+	box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+	padding: 20px;
+}
+
+
+#resume_list li{
+	list-style: none;
+	
+}
+
+/* 이력서등록하기 */
+#rswrite{
+    margin-top: 50px;
+    margin-right: 60px;
+    padding-bottom: 30px
+}
+
+#rswrite a{
+	background-color: rgb(41, 46, 65);
+	padding: 15px 50px;
+	text-decoration: none;
+	color: rgb(255, 255, 255);
+	border-radius: 5px;
+	float: right;
+	transition: background-color 0.3s ease;	
+}
+
+#rswrite a:hover {
+    background-color: rgb(65, 70, 89);
+}
+
+#rstotal{
+	font-size: 15px;
+	margin-left: 60px;
+	margin-bottom: 10px;
+    margin-top: 50px;	
+	
+}
+
+#rstotal span{
+	font-size: 15px;	
+}
+
+/* 이력서 제목 */
+#resume_list li:nth-of-type(1){
+	
+	padding: 20px 0px;
+	font-size: 30px;
+	color: rgb(95, 99, 104);
+	
+}
+
+#resume_list li:nth-of-type(1) span{
+	font-weight: 300;
+}
+
+#resume_list #rstitle{
+	font-size: 30px;
+	color: #000;
+}
+
+#resume_list li:nth-of-type(1) span::after{
+	content: "|";
+	margin-left: 40px;
+	margin-right: 30px;
+	color: #eee;
+	font-size: 30px;
+}
+
+#resume_list li:nth-of-type(1) a{
+	font-size: 30px;
+	text-decoration: none;
+	color: #000;	
+}
+
+#resume_list #rscareer{
+	color: rgb(95, 99, 104);
+	margin-left: 10px;
+}
+
+/* 이력서 작성일 */
+#resume_list li:nth-of-type(3){
+	text-align: right;
+	margin-top: -50px;
+	font-size: 15px;
+	padding-top: 30px;
+}
+
+
+/* 이력서 수정일*/
+#resume_list li:nth-of-type(4){
+	text-align: right;
+	font-size: 15px;
+}
+
+/* 수정 삭제 버튼 */
+#resume_list li:nth-of-type(5){
+	padding: 50px 0 20px 0;
+	text-align: right;
+	transition: background-color 0.3s ease;	
+
+}
+
+#resume_list li:nth-of-type(5) a{
+	padding: 8px 50px;
+	text-decoration: none;
+	color: #000;
+	border: 1px solid rgb(45, 101, 242);
+	border-radius: 5px;
+	transition: background-color 0.3s ease;	
+	
+}
+
+#resume_list li:nth-of-type(5) a:hover{
+	background-color: rgb(239, 245, 255) ;
+}
+
+#resume_list li:nth-of-type(1) a:hover{
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	
+}
+
+#resume_table td:nth-of-type(1) {
+    height: 80px;
+}
+
+#resume_title{
+	font-size: 30px;
+}
+
+#resume_list .material-symbols-outlined{
+	font-size: 16px;
+	position: relative;
+	top:3px;
+	color: rgb(55, 63, 87);
+}

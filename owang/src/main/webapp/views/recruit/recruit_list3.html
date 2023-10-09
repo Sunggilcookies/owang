@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>board/list</title>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/recruit/recruit.css}">
+	<style>
+		/* 내림차순/오름차순 아이콘 스타일 */
+		.sortable-header {
+			position: relative;
+			cursor: pointer;
+		}
+
+		/* 내림차순 아이콘 스타일 */
+		.descending .sortable-header::after {
+			transform: rotate(180deg);
+			/* 내림차순 아이콘(▼)으로 회전 */
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="home">
+		<header>
+			<div th:insert="~{header :: header}"></div>
+		</header>
+		
+		<remocon>
+      		 <div th:insert="~{remocon :: remocon}"></div>
+   		 </remocon>
+    
+		<div class="title_box">
+			<h1>채용공고 </h1>
+			<br>
+			<h3 id="p">다양한 채용정보와 새로운 채용소식을 오왕에서 만나보세요</h3>
+		</div>
+		<div class="wrap"><!--컨텐츠 div 시작-->
+			<!--검색 div-->
+			<div class="search">
+				<form action="/recruit/search" method="get">
+					<select name="searchOption" id="select">
+						<option value="all">전체검색</option>
+						<option value="title">공고제목</option>
+						<option value="content">공고내용</option>
+						<option value="name">회사이름</option>
+					</select>
+					<input type="text" name="keyword" placeholder="🔍 검색어를 입력하세요" id="search_input" pattern="^\S.*$">
+					<button type="submit" class="dod">
+						<i class="fa-solid fa-magnifying-glass fa-beat-fade"
+							style="color:  rgb(45, 101, 242);">&nbsp검색</i>
+					</button>
+				</form>
+			</div><!--검색 div 끝-->
+			<!-- 탭 -->
+			<ul class="tabs">
+				<li><a href="/recruit/list/all/1" class="scrollable_menu">전체 공고 </a></li>
+				<li><a href="/recruit/list/1" class="scrollable_menu">채용중</a></li>
+				<li><a href="/recruit/list/close/1" class="scrollable_menu">채용 마감</a></li>
+			</ul>
+			<!-- 채용 마감 데이터-->
+			<table border="0" class="list_table" id="data-table">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>채용시작일</th>
+					<th>~</th>
+					<th class="sortable-header" onclick="toggleSortOrder()">
+						채용마감일
+						<span class="dropdown-icon"></span>
+					</th>
+					<th>회사이름</th>
+				</tr>
+				<tr th:each="dto, dtoStat : ${mainData}">
+					<td th:text="${dtoStat.count + recruitDTO.start}" />
+					<!--제목 부분만 왼쪽정렬-->
+					<td id="list_title_left">
+						<a th:href="|/recruit/detail/${dto.cid}/${recruitDTO.page}/${dto.recruitId}|"
+							th:text="|${dto.recruitTitle} D ${dto.recruitMagam}|" class="hoverTitle"></a> <br>
+						
+						조회수 : [[${dto.cnt}]]	&nbsp &nbsp 지원자수 : [[${dto.appnum}]]
+					</td>
+					
+					<td th:text="${dto.regDate}" id="chae_start" />
+					<td th:text="'&tilde;'"></td>
+					<td th:text="${dto.realMagam}" id="chae_end"/>
+					<td >
+						<a th:href="'/company/detail/' + ${dto.cid}" th:text="${dto.cname}" class="hoverCompany"></a>
+					</td>
+
+				</tr>
+			</table>
+			<!-- 페이지 네비게이션 - "채용 마감" 탭 -->
+			
+			<div id="closePageNav" class="pagination-container">
+			<!--<div id="closePageNav" class="tab-content">-->
+				<a th:if="${recruitDTO.pageStart > 1}" th:href="${recruitDTO.page - recruitDTO.page}+1" class="pagination-link"
+					th:text="'<<'" />
+				<a th:if="${recruitDTO.pageStart > 1}" th:href="${recruitDTO.pageStart - 1}" class="pagination-link" 
+				th:text="'<'" />
+				<th:block th:each="no: ${#numbers.sequence(recruitDTO.pageStart, recruitDTO.pageEnd)}">
+					<span th:if="${no==recruitDTO.page}" 
+						class="pagination-current" th:text="${no}"/>
+					<a th:unless="${no==recruitDTO.page}" 
+						class="pagination-link" th:href="${no}" th:text="${no}" />
+				</th:block>
+				<a th:if="${recruitDTO.pageEnd < recruitDTO.pageTotal}" th:href="${recruitDTO.pageEnd + 1}"
+					th:text="'>'" class="pagination-link"/>
+				<a th:if="${recruitDTO.pageEnd < recruitDTO.pageTotal}" th:href="${recruitDTO.pageTotal}"
+					th:text="'>>'" class="pagination-link"/>
+			</div>
+			<!-- 글쓰기 버튼 -->
+			<div align="right" th:if="${session['cid']}">
+				<a th:href="|/recruit/insert/${recruitDTO.page}|" i class="fa-solid fa-pen">
+					글쓰기 &nbsp
+				</a>
+			</div>
+			
+			 <!-- ==============================-->
+  	
+  		
+   			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div> <!--컨텐츠 끝-->
+		<footer>
+			<div th:insert="~{footer :: footer}"></div>
+		</footer>
+	</div>
+	
+	
+	
+	
+	
+	
+	<script>
+    // 초기 정렬 방향 설정
+    var sortOrder = 'asc';
+    var primarySortColumn = 4; // 기본 정렬 기준: 채용마감일
+    var secondarySortColumn = 5; // 보조 정렬 기준: 회사이름으로변경
+
+    function toggleSortOrder() {
+        // 테이블 헤더 열(채용마감일)을 클릭할 때마다 정렬 방향 변경
+        if (sortOrder === 'asc') {
+            sortOrder = 'desc'; // 내림차순 정렬
+        } else {
+            sortOrder = 'asc'; // 오름차순 정렬
+        }
+
+        // 정렬 방향에 따라 테이블을 정렬
+        sortTable(primarySortColumn, secondarySortColumn);
+
+        // 스타일 변경
+        updateStyle();
+    }
+
+    function toggleSecondarySort() {
+        // 보조 정렬 기준을 변경
+        if (secondarySortColumn === primarySortColumn) {
+            secondarySortColumn = 5; // 보조 정렬 기준: 지원자수
+        } else {
+            secondarySortColumn = primarySortColumn;
+        }
+
+        // 정렬 방향에 따라 테이블을 정렬
+        sortTable(primarySortColumn, secondarySortColumn);
+
+        // 스타일 변경
+        updateStyle();
+    }
+
+    function sortTable(primaryColumnIndex, secondaryColumnIndex) {
+        var table = document.getElementById('data-table');
+        var rows = Array.from(table.getElementsByTagName('tr'));
+        var header = rows[0];
+        var isDescending = sortOrder === 'desc';
+
+        var sortedRows = rows.slice(1).sort(function (a, b) {
+            var primaryAValue = a.getElementsByTagName('td')[primaryColumnIndex].textContent;
+            var primaryBValue = b.getElementsByTagName('td')[primaryColumnIndex].textContent;
+
+            var secondaryAValue = a.getElementsByTagName('td')[secondaryColumnIndex].textContent;
+            var secondaryBValue = b.getElementsByTagName('td')[secondaryColumnIndex].textContent;
+
+            // 기본 정렬 기준으로 비교
+            var primaryComparison = new Date(primaryAValue) - new Date(primaryBValue);
+
+            // 내림차순 정렬이면 부호를 반대로 합니다.
+            if (isDescending) {
+                primaryComparison = -primaryComparison;
+            }
+
+            // 기본 정렬 기준으로 정렬
+            if (primaryComparison !== 0) {
+                return primaryComparison;
+            }
+
+            // 기본 정렬 기준이 동일한 경우 보조 정렬 기준으로 정렬
+            var secondaryComparison = new Date(secondaryAValue) - new Date(secondaryBValue);
+
+            // 내림차순 정렬이면 부호를 반대로 합니다.
+            if (isDescending) {
+                secondaryComparison = -secondaryComparison;
+            }
+
+            return secondaryComparison;
+        });
+
+        sortedRows.forEach(function (sortedRow) {
+            if (sortedRow.parentNode === table) {
+                table.removeChild(sortedRow);
+            }
+        });
+
+        table.appendChild(header);
+        sortedRows.forEach(function (sortedRow) {
+            table.appendChild(sortedRow);
+        });
+    }
+
+    function updateStyle() {
+        var headerCell = document.querySelector('.sortable-header');
+        headerCell.classList.toggle('descending', sortOrder === 'desc');
+
+        // 드롭다운 아이콘 변경
+        var dropdownIcon = document.querySelector('.dropdown-icon');
+        if (sortOrder === 'desc') {
+            dropdownIcon.innerHTML = '▼'; // 내림차순 아이콘(▼)
+        } else {
+            dropdownIcon.innerHTML = '▲'; // 오름차순 아이콘(▲)
+        }
+    }
+</script>
+
+
+	
+</body>
+
+</html>

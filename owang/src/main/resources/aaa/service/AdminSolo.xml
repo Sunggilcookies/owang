@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.AdminSolo">
+
+	<select id="soloList" resultType="soloDTO"
+		parameterType="soloDTO">
+		select * from solo order by sno desc limit #{start},
+		#{limit}
+	</select>
+
+	<select id="soloListCnt" resultType="Integer">
+		select count(*) from solo  
+	</select>
+	<select id="soloonList" resultType="soloDTO"
+		parameterType="soloDTO">
+		select * from solo where stype=2 order by sno desc limit #{start},
+		#{limit}
+	</select>
+
+	<select id="soloonListCnt" resultType="Integer">
+		select count(*) from solo  where stype=2 
+	</select>
+	<select id="solooffList" resultType="soloDTO"
+		parameterType="soloDTO">
+		select * from solo  where stype=1 order by sno desc limit #{start},
+		#{limit}
+	</select>
+
+	<select id="solooffListCnt" resultType="Integer">
+		select count(*) from solo    where stype=1
+	</select>
+
+
+
+	<select id="soloMaxId">
+		select max(sno) from solo
+	</select>
+
+	
+	
+	<select id="detailSolo" resultType="soloDTO">
+	 select * from solo where sid = #{sid}
+	</select>
+	
+	<delete id="delettt" >
+	delete from solo where sid =#{sid}
+	</delete>
+	
+	<update id="checkoutFile"  parameterType="Integer">
+	    update solo set sinjueng = true where sno = #{sno}
+	</update>
+	<select id="solocomList" resultType="soloDTO"
+		parameterType="soloDTO">
+		select * from solo where sinjueng=false and scompanyFile!="null" order by sjoindate desc limit #{start},
+		#{limit} 
+	</select>
+	
+	<select id="solocomListCnt" resultType="Integer">
+		select count(*) from solo  where sinjueng=false and scompanyFile!='null'
+	</select>
+	
+	
+	<sql id="plz_2">
+    <if test="searchOption == 'id'">
+        and sid like concat('%', #{keyword} ,'%')
+    </if>
+    <if test="searchOption == 'name'">
+        and sname like concat('%', #{keyword} ,'%')
+    </if>
+     <if test="searchOption == 'type'">
+        and stype = #{keyword}  <!-- 유료회원(프리미엄회원)는 stype가 2이며, 일반회원은 stype가 1입니다. -->
+    </if>
+</sql>
+
+<!-- 검색 테스트 -->
+<select id="searchcount" resultType="Integer" parameterType="string">
+    select count(*) from solo 
+    <where>
+        <include refid="plz_2" />
+    </where>
+    
+</select>
+	
+	
+<sql id="pl_1">
+    <if test="searchOption == 'id'">
+        and sid like concat('%', #{keyword} ,'%')
+    </if>
+    <if test="searchOption == 'name'">
+        and sname like concat('%', #{keyword} ,'%')
+    </if>
+     <if test="searchOption == 'type'">
+        and stype = #{keyword}  <!-- 유료회원(프리미엄회원)는 stype가 2이며, 일반회원은 stype가 1입니다. -->
+    </if>
+</sql>
+
+<!-- 검색 테스트 -->
+<select id="searcha" resultType="soloDTO" parameterType="string">
+    select * from solo 
+    <where>
+        <include refid="pl_1" />
+    </where>
+    
+</select>
+
+	
+</mapper>

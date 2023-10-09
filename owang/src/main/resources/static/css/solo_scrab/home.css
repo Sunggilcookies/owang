@@ -1,0 +1,208 @@
+body{
+  height: 100%;
+}
+
+#solo_scrab_home{
+   font-family: 'Noto Sans KR', sans-serif;
+   padding-top: 30px;
+   padding-bottom: 100px;
+   background-color: white;
+    height: 100%; /* 기본값으로 설정되어 있음 */
+
+}
+
+#scrab_text{
+   font-size: 50px;
+   color: rgb(55, 63, 87);
+   font-weight: 450;
+   margin-top: 80px;
+   margin-left: 90px;
+}
+
+/* 지원서 없음 문구 */
+#scrab_none{
+   margin-top: 150px;
+   font-size: 40px;
+   text-align:center;
+   color: rgb(200, 206, 219);
+   font-weight: 250;
+}
+
+
+#scrab_ad{
+   float:right;
+   font-size: 15px;
+   margin-right: 30px;
+
+}
+
+#scrab_list{
+   width: 1000px;
+   margin: 0 auto;
+   height: 160px;
+   border-top: 1px solid rgb(215, 220, 229);
+   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+   padding: 30px 20px 40px 20px;
+}
+
+#scrab_list div{
+   display: inline-block;
+   list-style: none;
+}
+
+/* 스크랩 숫자 + 제출일자 + 기업명 */
+#scdate{
+   float: left;
+   margin-right: 70px;
+}
+#scdate li:nth-of-type(1) span:nth-of-type(1){
+   margin-right: 10px;   
+}
+
+
+#scdate li:nth-of-type(1) span:nth-of-type(2){
+   font-size: 15px;
+   color: rgb(98, 113, 138);
+}
+
+#scdate .material-symbols-outlined{
+   font-size: 18px;
+   position: relative;
+   top: 3px;
+}
+
+
+/* 기업 명 */
+#scdate li:nth-of-type(2) {
+   margin-top: 50px;
+   margin-left: 50px;
+}
+
+#scdate li:nth-of-type(2) a{
+   color: rgb(95, 99, 104);   
+   font-size: 27px;
+   font-weight: 300;
+   text-decoration: none;
+}
+
+#scdate li:nth-of-type(2) a:hover{
+   text-decoration: underline;
+}
+
+
+/* 공고 제목 */
+#sccontent {
+   margin-top: 55px;   
+   margin-bottom: 40px;
+}
+
+#sccontent li:nth-of-type(1){
+   font-size: 25px;
+   margin-bottom: 15px;
+    white-space: nowrap;       /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden;          /* 내용이 넘칠 경우 숨김 */
+    text-overflow: ellipsis;   /* "..."으로 표시 */
+    max-width: 600px;
+    
+    }
+    
+#sccontent li:nth-of-type(1) a{
+   color: black;
+   text-decoration: none;
+}
+
+#sccontent li:nth-of-type(1) a:hover{
+   text-decoration: underline;
+}
+
+
+/* 급여 */
+#sccontent li:nth-of-type(2){
+   margin-top: -10px;
+}
+
+#sccontent li:nth-of-type(2) span:nth-of-type(1){
+   margin-right: 7px;
+}
+
+#sccontent li:nth-of-type(2) span:nth-of-type(1)::after{
+   content: "|";
+   margin-left: 12px;
+   font-size: 16px;
+   color: rgb(200, 206, 219);
+}
+
+/* 스크랩 삭제*/
+#scdelete li:nth-of-type(1){
+   margin-top: -15px;
+   font-size: 18px;
+   color:  rgb(200, 206, 219);
+}
+
+#scdelete li:nth-of-type(1) a{
+   text-decoration: none;
+   color: rgb(177, 177, 177);
+   font-weight: 200;
+      
+}
+
+#scdelete li:nth-of-type(1) a span{
+   font-weight: 250;
+}
+
+#scdelete li:nth-of-type(1) a:hover{
+   color: black;
+      
+}
+
+#scdelete li:nth-of-type(2) {
+   font-size: 15px;
+   color: rgb(177, 177, 177);   
+}
+
+/* 공고마감 안내 */
+#scdelete li:nth-of-type(2){
+   text-align: left;
+   margin-top: 120px;
+   margin-right: 20px;
+color: rgb(95, 99, 104);
+}
+
+/* 공고 삭제버튼 */
+#scdelete{
+   float: right;
+   text-align: right;
+}
+
+
+/* 채용공고 보러가기 */
+#gotorc {
+   text-align: center;
+   margin-top: 120px;
+   margin-bottom: 120px;
+
+}
+#gotorc a{
+   background-color: rgb(41, 46, 65);
+   padding: 15px 50px;
+   text-decoration: none;
+   color: rgb(255, 255, 255);
+   border-radius: 5px;
+   transition: background-color 0.3s ease;
+}
+
+#gotorc a:hover {
+    background-color: rgb(65, 70, 89);
+}
+
+#gotorc .material-symbols-outlined{
+   position: relative;
+   top: 7px;
+}
+
+#sctotal{
+   font-size: 15px;
+   margin-left: 80px;   
+   margin-bottom: 10px;
+   padding-top:50px;
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aaa.service.EndSoloMapper">
+	
+<select id="endSoloList" resultType="soloDTO">
+   	 	select * from endsolo order by sno desc
+</select>
+	
+<select id="endSolocnt" resultType="Integer" >
+	select count(*) from endsolo 
+</select>	
+	
+<insert id="endSoloInsert" parameterType="soloDTO">
+    INSERT INTO endsolo (sjoindate,sid, cid, spw, sname, sbirth, sage, sgender, sphone, semail, saddress, scompanyName, scompanyFile, stype, sbcnt, sdeletedate)
+    VALUES (#{sjoindate},#{sid}, #{cid} ,#{spw}, #{sname}, #{sbirth}, #{sage}, #{sgender}, #{sphone}, #{semail}, #{saddress}, #{scompanyName}, #{scompanyFile}, 1, 0, sysdate())
+</insert>
+
+<select id="idChk" resultType="int">
+    select count(*) from endsolo where sid = #{sid}
+</select>
+
+</mapper>

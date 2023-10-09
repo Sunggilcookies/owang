@@ -1,0 +1,402 @@
+body{
+  height: 100%;
+}
+
+#solo_info_modify{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 30px;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+ 	max-width: 1200px;
+ 	padding-bottom: 50px;
+}
+
+/* 개인정보 보기 텍스트 */
+#modify_text{
+	font-size: 30px;
+	color: rgb(55, 63, 87);
+	font-weight: 450;
+	margin-top: 50px;
+	margin-left: 180px;
+	margin-bottom: 30px;
+}
+
+#info_list{
+	width: 700px;
+	margin: 0 auto;
+	padding: 20px 40px 15px 40px;
+	border-top: 1px solid rgb(199, 199, 199);
+	border-bottom: 1px solid rgb(199, 199, 199);
+	margin-bottom: 50px;
+}
+
+#info_list ul{
+	padding-left: 0px;
+}
+
+/* 회원 유형 */
+#member_category{
+	width: 1000px;
+
+	text-align: right;
+	margin-bottom: 15px;
+}
+
+#member_category_text::after{
+	content: "|";
+	color: #ccc;
+	margin-left: 14px;
+	margin-right: 10px;
+}
+
+#member_category div{
+	display: inline-block;
+	font-size: 14px;
+}
+
+#member_category li{
+	list-style: none;
+	letter-spacing: 1px;
+}
+
+
+/* 기본 정보 */
+#basic_info{
+	margin-top: 30px;
+	margin-left: 120px;
+	margin-bottom: 50px;
+}
+
+#basic_info div{
+	margin-bottom: 20px;
+}
+
+#basic_info_text{
+	color: rgb(0, 0, 0);
+	font-size: 20px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+#basic_info div li{
+	display: inline-block;
+
+	text-align: left;
+	font-weight: 400;
+	color: rgb(125, 125, 125);
+	
+	letter-spacing: 3px;
+}
+
+
+#basic_info div li:nth-of-type(1){
+	border-right: 1px solid #eee;
+	margin-right: 30px;
+	width: 150px;
+	padding: 10px;
+}
+
+#basic_info div li:nth-of-type(2){
+	color:rgb(83, 96, 132);
+}
+
+#basic_info input{
+	padding: 7px 10px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+	color: rgb(83, 96, 132);
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#basic_info #basic_sage input,
+#basic_info #basic_birth input{
+	border: none;
+	margin-left: -9px;
+}
+
+#basic_info input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#basic_info #basic_gender label:nth-of-type(1){
+	margin-right: 100px;
+}
+
+/* 연락처 정보 */
+#contact_info{
+	margin-left: 120px;
+	margin-bottom: 50px;
+}
+
+#contact_info div{
+	margin-bottom: 20px;
+}
+
+#contact_info div li{
+	display: inline-block;
+	text-align: left;
+	font-weight: 400;
+	color: rgb(125, 125, 125);
+	padding: 10px;
+	letter-spacing: 3px;
+}
+
+#contact_info div li:nth-of-type(1){
+	border-right: 1px solid #eee;
+	margin-right: 30px;
+	width: 150px;
+}
+
+#contact_info div li:nth-of-type(2){
+	color:rgb(83, 96, 132);
+}
+
+
+#contact_info_text{
+	color: rgb(0, 0, 0);
+	font-size: 20px;
+	margin-bottom: 20px;
+	
+	padding-bottom: 10px;	
+}
+
+#contact_info input{
+	padding: 7px 10px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+	color: rgb(83, 96, 132);
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#contact_info input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+/* 재직 정보 */
+#jaejik_info{
+	margin-left: 120px;
+	margin-bottom: 50px;
+}
+
+#jaejik_info div{
+	margin-bottom: 20px;
+}
+
+#jaejik_info_text{
+	color: rgb(0, 0, 0);
+	font-size: 20px;
+	margin-bottom: 20px;
+	padding-bottom: 10px;	
+
+}
+
+#jaejik_info div li{
+	display: inline-block;
+	text-align: left;
+	font-weight: 400;
+	color: rgb(125, 125, 125);
+	
+	letter-spacing: 3px;
+	
+}
+
+#jaejik_info div li:nth-of-type(1){
+	border-right: 1px solid #eee;
+	margin-right: 30px;
+	width: 150px;
+	padding: 10px;
+}
+
+#jaejik_info div li:nth-of-type(2){
+	color:rgb(83, 96, 132);
+}
+
+#jaejik_info button{
+	border: 1px solid rgb(128, 128, 128);
+	background-color: white;
+	font-family: 'Noto Sans KR', sans-serif;
+	width: 110px;
+	height: 30px;
+	letter-spacing: 1px;
+}
+
+#jaejik_info button:hover{
+	transition: background-color 0.2s ease;	
+	background-color: rgb(240, 240, 240);
+}
+
+#jaejik_info input{
+	padding: 7px 10px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+	color: rgb(83, 96, 132);
+	font-family: 'Noto Sans KR', sans-serif;
+	max-height: 38.8px;
+	max-width: 215px;
+}
+
+#jaejik_info input:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#mmff{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 13px;
+}
+
+::-webkit-file-upload-button{
+	font-family: 'Noto Sans KR', sans-serif;
+	color: black;
+	background-color: rgb(240, 240, 240);
+	border:none;
+	border-radius: 10px;
+	font-size: 12px;
+	
+}
+
+/* 비밀번호 변경 */
+#zpassword{
+	margin-left: 120px;
+	margin-bottom: 50px;
+}
+
+#zpassword div{
+	margin-bottom: 20px;
+}
+
+#zpassword_text{
+	color: rgb(0, 0, 0);
+	font-size: 20px;
+	margin-bottom: 20px;
+	padding-bottom: 10px;	
+	width: 150px;
+}
+
+#zpassword li{
+	list-style: none;
+	display: inline-block;
+	text-align: left;
+	font-weight: 400;
+	color: rgb(125, 125, 125);
+	
+	letter-spacing: 3px;
+	
+}
+#zpassword input{
+	padding: 7px 10px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+	color: rgb(83, 96, 132);
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#spw{
+	width: 300px;
+}
+
+#spw:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#pwseehide{
+	background-color: white;
+	border: none
+}
+
+#pwseehide span{
+	color: rgb(106, 164, 249);
+}
+
+
+
+/* 수정 삭제 버튼 */
+#modify_button{
+	margin: 0 auto;
+	text-align: center;
+	margin-bottom: 70px;
+
+}
+
+
+#modify_button a:nth-of-type(1){
+	margin-right: 10px;
+	letter-spacing: 2px;
+	padding: 8px 80px;
+	text-align: center;
+	text-decoration: none;
+	color: white;
+	background-color: rgb(106, 164, 249);
+	border-radius: 20px;
+	transition: background-color 0.2s ease;	
+	
+}
+
+#modify_button a:nth-of-type(1):hover{
+	background-color: rgb(147, 188, 251);
+}
+
+#modify_button a:nth-of-type(2){
+	margin-left: 10px;
+	letter-spacing: 2px;
+	padding: 8px 80px;
+	text-align: center;
+	text-decoration: none;
+	color: rgb(255, 255, 255);
+	background-color:  rgb(158, 158, 158);
+	
+	border-radius: 20px;
+	transition: background-color 0.2s ease;	
+	
+}
+
+#modify_button a:nth-of-type(2):hover{
+	
+	background-color:  rgb(197, 197, 197);
+	color: rgb(255, 255, 255);
+}
+
+/* 저장 버튼 */
+#modify_submit{
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 80px;
+}
+
+#modify_submit input{
+	margin-right: 10px;
+	padding: 10px;
+	width: 170px;
+	height: 50px;
+	font-size: 18px;
+	letter-spacing: 2px;
+	border-radius: 5px;
+	background-color: rgb(41, 46, 65);
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+	border: none;
+	transition: background-color 0.3s ease;
+}
+
+#modify_submit input:hover{
+	cursor: pointer;
+	background-color: rgb(106, 145, 244);
+}
+
+
+#modify_submit #cancel{
+	margin-left: 10px;
+	background-color: rgb(158, 158, 158);
+	transition: background-color 0.3s ease;
+	
+}
+
+#modify_submit #cancel:hover{
+	background-color: rgb(189, 189, 189);
+}
+
+

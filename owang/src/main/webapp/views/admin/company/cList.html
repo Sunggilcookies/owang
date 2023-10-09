@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+
+	<style>
+		form {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		select,
+		input[type="text"],
+		button {
+			padding: 5px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+		}
+
+		/* 전체 페이지 스타일 */
+		h1 {
+			width: 930px;
+			text-align: center;
+			margin-top: 20px;
+
+		}
+
+		/* 검색 폼 스타일 */
+		form {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		select,
+		input[type="text"],
+		button {
+			padding: 5px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			margin: 0 10px 20px 10px;
+			border-collapse: collapse;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		th {
+			text-align: center;
+		}
+		td:nth-child(5){
+			text-align: center;
+		}
+		td:nth-child(6){
+			text-align: center;
+		}
+
+		td:last-child {
+			text-align: center;
+		}
+
+		th {
+			background-color: #333;
+			color: #fff;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+
+		/* 삭제 버튼 스타일 */
+		.delete-button {
+			background-color: #dc3545;
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+
+		.delete-button:hover {
+			background-color: #c82333;
+		}
+
+		/* 페이지 네비게이션 스타일 */
+		.pagination {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.pagination a {
+			text-decoration: none;
+			color: #007bff;
+			margin: 0 5px;
+		}
+
+		.pagination a.current {
+			font-weight: bold;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+	</style>
+
+
+</head>
+
+<body>
+	<container id="container">
+		<th:block th:replace="~{admin/adheader}" />
+		<div class="main">
+			<h1>전체보기</h1>
+
+			<form action="/admin_company/search" method="get" class="search">
+				<select name="searchOption">
+					<option value="all">전체</option>
+					<option value="cname">기업 이름</option>
+					<option value="ccid">기업 아이디</option>
+					<option value="cceo">대표 이름</option>
+					<option value="ccall">내용</option>
+				</select>
+				<input type="text" name="keyword" placeholder="검색어 입력">
+				<button type="submit">검색</button>
+			</form>
+			
+			<table border="">
+				<tr>
+					<th>번호</th>
+					<th>기업페이지</th>
+					<th>기업아이디</th>
+					<th>회원 구분</th>
+					<th>승인 여부</th>
+					<th>간편 승인</th>
+					<th>회원 삭제</th>
+					
+
+				</tr>
+				
+				<tr th:each="dto, dtoStat : ${mainData}">
+					<td th:text="${dtoStat.count + MCompanyDTO.start}" />
+					<td>
+						<a th:href="|/admin_company/detail/${MCompanyDTO.page}/${dto.cno}|" th:text="${dto.cname}"></a>
+					</td>
+					<td th:text="${dto.cid}">
+
+					</td>
+					<td>
+						<span th:if="${dto.ctype == 2}"
+							th:text="|유료회원 마감일:${#dates.format(dto.cdate, 'yyyy-MM-dd')}|"></span>
+						<span th:unless="${dto.ctype == 2}" th:text="일반회원"></span>
+					</td>
+					<td>
+						    <span th:if="${dto.capproval}">O</span>
+    						<span th:unless="${dto.capproval}">X</span>
+					</td>
+
+					<td>
+						<a th:href="@{|/admin_company/checkId/${dto.cno}|}" onclick="return confirm('회원가입을 허락하시겠습니까?')"
+							th:text="승인"></a>
+					</td>
+					<td align="center">
+						<a th:href="'/admin_company/delete/' + ${dto.cno}" onclick="return confirm('회원삭제를 진행하시겠습니까?')"
+							th:text="삭제">삭제</a>
+
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6" align="center">
+						<!-- 현재값에서 현재값 빼주고 더하기 1한거 -->
+						<a th:if="${MCompanyDTO.pageStart > 1}" th:href="${MCompanyDTO.page-MCompanyDTO.page}+1"
+							th:text="'[처음]'" />
+
+						<a th:if="${MCompanyDTO.pageStart > 1}" th:href="${MCompanyDTO.pageStart - 1}"
+							th:text="'[이전]'" />
+						<th:block th:each="no: ${#numbers.sequence(MCompanyDTO.pageStart, MCompanyDTO.pageEnd)}">
+							<span th:if="${no==MCompanyDTO.page}" th:text="${no}" />
+							<a th:unless="${no==MCompanyDTO.page}" th:href="${no}" th:text="${no}" />
+						</th:block>
+						<a th:if="${MCompanyDTO.pageEnd < MCompanyDTO.pageTotal}" th:href="${MCompanyDTO.pageEnd + 1}"
+							th:text="'[다음]'" />
+						<a th:if="${MCompanyDTO.pageEnd < MCompanyDTO.pageTotal}" th:href="${MCompanyDTO.pageTotal}"
+							th:text="'[맨끝]'" />
+					</td>
+				</tr>
+
+			</table>
+			<a href="/admin_company/list/1" style="margin-left: 10px;">전체보기</a>
+			<a href="/admin_company/cRegList/1">승인기업</a>
+			<a href="/admin_company/cMiList/1">미승인기업</a>
+		</div>
+	</container>
+</body>
+
+</html>

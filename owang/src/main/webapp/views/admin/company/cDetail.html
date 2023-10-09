@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>승인버튼등장</title>
+	<script>
+		function fileDelete() {
+
+			frm.action = "/company/fileDelete"
+			frm.submit()
+		}
+
+	</script>
+	<style>
+		/* 전체 페이지 스타일 */
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f5f5f5;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		/* 테이블 스타일 */
+		table {
+			width: 910px;
+			border-collapse: collapse;
+			margin: 0 10px 20px 10px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+
+		td:first-child {
+			width: 15%;
+		}
+
+		/* 링크 스타일 */
+		a {
+			text-decoration: none;
+			color: #007bff;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: #0056b3;
+		}
+
+		/* 버튼 스타일 */
+		button {
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			padding: 5px 10px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+
+		button:hover {
+			background-color: #0056b3;
+		}
+
+		/* 알림 메시지 스타일 */
+		.alert {
+			background-color: #f8d7da;
+			border-color: #f5c6cb;
+			color: #721c24;
+			padding: 10px;
+			border: 1px solid transparent;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+
+		/* 컨테이너 스타일 */
+		.container {
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<th:block th:replace="~{admin/adheader}" />
+		<div class="main">
+			<h1>기업 승인 상세 보기</h1>
+			<table border="">
+				<tr>
+					<td>기업이름</td>
+					<td th:text="${dto.cname}" />
+				</tr>
+				<tr>
+					<td>로고</td>
+					<th:block th:if="${dto.clogo != null}">
+						<td><button onclick="logoImageInNewWindow()">로고 확인</button></td>
+					</th:block>
+					<th:block th:unless="${dto.clogo != null}">
+						<td>로고가 존재하지않습니다.</td>
+					</th:block>
+				</tr>
+				<tr>
+					<td>기업아이디</td>
+					<td th:text="${dto.cid}" />
+				</tr>
+				<tr>
+					<td>대표자</td>
+					<td th:text="${dto.cceo}" />
+				</tr>
+				<tr>
+					<td>개업연월일</td>
+					<td th:text="${dto.cbuild}" />
+				</tr>
+				<tr>
+					<td>업종</td>
+					<td th:text="${dto.ccategory}" />
+				</tr>
+				<tr>
+					<td>직원수</td>
+					<td th:text="${dto.cstaff}" />
+				</tr>
+				<tr>
+					<td>연간 매출액</td>
+					<td th:text="|${dto.csales}(단위:백만원)|" />
+				</tr>
+				<tr>
+					<td>이메일</td>
+					<td th:text="${dto.cemail}" />
+				</tr>
+				<tr>
+					<td>본점소재지</td>
+					<td th:text="${dto.caddress}" />
+				</tr>
+				<tr>
+					<td>전화번호</td>
+					<td th:text="${dto.ccall}" />
+				</tr>
+				<tr th:if="${session.cid==dto.cid}">
+					<td>회원유형</td>
+					<td th:if="${dto.ctype == 2}" th:text="|유료회원 마감일:${#dates.format(dto.cdate, 'yyyy-MM-dd')}|"></td>
+					<td th:unless="${dto.ctype == 2}" th:text="일반회원"></td>
+				</tr>
+				<tr>
+					<td>사업자승인여부</td>
+					<td th:if="${dto.capproval}" th:text="사업자승인완료"></td>
+					<td th:unless="${dto.capproval}" th:text="사업자미승인"></td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td th:text="${dto.ccontent}" />
+				</tr>
+				<tr>
+					<td>복지 및 해택</td>
+					<td th:text="${dto.cwelfare}" />
+				</tr>
+				<tr>
+					<td>사업자 등록증</td>
+					<th:block th:if="${dto.ccompanyFile != null}">
+						<td><button onclick="openImageInNewWindow()">사업자등록증 확인</button></td>
+					</th:block>
+					<th:block th:unless="${dto.ccompanyFile != null}">
+						<td>사업자등록증이 존재하지않습니다.</td>
+					</th:block>
+				</tr>
+				<tr th:if="${dto.capproval == false}">
+					<td>승인버튼</td>
+					<td>
+						<!--<a th:href="|/admin_company/checkId/{dto.cno}|" th:onclick="return confirm('회원가입을 [[${dto.cno}]] 허락하시겠습니까?')" th:text="수락"></a>-->
+						<a th:href="@{|/admin_company/checkId/${dto.cno}|}" onclick="return confirm('회원가입을 허락하시겠습니까?')"
+							th:text="승인"></a>
+					</td>
+				</tr>
+				<tr>
+					<td>수정 버튼</td>
+					<td><a th:href="'/admin_company/modify/' + ${dto.cno}" onclick="return confirm('회원수정을 진행하시겠습니까?')"
+							th:text="수정">수정</a></td>
+				</tr>
+				</td>
+				<tr>
+					<td>삭제 버튼</td>
+					<td><a th:href="'/admin_company/delete/' + ${dto.cno}" onclick="return confirm('회원삭제를 진행하시겠습니까?')"
+							th:text="삭제">삭제</a></td>
+				</tr>
+			</table>
+			<th:block th:if="${dto.capproval == false}">
+				<a th:href="|/admin_company/cMiList/1|" style="margin-left: 10px;">목록으로</a>
+				<a href="javascript:goBack()">이전 페이지</a>
+			</th:block>
+			<th:block th:unless="${dto.capproval == false}">
+				<a th:href="|/admin_company/cRegList/1|" style="margin-left: 10px;">목록으로</a>
+				<a href="javascript:goBack()">이전 페이지</a>
+			</th:block>
+		</div>
+	</container>
+	<script>
+		function openImageInNewWindow() {
+			// 이미지 URL 설정
+			var image = "[[${dto.ccompanyFile}]]";
+
+			// 새 창 열기
+			var newWindow = window.open('', '_blank');
+
+			// 이미지를 새 창에 표시
+			newWindow.document.write('<img src="/companyup/' + image + '" alt="이미지" />');
+		}
+		function logoImageInNewWindow() {
+			// 이미지 URL 설정
+			var image = "[[${dto.clogo}]]";
+
+			// 새 창 열기
+			var newWindow = window.open('', '_blank');
+
+			// 이미지를 새 창에 표시
+			newWindow.document.write('<img src="/companylogoup/' + image + '" alt="이미지" />');
+		}
+		function goBack() {
+			window.history.back();
+		}
+	</script>
+</body>
+
+</html>

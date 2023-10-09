@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품 매출 내역</title>
+	<script th:inline="javascript">
+		var errorMsg = /*[[${errorMsg}]]*/ null;
+		if (errorMsg !== null) {
+			alert(errorMsg);
+			window.history.back();
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+			// a링크를 tr영역으로 확장
+			const tableRows = document.querySelectorAll('.allpayment tr');
+			tableRows.forEach(function (row) {
+				const link = row.querySelector('a');
+				if (link) {
+					row.addEventListener('click', function () {
+						link.click();
+					});
+				}
+				row.addEventListener('mouseover', function () {
+					this.setAttribute('title', '상세내역 확인');
+				});
+
+				row.addEventListener('mouseout', function () {
+					this.removeAttribute('title');
+				});
+			});
+		});
+
+	</script>
+	<style>
+		.main {
+			padding-left: 20px;
+			margin-top: 35px;
+		}
+
+		h1 {
+			width: 930px;
+			text-align: center;
+		}
+
+		table {
+			width: 880px;
+			border-collapse: collapse;
+			border-top: 2px solid #000;
+		}
+
+		tr {
+			cursor: pointer;
+		}
+
+		tr:not(:first-child):hover {
+			background-color: #e0e0e0;
+		}
+
+		th {
+			color: #fff;
+			background-color: #333;
+			padding: 8px;
+			border-bottom: 1px solid #999;
+		}
+
+		td {
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		form {
+			align-items: center;
+		}
+
+		.alter {
+			display: flex;
+			flex-direction: column;
+
+		}
+
+		form input[type="date"] {
+			width: 218px;
+			padding: 6px 12px;
+			border-radius: 4px;
+			margin: 5px 15px;
+			text-align: center;
+			border: 1px solid black;
+		}
+
+		label,
+		select,
+		input {
+			margin-right: 10px;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+		}
+
+		input[type="submit"] {
+			padding: 7px 12px;
+			background-color: rgba(0, 64, 0, 0.6);
+			border: 1px solid rgba(0, 64, 0, 0.3);
+			border-radius: 4px;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: rgba(0, 64, 0, 0.8);
+			border: 1px solid rgba(0, 64, 0, 0.6);
+		}
+
+		button {
+			margin: 5px 5px;
+			padding: 6px 12px;
+			border: 1px solid rgba(0, 64, 0, 0.1);
+			border-radius: 4px;
+			cursor: pointer;
+			color: #999;
+		}
+
+		button.active,
+		button:hover {
+			border: 1px solid rgba(0, 64, 0, 1);
+			color: #000;
+			background-color: #f9f9f9;
+		}
+
+		form button {
+			margin-left: auto;
+			margin-right: 70px;
+			padding: 6px 12px;
+			color: #103305;
+			border: none;
+			cursor: pointer;
+		}
+
+		form button:hover {
+			border: none;
+			background-color: rgba(0, 64, 0, 0.1);
+		}
+
+		.alri {
+			text-align: right;
+		}
+
+		.alct {
+			text-align: center;
+		}
+
+		.id {
+			text-align: center;
+			padding-right: 20px;
+		}
+
+		.gprice {
+			text-align: right;
+			padding-right: 10px;
+		}
+
+		.pagingtbl span {
+			font-size: 1.2rem;
+		}
+
+		.pagingtbl span,
+		.pagingtbl a {
+			padding: 0 5px;
+		}
+	</style>
+</head>
+
+<body>
+	<container id="container">
+		<header>
+			<div th:replace="~{admin/adheader}"></div>
+		</header>
+
+		<div class="main">
+			<h1>검색 내역</h1>
+
+			<form action="/admin_product/payment/sch" method="post"
+				style="display: flex; justify-content: space-between; align-items: center;">
+				<div style="margin-bottom: 20px;">
+					<input type="text" name="searchKeyword" id="searchKeyword" th:value="${id}">
+					<input type="submit" value="검색">
+				</div>
+				<button style="margin-right: 70px;">
+					<a href="http://localhost/admin_product/payment/1">&lt; 뒤로가기</a>
+				</button>
+			</form>
+			<table class="allpayment">
+				<tr>
+					<th style="width: 81px">결제상태</th>
+					<th style="width: 177px">거래번호</th>
+					<th class="id">회원아이디</th>
+					<th style="width: 204px">상품명</th>
+					<th style="width: 93px">상품금액</th>
+					<th style="width: 183px">결제요청</th>
+				</tr>
+				<th:block th:if="${paymentData != null}">
+					<tr th:each="payment : ${paymentData}">
+						<td class="alct" th:text="${payment.status}"></td>
+						<td>
+							<a th:href="|/admin_product/payment/detail/${payment.imp_uid}|" th:text="${payment.imp_uid}"
+								onclick="window.open(this.href, '결제내역상세', 'width=600,height=650');
+                     return false;" target="_blank" />
+						</td>
+						<td class="id" th:text="${payment.id}" />
+						<td th:text="${payment.name}"></td>
+						<td class="gprice" th:text="${payment.formatAmount}"></td>
+						<td class="alct" th:text="${payment.started_at}"></td>
+					</tr>
+				</th:block>
+			</table>
+		</div>
+	</container>
+</body>
+
+</html>

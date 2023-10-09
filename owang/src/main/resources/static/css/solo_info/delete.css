@@ -1,0 +1,151 @@
+body{
+  height: 100%;
+}
+
+#solo_info_delete{
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 30px;
+	background-color: white;
+ 	height: 100%; /* 기본값으로 설정되어 있음 */
+ 	max-width: 1200px;
+ 	padding-bottom: 50px;
+}
+
+#delete_form{
+	width: 500px;
+	margin: 0 auto;	
+}
+
+#delete_form{
+	width: 700px;
+	margin: 0 auto;	
+}
+/* 개인정보 보기 텍스트 */
+#delete_text{
+	font-size: 30px;
+	color: rgb(55, 63, 87);
+	font-weight: 450;
+	margin-top: 60px;
+	margin-left: 120px;
+	padding-bottom: 80px;
+}
+
+/* 주의사항 안내 멘트 */
+#delete_warning{
+	font-size: 25px;
+	font-weight: bold;
+}
+
+/* 경고 이모티콘 */
+#delete_warning .material-symbols-outlined{
+	position: relative;
+	top: 5px;
+	font-size: 30px;
+	color: red;
+}
+/* 주의사항 */
+#delete_warning span:nth-of-type(2){
+	letter-spacing: 20px;
+	padding: 0 10px 0 10px;
+	
+}
+
+#delete_guide{
+	text-align: center;
+	line-height: 4;	
+	font-size: 17px;
+	
+}
+
+#delete_guide ul{
+	padding: 20px;
+}
+
+
+#delete_ment{
+
+	font-size: 20px;
+	width: 900px;
+	padding: 50px 0 60px 0;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 50px;
+}
+
+
+#delete_wrap{
+	
+	margin-bottom: 80px;
+	font-size: 20px;
+	width: 900px;
+	padding: 40px 0 40px 0;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	text-align: center;
+	margin:0 auto;
+}
+
+#delete_wrap li{
+	display: inline-block;
+	list-style: none;
+}
+
+#delete_wrap #delete_input{
+	margin-right: 30px;
+	color: rgb(125, 125, 125);
+	border-right: 1px solid #ccc;
+	padding-right: 30px;
+	position: relative;
+	top: 5px;
+	font-size: 20px;
+}
+
+
+
+#spw{
+	width: 350px;
+	height: 30px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+
+}
+
+#spw:focus{
+	outline: none;
+	border: 1px solid rgb(111, 121, 164);
+}
+
+#spw_btn{
+	font-family: inherit;
+	position: relative;
+	bottom:1px;
+	height: 35px;
+	width: 100px;
+	border: 1px solid #ccc;
+	text-align: center;
+	letter-spacing: 4px;
+}
+
+#delete_notice{
+	margin-top: 30px;
+	text-align: center;
+	font-size: 18px;
+}
+
+#delete_notice label{
+	letter-spacing: 3px;
+}
+
+
+/* 비번 보이기 안보이기 */
+#pwseehide{
+	background-color: white;
+	border: none
+}
+
+
+#pwseehide span{
+	color: rgb(106, 164, 249);
+}

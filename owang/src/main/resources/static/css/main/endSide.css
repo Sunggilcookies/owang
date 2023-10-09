@@ -1,0 +1,110 @@
+@charset "UTF-8";
+
+
+
+
+.list_wrap{
+    width: 1100px;
+    margin: 0px auto;
+        padding-bottom: 20px;
+}
+
+.list_wrap ul{
+	padding: 30px;
+    font-size: 0;
+}
+.list_wrap .item{
+    display: inline-block;
+    width: 30%;
+    margin-top: 40px;
+    margin-left: 5%;
+    /* x y 투명정도 색깔 */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.list_wrap .item:nth-child(-n+3){
+    /* 123번의 요소만 안줄려는 조건 */
+    margin-top: 0;
+}
+.list_wrap .item:nth-child(3n-2){
+    margin-left: 0;
+     
+}
+/* item itemn으로 이름을 줬기때문에 클래스명이 (item 다른거) 여도  */
+/* (item) 이붙은친구들은 다 여기 들어옴 */
+.list_wrap .image{
+    width: 100%;
+    height: 200px;
+    background-color: #ddd;
+    background-size: cover;
+    background-position: 50% 50%;
+	object-fit: cover;
+	display: flex;
+	justify-content: center;
+	/* 수평 가운데 정렬 */
+	align-items: center;
+	/* 수직 가운데 정렬 */
+
+}
+
+.item .image img{
+	max-width: 200px;
+
+	}
+ 
+.list_wrap .item1 .image{
+    
+    background-position: 50% 50%;
+    background-size: cover;
+}
+
+
+.list_wrap .item strong{
+    /* strong은 inline요소라 margine이 적용안됨 그래서 바꿈 */
+    display: block;
+    margin: 0px 0 10px 0;
+    font-size: 16px;
+    letter-spacing: -1px;
+    white-space: nowrap;
+	/* 텍스트가 한 줄로만 표시되도록 설정 */
+	overflow: hidden;
+	/* 넘치는 텍스트를 숨김 */
+	text-overflow: ellipsis;
+	/* 생략 부호(...)를 표시 */
+	width: 250px;
+	/* 표시할 너비를 지정 (필요에 따라 조절) */
+}
+.list_wrap .item p{
+    font-size: 16px;
+    letter-spacing: -1px;
+    margin: 5px 0px;
+}
+
+.list_wrap .cont p:nth-of-type(1){
+	text-align: left;
+	font-weight: bold;
+}
+
+.list_wrap .cont p:nth-of-type(2),
+.list_wrap .cont p:nth-of-type(3),
+.list_wrap .cont p:nth-of-type(4){
+		text-align: right;
+	}
+
+.list_wrap .item a{
+    display: inline-block;
+    margin-top: 10px;
+    background: #eee;
+    padding: 5px 10px;
+    letter-spacing: -1px;
+    /* transition: 대상 시간 방식 */
+    transition: all 1s ease;
+}
+
+.list_wrap .item a:hover{
+    background: #325cb2;
+    color: #fff;
+    
+}
+.list_wrap .item .cont{
+    padding: 10px;
+}

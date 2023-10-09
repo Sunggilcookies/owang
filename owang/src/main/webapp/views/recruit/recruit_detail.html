@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Insert title here</title>
+   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/recruit/recruit_detail.css}">
+   <script>
+      function goBack() {
+         window.history.back();
+      }
+   </script>
+</head>
+
+<body>
+<div id="home">		
+   <header>
+      <div th:insert="~{header :: header}"></div>
+   </header>
+   
+   <remocon>
+       <div th:insert="~{remocon :: remocon}"></div>
+    </remocon>
+    
+   
+<!--   [[${dto}]]
+   [[${dto.recruitId}]]
+   [[${dto.recruitTitle}]]-->
+   
+   <div class="title_box">
+	   <h1>공고 상세보기</h1> 
+	   <br><br><br><br>
+	   <h3 id="p" >다양한 채용정보와 새로운 채용소식을 오왕에서 만나보세요</h3>
+   </div>
+   
+		<div id="ipsc">
+			<th:block th:if="${session['sid']}" >
+		      <td th:if="${dto.rtype==1}">
+		         <a th:href="|/solo_applicant/submit/${dto.page}/${dto.cid}/${dto.recruitId}|" id="ipsa">입사지원</a>
+		         <a th:href="|/solo_scrab/insert/${dto.cid}/${dto.page}/${dto.recruitId}|" id="scrap" i class="fa-regular fa-bookmark" style="color:#2D65F2;" /> 공고스크랩</a>
+		      </td>
+  		 	</th:block>
+		</div>
+   <div class="wrap">
+	   <table border="0" class="detail_table">
+		  
+	      <tr>
+	         <!--<td>제목</td>-->
+	         <td th:text="${dto.recruitTitle}"  id="detail_title" colspan="2"/>
+	      </tr>
+	      <tr>
+	         <td>기업</td>
+	         <td>
+	            <a th:href="'/company/detail/' + ${dto.cid}" th:text="${dto.cname}" id="cname">
+					<span class="detail-text">상세보기</span>
+				</a>
+	            
+	         </td>
+	      </tr>
+	      
+	      <tr>
+	         <td>급여</td>
+	         <td>
+	            <span th:if="${dto.recruitMtype == '월급'}">월급</span>
+	            <span th:if="${dto.recruitMtype == '연봉'}">연봉</span>
+	            [[${dto.recruitMoney}]] 만원
+	         </td>
+	      </tr>
+	      
+	      <tr>
+	         <td>채용시작일</td>
+	         <td th:text="${dto.regDate}" />
+	      </tr>
+	      <tr>
+	         <td>채용마감일</td>
+	         <td th:text="${dto.realMagam}" />
+	      </tr>
+	      <tr>
+	         <td>조회수</td>
+	         <td th:text="${dto.cnt} + '회'"  />
+	      </tr>
+	      <!--<tr th:if="${dto.recruitLocation != null}">
+   			 <td>근무지역</td>
+    		 <td th:text="${dto.recruitLocation}" />
+		  </tr>-->
+        
+	
+	      <tr th:if="${dto.recruitUpfile != null}">
+	
+	         <td>파일</td>
+	         <td>
+	            <img th:if="${dto.img}" th:src="|/up/${dto.recruitUpfile}|"  style="max-width: 800px;"/>
+	            <a th:unless="${dto.img}" th:text="${dto.recruitUpfile}"
+	               th:href="|/recruit/download/${dto.recruitUpfile}|">
+	               <!-- 생각해보니 다운로드가 필요없음.. 일단 냅두겠습닏. -->
+	         </td>
+	      </tr>
+	      <!--급여추가-->
+	    
+	      <tr>
+	         <td id="content">상세내용</td>
+	         <td th:text="${dto.recruitContent}" id="content"/>
+	      </tr>
+	      <tr>
+	         <td align="right" colspan="6" id="list">
+	
+	            <th:block th:if="${session.cid == dto.cid}" >
+	            <!--수정-->
+	               <a th:href="|/recruit/modify/${dto.page}/${dto.recruitId}|" i class="fa-solid fa-pen-nib" style="color: black;"></a>
+	            </th:block>
+	              <th:block th:if="${session.adminSession != null or session.cid == dto.cid}">
+					<!--삭제-->
+	               <a th:href="|/recruit/delete/${dto.page}/${dto.recruitId}|" i class="fa-solid fa-trash-can" id="detail_del"
+	               			onclick="return confirm('정말로 삭제하시겠습니까?')"/></a>
+	               
+	            </th:block>
+				
+				<!--목록으로 > 아이콘으로 변경 -->
+	            <a th:href="|/recruit/list/${dto.page}|" id="list"
+	            	i class="fa-solid fa-list" ></a>
+	         </td>
+	      </tr>
+	      <!--<th:block th:if="${session['sid']}">
+	         <tr>
+	            <td th:if="${dto.rtype==1}">
+	               <a th:href="|/solo_applicant/submit/${dto.page}/${dto.cid}/${dto.recruitId}|" id="ipsa">입사지원</a>
+	               <a th:href="|/solo_scrab/insert/${dto.cid}/${dto.page}/${dto.recruitId}|" id="scrap">공고스크랩</a>
+	            </td>
+	         </tr>
+	      </th:block>-->
+	      <tr>
+	         <td colspan="2">
+				 <!--뒤로-->
+	            <a href="javascript:goBack()" #2D65F2; i class="fa-solid fa-reply" style="color: #000000;" id="before"/>
+				</a>
+					
+	         </td>
+	      </tr>
+	   </table>
+   </div><!--wrap끝-->
+   
+   <footer>
+       <div th:insert="~{footer :: footer}"></div>
+    </footer>
+    
+    
+
+</body>
+
+</html>
