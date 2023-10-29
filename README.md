@@ -15,6 +15,10 @@ spring기반 웹 프로젝트- 한식요리사를 위한 구인구직사이트 "
 발표영상링크
 https://youtu.be/BUL32KHuCXg
 
+#### 💬:
+오왕 웹 설명 PDF파일
+[오왕.pdf](https://github.com/Sunggilcookies/owang/files/13199429/default.pdf)
+
 #### ⚙️
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <br>
@@ -27,4 +31,4 @@ https://youtu.be/BUL32KHuCXg
 <img src="https://img.shields.io/badge/portone-FC6B2D?style=for-the-badge&logo=portone&logoColor=white">
 <img src="https://img.shields.io/badge/JavaMail-173E0C?style=for-the-badge&logo=JavaMail&logoColor=white">
 
-[오왕-4.pdf](https://github.com/Sunggilcookies/owang/files/13199427/-4.pdf)
+
